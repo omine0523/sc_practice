@@ -21,10 +21,16 @@
 
 # IDE / Editor files (Eclipse / STS)
 .metadata/
-.Servers/
 .settings/
 .classpath
 .project
+
+# Server / Tomcat
+.Servers/
+Servers/
+tomcat.*/
+work/
+logs/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

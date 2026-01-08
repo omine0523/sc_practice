@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.BookInfoMapper">
+
+	
+	<resultMap id="BookInfoMap"
+		type="com.example.demo.entity.BookInfo">
+		<id column="id" property="bookId" />
+		<result column="book_name" property="bookName" />
+		<result column="genre" property="genre" />
+		<result column="storage_location" property="storageLocation" />
+		<result column="status" property="status" />
+	</resultMap>
+	
+	<!-- bookIdをキーとしてBookInfoテーブルから書籍情報取得する -->
+	<select id="findBookById" resultMap="BookInfoMap">
+		SELECT * FROM book_info WHERE id = #{bookId}
+	</select>
+
+	<!-- <insert id="" parameterType=""> </insert> -->
+
+	<!-- <update id="" parameterType=""> </update> -->
+
+	<!-- <delete id="" parameterType=""> </delete> -->
+
+</mapper>

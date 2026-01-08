@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍検索画面</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/book-search.css}">
+</head>
+
+
+<body>
+	<h2>書籍検索</h2>
+	<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
+	<p th:if="${errorMsg}" th:text="${errorMsg}" class="error"></p>
+
+	<!-- フィルターエリア -->
+	<div class="filter-area">
+		<form th:object="${bookSearchForm}" method="get">
+			<label>書籍番号：</label>
+			<input type="text" th:field="*{bookId}" placeholder="書籍番号">
+
+			<!-- 時間があればジャンル・棚検索実装予定 -->
+			<!-- <label>ジャンル：</label>
+			<select>
+				<option>-- 全て --</option>
+				<option>SF</option>
+				<option>恋愛</option>
+				<option>図鑑</option>
+			</select>
+
+			<label>置き場所：</label>
+			<select>
+				<option>-- 全て --</option>
+				<option>A棚</option>
+				<option>B棚</option>
+				<option>C棚</option>
+			</select> -->
+
+			<button class="btn" type="submit">検索</button>
+		</form>
+		<br>
+	</div>
+
+	<!-- 書籍検索 検索結果をリストで表示 -->
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>書籍名</th>
+				<th>ジャンル</th>
+				<th>置き場所</th>
+				<th>ステータス</th>
+				<th>詳細</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${resultBook != null and #lists.isEmpty(resultBook)}">
+				<td colspan="6">該当する書籍はありません</td>
+			</tr>
+			
+			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
+			<tr th:each="book : ${resultBook}">
+				<td th:text="${book.bookId}">ID</td>
+				<td th:text="${book.bookName}">書籍名</td>
+				<td th:text="${book.genre}">ジャンル</td>
+				<td th:text="${book.storageLocation}">置き場所</td>
+				<td th:text="${book.status}">ステータス</td>
+				<td>
+					<a href="#">詳細</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+
+</html>
