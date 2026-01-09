@@ -19,21 +19,21 @@
 			<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 
 			<!-- 仮実装：時間があればジャンル・棚検索実装予定 -->
-			<!-- <label>ジャンル：</label>
-			<select>
-				<option>-- 全て --</option>
-				<option>SF</option>
-				<option>恋愛</option>
-				<option>図鑑</option>
+			<label>ジャンル：</label>
+			<select th:field="*{genre}">
+				<option value="">-- 全て --</option>
+				<option value="SF">SF</option>
+				<option value="恋愛">恋愛</option>
+				<option value="図鑑">図鑑</option>
 			</select>
 
 			<label>置き場所：</label>
-			<select>
-				<option>-- 全て --</option>
-				<option>A棚</option>
-				<option>B棚</option>
-				<option>C棚</option>
-			</select> -->
+			<select th:field="*{storageLocation}">
+				<option value="">-- 全て --</option>
+				<option value="A棚">A棚</option>
+				<option value="B棚">B棚</option>
+				<option value="C棚">C棚</option>
+			</select>
 
 			<button class="btn" name="search" type="submit">検索</button>
 

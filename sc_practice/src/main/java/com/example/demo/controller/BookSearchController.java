@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.text.Normalizer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,47 +23,42 @@ public class BookSearchController {
 	private BookSearchService bookSearchService;
 
 	/**
-	 *  書籍検索画面のトップページ表示する
+	 *  書籍検索画面のトップページの表示と検索ボタン押下時の処理を制御する Controllerクラス
 	 *  
-	 *  @param model ビューに渡すモデル情報
+	 *  @param model 検索結果やメッセージをビュー渡すモデル
+	 *  @param  bookSearchForm 画面の検索条件の値を受け取るフォーム
+	 *  @param bindingResult @Validated によるバリデーション結果
+	 *  @param search 検索ボタン押下判定用のリクエストパラメータ
 	 *  @return 書籍検索画面のテンプレートを返却する
 	 */
 	@GetMapping("/book-search-top")
-	public String showBookSearchPage(@Validated @ModelAttribute BookSearchForm bookSearchForm, 
-			BindingResult bindingResult, 
+	public String showBookSearchPage(@Validated @ModelAttribute BookSearchForm bookSearchForm,
+			BindingResult bindingResult,
 			@RequestParam(required = false) String search,
 			Model model) {
-		
+
 		// ＜トップページの初期表示する＞
-	    if (search == null) {
-	        return "book-search";
-	    }
-		
-	    // ＜検索ボタン押下時の処理＞
-	    
+		if (search == null) {
+			return "book-search";
+		}
+
+		// ＜検索ボタン押下時の処理＞
 		// formで入力した値が数字以外の場合、エラーメッセージを表示してにトップページに戻す
 		if (bindingResult.hasErrors()) {
-	        return "book-search";
-	    }
-		
-		// formで検索条件が未入力・未選択の場合、メッセージを表示してトップページに戻す
-		if (!StringUtils.hasText(bookSearchForm.getBookId())) {
+			return "book-search";
+		}
+
+		// formで検索条件全てが未入力・未選択の場合、メッセージを表示してトップページに戻す
+		if (!StringUtils.hasText(bookSearchForm.getBookId())
+				&& !StringUtils.hasText(bookSearchForm.getGenre())
+				&& !StringUtils.hasText(bookSearchForm.getStorageLocation())) {
 			model.addAttribute("infoMsg", "検索条件を入力してください");
 			return "book-search";
 		}
-		
-		// formで入力した値が数値の場合
-		if (StringUtils.hasText(bookSearchForm.getBookId())) {
-			
-			// 全角 → 半角に正規化する
-		    String normalizedBookId =
-		            Normalizer.normalize(bookSearchForm.getBookId(), Normalizer.Form.NFKC);
-		    //書籍ID（文字列）を数値型に変換する
-		    Integer bookId = Integer.valueOf(normalizedBookId);
-		    // 書籍IDを引数として書籍情報を検索する → 検索結果をモデルに詰めてテンプレートに渡す
-		    model.addAttribute("resultBook", bookSearchService.searchBookById(bookId));
-		    
-		}
+
+		// 検索条件が選択されている（書籍IDが数字入力）の場合、Service に検索条件全てを渡す
+		// 検索結果をモデルに詰めてテンプレートに渡す
+		model.addAttribute("resultBook", bookSearchService.searchBookById(bookSearchForm));
 
 		// トップページ表示する
 		return "book-search";

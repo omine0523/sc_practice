@@ -14,10 +14,25 @@
 		<result column="storage_location" property="storageLocation" />
 		<result column="status" property="status" />
 	</resultMap>
-	
-	<!-- bookIdをキーとしてBookInfoテーブルから書籍情報取得する -->
+
+	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
 	<select id="findBookById" resultMap="BookInfoMap">
-		SELECT * FROM book_info WHERE id = #{bookId}
+		<!-- BookInfoテーブルから書籍情報を取得する -->
+		SELECT * FROM book_info
+		<where>
+			<!-- 書籍ID検索（完全一致） ・bookId が null でない場合のみ条件に追加 -->
+			<if test="bookId != null">
+				AND id = #{bookId}
+			</if>
+			<!-- ジャンル検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
+			<if test="genre != null and genre != ''">
+				AND genre = #{genre}
+			</if>
+			<!-- 置き場所検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
+			<if test="storageLocation != null and storageLocation != ''">
+				AND storage_location = #{storageLocation}
+			</if>
+		</where>
 	</select>
 
 	<!-- <insert id="" parameterType=""> </insert> -->

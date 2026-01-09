@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.entity.BookInfo;
 
@@ -18,5 +19,8 @@ public interface BookInfoMapper {
 	/**
 	 * BookInfoの entity に定義されている項目で一覧取得する
 	 */
-	List<BookInfo> findBookById(int bookId);
+	List<BookInfo> findBookById(
+			@Param("bookId") Integer bookId,
+	        @Param("genre") String genre,
+	        @Param("storageLocation") String storageLocation);
 }
