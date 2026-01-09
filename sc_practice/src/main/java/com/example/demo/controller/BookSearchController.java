@@ -1,14 +1,17 @@
 package com.example.demo.controller;
 
-import java.util.List;
+import java.text.Normalizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.BookInfo;
 import com.example.demo.form.BookSearchForm;
 import com.example.demo.service.BookSearchService;
 
@@ -28,17 +31,40 @@ public class BookSearchController {
 	 *  @return 書籍検索画面のテンプレートを返却する
 	 */
 	@GetMapping("/book-search-top")
-	public String showBookSearchPage(@ModelAttribute BookSearchForm bookSearchForm, Model model) {
-
-		// formで入力した書籍IDを参照して変数に代入する
-		Integer bookId = bookSearchForm.getBookId();
-
-		// ①トップページ遷移時と書籍IDの入力がない場合、検索ボタン押下時に何も表示しないでトップページ表示する
-		// ②書籍IDの入力後に検索ボタンが押下された場合、入力された書籍IDを引数として書籍情報を検索する
-		if (bookId != null) {
-			List<BookInfo> resultBook = bookSearchService.searchBookById(bookId);
-			// 検索結果をモデルでテンプレートに受け渡す
-			model.addAttribute("resultBook", resultBook);
+	public String showBookSearchPage(@Validated @ModelAttribute BookSearchForm bookSearchForm, 
+			BindingResult bindingResult, 
+			@RequestParam(required = false) String search,
+			Model model) {
+		
+		// ＜トップページの初期表示する＞
+	    if (search == null) {
+	        return "book-search";
+	    }
+		
+	    // ＜検索ボタン押下時の処理＞
+	    
+		// formで入力した値が数字以外の場合、エラーメッセージを表示してにトップページに戻す
+		if (bindingResult.hasErrors()) {
+	        return "book-search";
+	    }
+		
+		// formで検索条件が未入力・未選択の場合、メッセージを表示してトップページに戻す
+		if (!StringUtils.hasText(bookSearchForm.getBookId())) {
+			model.addAttribute("infoMsg", "検索条件を入力してください");
+			return "book-search";
+		}
+		
+		// formで入力した値が数値の場合
+		if (StringUtils.hasText(bookSearchForm.getBookId())) {
+			
+			// 全角 → 半角に正規化する
+		    String normalizedBookId =
+		            Normalizer.normalize(bookSearchForm.getBookId(), Normalizer.Form.NFKC);
+		    //書籍ID（文字列）を数値型に変換する
+		    Integer bookId = Integer.valueOf(normalizedBookId);
+		    // 書籍IDを引数として書籍情報を検索する → 検索結果をモデルに詰めてテンプレートに渡す
+		    model.addAttribute("resultBook", bookSearchService.searchBookById(bookId));
+		    
 		}
 
 		// トップページ表示する

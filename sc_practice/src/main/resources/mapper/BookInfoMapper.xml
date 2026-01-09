@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.demo.mapper.BookInfoMapper">
 
-	
+	<!-- BookInfoエンティティとDBカラムのマッピング定義をする -->
 	<resultMap id="BookInfoMap"
 		type="com.example.demo.entity.BookInfo">
 		<id column="id" property="bookId" />

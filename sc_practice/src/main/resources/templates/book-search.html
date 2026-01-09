@@ -11,16 +11,14 @@
 
 <body>
 	<h2>書籍検索</h2>
-	<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
-	<p th:if="${errorMsg}" th:text="${errorMsg}" class="error"></p>
 
 	<!-- フィルターエリア -->
 	<div class="filter-area">
 		<form th:object="${bookSearchForm}" method="get">
-			<label>書籍番号：</label>
-			<input type="text" th:field="*{bookId}" placeholder="書籍番号">
+			<label>書籍ID：</label>
+			<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 
-			<!-- 時間があればジャンル・棚検索実装予定 -->
+			<!-- 仮実装：時間があればジャンル・棚検索実装予定 -->
 			<!-- <label>ジャンル：</label>
 			<select>
 				<option>-- 全て --</option>
@@ -37,7 +35,12 @@
 				<option>C棚</option>
 			</select> -->
 
-			<button class="btn" type="submit">検索</button>
+			<button class="btn" name="search" type="submit">検索</button>
+
+			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
+			<div th:if="${infoMsg}" th:text="${infoMsg}" class="info"></div>
+			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
+			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
 		</form>
 		<br>
 	</div>
@@ -55,10 +58,11 @@
 			</tr>
 		</thead>
 		<tbody>
+			<!-- 検索結果が(resultBook)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
 			<tr th:if="${resultBook != null and #lists.isEmpty(resultBook)}">
 				<td colspan="6">該当する書籍はありません</td>
 			</tr>
-			
+
 			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
 			<tr th:each="book : ${resultBook}">
 				<td th:text="${book.bookId}">ID</td>

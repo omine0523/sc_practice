@@ -28,4 +28,8 @@ th {
   border-radius: 4px;
 }
 
+.error {
+  color: rgb(255, 0, 0);
+}
+
 /*# sourceMappingURL=book-search.css.map */

@@ -1,5 +1,7 @@
 package com.example.demo.form;
 
+import jakarta.validation.constraints.Pattern;
+
 import lombok.Data;
 /**
  * 書籍検索画面で入力された条件をバインドするformクラス。
@@ -8,7 +10,8 @@ import lombok.Data;
 public class BookSearchForm {
 	
 	/** 書籍ID（主キー） */
-	private Integer bookId;
+	@Pattern(regexp = "^[0-9０-９]*$", message = "書籍IDは数字のみで入力してください")
+	private String bookId;
 	/** 書籍名 */
 	private String bookName;
 	/** ジャンル */
