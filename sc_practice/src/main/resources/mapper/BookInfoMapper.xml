@@ -16,9 +16,16 @@
 	</resultMap>
 
 	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
-	<select id="findBookById" resultMap="BookInfoMap">
+	<select id="findBookByConditions" resultMap="BookInfoMap">
 		<!-- BookInfoテーブルから書籍情報を取得する -->
-		SELECT * FROM book_info
+		SELECT 
+			 id
+			,book_name
+			,genre
+			,storage_location
+			,status
+		FROM 
+			book_info
 		<where>
 			<!-- 書籍ID検索（完全一致） ・bookId が null でない場合のみ条件に追加 -->
 			<if test="bookId != null">

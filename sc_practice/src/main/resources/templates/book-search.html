@@ -35,10 +35,10 @@
 				<option value="C棚">C棚</option>
 			</select>
 
-			<button class="btn" name="search" type="submit">検索</button>
-
+			<button class="btn" type="submit">検索</button>
+			
 			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
-			<div th:if="${infoMsg}" th:text="${infoMsg}" class="info"></div>
+			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
 			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
 			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
 		</form>
@@ -58,13 +58,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- 検索結果が(resultBook)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
-			<tr th:if="${resultBook != null and #lists.isEmpty(resultBook)}">
+			<!-- 検索結果が(resultSearchBook)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
+			<tr th:if="${resultSearchBook != null and #lists.isEmpty(resultSearchBook)}">
 				<td colspan="6">該当する書籍はありません</td>
 			</tr>
 
 			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
-			<tr th:each="book : ${resultBook}">
+			<tr th:each="book : ${resultSearchBook}">
 				<td th:text="${book.bookId}">ID</td>
 				<td th:text="${book.bookName}">書籍名</td>
 				<td th:text="${book.genre}">ジャンル</td>

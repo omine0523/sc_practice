@@ -1,14 +1,13 @@
 package com.example.demo.service;
 
-import java.text.Normalizer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.condition.BookSearchCondition;
 import com.example.demo.entity.BookInfo;
-import com.example.demo.form.BookSearchForm;
 import com.example.demo.mapper.BookInfoMapper;
 
 /** 
@@ -22,28 +21,25 @@ public class BookSearchServiceImpl implements BookSearchService {
 	private BookInfoMapper bookInfoMapper;
 	
 	/**
-	 * 入力した検索条件で該当書籍を検索する
+	 * Controllerから受け取った検索条件を用いて書籍情報を検索する
 	 * 
-	 * @param bookSearchForm 画面の検索条件の値が格納されたフォーム
-	 * @return 画面で入力・選択した検索条件と一致した書籍情報を返却する
+	 * @param condition 業務ロジック用に検索条件の値が格納されたオブジェクト
+	 * @return 検索条件と一致した書籍情報を返却する
 	 */
 	@Override
-	public List<BookInfo> searchBookById(BookSearchForm bookSearchForm){
-		
+	@Transactional(readOnly = true)
+	public List<BookInfo> searchBookByConditions(BookSearchCondition condition){
+		// mapperクラスに受け渡すために空の変数を生成する
 		Integer bookId = null;
 		
-		// formで入力した値をMapperクラスに渡すため、DBの型に合わせて変換する
-		if (StringUtils.hasText(bookSearchForm.getBookId())) {
-        	// 全角 → 半角に正規化する
-            String normalized =
-                    Normalizer.normalize(bookSearchForm.getBookId(), Normalizer.Form.NFKC);
-            // 文字列を数値に変換する
-            bookId = Integer.valueOf(normalized);
-        }
-        // 全ての検索条件の値を引数で渡し、書籍情報を検索する
-		return bookInfoMapper.findBookById(
+		// 検索条件に書籍IDが入力されてた場合にのみ、オブジェクトから変換後の書籍IDの値を参照する
+	    if (condition.bookId() != null) {
+	        bookId = condition.bookId().getValue();
+	    }
+        // 全ての検索条件をもとに、書籍情報を検索する
+		return bookInfoMapper.findBookByConditions(
 				bookId,
-				bookSearchForm.getGenre(),
-				bookSearchForm.getStorageLocation());
+				condition.genre(),
+				condition.storageLocation());
 	}
 }

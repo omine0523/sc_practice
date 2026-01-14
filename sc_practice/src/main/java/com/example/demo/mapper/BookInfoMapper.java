@@ -19,7 +19,7 @@ public interface BookInfoMapper {
 	/**
 	 * BookInfoの entity に定義されている項目で一覧取得する
 	 */
-	List<BookInfo> findBookById(
+	List<BookInfo> findBookByConditions(
 			@Param("bookId") Integer bookId,
 	        @Param("genre") String genre,
 	        @Param("storageLocation") String storageLocation);

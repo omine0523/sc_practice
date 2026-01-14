@@ -10,7 +10,7 @@ import lombok.Data;
 public class BookSearchForm {
 	
 	/** 書籍ID（主キー） */
-	@Pattern(regexp = "^[0-9０-９]*$", message = "書籍IDは数字のみで入力してください")
+	@Pattern(regexp = "^[0-9０-９]*$", message = "{book.id.number.only}")
 	private String bookId;
 	/** 書籍名 */
 	private String bookName;
