@@ -70,7 +70,6 @@ public class BookSearchController {
 			// 検索条件をもとに書籍情報を検索し、検索結果を一覧表示用に設定し表示する。
 			model.addAttribute("resultSearchBook", bookSearchService.searchBookByConditions(condition));
 		}
-
 		// 書籍検索画面を表示する。
 		return "book-search";
 	}

@@ -79,6 +79,17 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+		<!-- MyBatis Generator -->
+		<dependency>
+		  <groupId>org.mybatis.generator</groupId>
+		  <artifactId>mybatis-generator-core</artifactId>
+		  <version>1.4.2</version>
+		</dependency>
+		<!-- Spring Boot Actuator コネクションプール確認用-->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -106,6 +117,18 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<!-- MyBatis Generator -->
+			<plugin>
+			  <groupId>org.mybatis.generator</groupId>
+			  <artifactId>mybatis-generator-maven-plugin</artifactId>
+			  <version>1.4.2</version>
+			  <configuration>
+			    <configurationFile>
+			      src/main/resources/generatorConfig.xml
+			    </configurationFile>
+			    <overwrite>false</overwrite>
+			  </configuration>
 			</plugin>
 		</plugins>
 	</build>
