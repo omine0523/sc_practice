@@ -18,10 +18,10 @@ import com.example.demo.mapper.BookInfoMapper;
 @Service
 @Transactional(isolation = Isolation.REPEATABLE_READ)
 public class BookSearchServiceImpl implements BookSearchService {
-	
+
 	@Autowired
 	private BookInfoMapper bookInfoMapper;
-	
+
 	/**
 	 * 検索条件を引数にセットして書籍情報を検索を行う。
 	 * 
@@ -30,15 +30,15 @@ public class BookSearchServiceImpl implements BookSearchService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<BookInfo> searchBookByConditions(BookSearchCondition condition){
+	public List<BookInfo> searchBookByConditions(BookSearchCondition condition) {
 		// mapperクラスに受け渡すために空の変数を生成する。
 		Integer bookId = null;
-		
+
 		// 検索条件に書籍IDが入力されてた場合にのみ、オブジェクトから変換後の書籍IDの値を参照する。
-	    if (condition.bookId() != null) {
-	        bookId = condition.bookId().getValue();
-	    }
-        // 全ての検索条件をもとに、書籍情報を検索する
+		if (condition.bookId() != null) {
+			bookId = condition.bookId().getValue();
+		}
+		// 全ての検索条件をもとに、書籍情報を検索する
 		return bookInfoMapper.findBookByConditions(
 				bookId,
 				condition.genre(),

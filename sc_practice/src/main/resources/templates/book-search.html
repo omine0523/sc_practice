@@ -37,9 +37,9 @@
 
 			<button class="btn" type="submit">検索</button>
 			
-			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
+			<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
-			<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
+			<!-- 検索時に書籍IDの入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
 		</form>
 		<br>

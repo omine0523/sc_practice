@@ -12,12 +12,18 @@ import com.example.demo.entity.BookInfo;
  *  findBookByIdメソッドをキーとして、BookInfoMapper.xmlに定義されたSQLを実行する
  * 
  * @param bookId 書籍番号
- * @return 書籍情報一覧（検索条件なし）を取得して返却する
+ * @return 書籍情報一覧を取得して返却する
  */
 @Mapper
 public interface BookInfoMapper {
+	
 	/**
-	 * BookInfoの entity に定義されている項目で一覧取得する
+	 * 検索条件と一致している書籍情報を一覧で取得する。
+	 * 
+	 * @param bookId 書籍ID
+	 * @param genre ジャンル
+	 * @param storageLocation 置き場所
+	 * @return 検索条件を満たす書籍情報一覧
 	 */
 	List<BookInfo> findBookByConditions(
 			@Param("bookId") Integer bookId,
