@@ -20,23 +20,26 @@
 
 			<!-- 仮実装：時間があればジャンル・棚検索実装予定 -->
 			<label>ジャンル：</label>
-			<select th:field="*{genre}">
+			<select th:field="*{genreId}">
 				<option value="">-- 全て --</option>
-				<option value="SF">SF</option>
-				<option value="恋愛">恋愛</option>
-				<option value="図鑑">図鑑</option>
+				<option th:each="genre : ${genres}" 
+						th:value="${genre.genreId}" 
+						th:text="${genre.genreName}">
+				</option>
+
 			</select>
 
 			<label>置き場所：</label>
-			<select th:field="*{storageLocation}">
+			<select th:field="*{storageLocationId}">
 				<option value="">-- 全て --</option>
-				<option value="A棚">A棚</option>
-				<option value="B棚">B棚</option>
-				<option value="C棚">C棚</option>
+				<option th:each="location : ${storageLocations}" 
+						th:value="${location.storageLocationId}"
+						th:text="${location.storageLocationName}">
+				</option>
 			</select>
 
 			<button class="btn" type="submit">検索</button>
-			
+
 			<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
 			<!-- 検索時に書籍IDの入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
@@ -67,8 +70,8 @@
 			<tr th:each="book : ${resultSearchBook}">
 				<td th:text="${book.bookId}">ID</td>
 				<td th:text="${book.bookName}">書籍名</td>
-				<td th:text="${book.genre}">ジャンル</td>
-				<td th:text="${book.storageLocation}">置き場所</td>
+				<td th:text="${book.genreName}">ジャンル</td>
+				<td th:text="${book.storageLocationName}">置き場所</td>
 				<td th:text="${book.status}">ステータス</td>
 				<td>
 					<a href="#">詳細</a>

@@ -15,9 +15,9 @@ public class BookSearchForm {
 	/** 書籍名 */
 	private String bookName;
 	/** ジャンル */
-	private String genre;
+	private String genreId;
 	/** 置き場所 */
-	private String storageLocation;
+	private String storageLocationId;
 	/** ステータス（未貸出 / 貸出中） */
 	private String status;
 

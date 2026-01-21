@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.StorageLocationMapper">
+
+
+	<!-- StorageLocationエンティティとDBカラムのマッピング定義をする -->
+	<resultMap id="StorageLocationResultMap" type="com.example.demo.entity.StorageLocation">
+		<id column="storage_location_id" jdbcType="INTEGER" property="storageLocationId" />
+		<result column="storage_location_name" jdbcType="VARCHAR" property="storageLocationName" />
+	</resultMap>
+
+
+	<!-- 検索条件：置き場所の選択肢取得用SQL（セレクトボタンの選択して活用を目的とする） -->
+	<select id="selectAllStorageLocations" resultMap="StorageLocationResultMap">
+        SELECT 
+        	  storage_location_id
+        	, storage_location_name 
+        FROM 
+        	storage_location
+        ORDER BY storage_location_id
+    </select>
+
+	
+</mapper>

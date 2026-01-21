@@ -6,38 +6,53 @@
 <mapper namespace="com.example.demo.mapper.BookInfoMapper">
 
 	<!-- BookInfoエンティティとDBカラムのマッピング定義をする -->
-	<resultMap id="BookInfoMap"
-		type="com.example.demo.entity.BookInfo">
-		<id column="id" property="bookId" />
-		<result column="book_name" property="bookName" />
-		<result column="genre" property="genre" />
-		<result column="storage_location" property="storageLocation" />
-		<result column="status" property="status" />
+	<resultMap id="BookSearchResultMap"
+           	   type="com.example.demo.dto.BookSearchResultDto">
+   		<id column="id" property="bookId"/>
+    	<result column="book_name" property="bookName"/>
+    	<result column="genre_name" property="genreName"/>
+    	<result column="storage_location_name" property="storageLocationName"/>
+    	<result column="status" property="status"/>
 	</resultMap>
+	
+	<!-- 書籍情報検索の共通のSELECT句とFROM句をまとめる -->
+	<sql id="BaseSelect">
+	  SELECT
+	     book_info.id
+	    ,book_info.book_name
+	    ,genre.genre_name
+	    ,storage_location.storage_location_name
+	    ,book_info.status
+	  FROM 
+	    book_info
+	  INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
+	  INNER JOIN storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
+	</sql>
+
+	<!-- 書籍検索 全件取得用SQL -->
+	<select id="selectAllBooks" resultMap="BookSearchResultMap">
+		<!-- BookInfoテーブルから書籍情報を取得する -->
+		<include refid="BaseSelect"/>
+	</select>
 
 	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
-	<select id="findBookByConditions" resultMap="BookInfoMap">
+	<select id="selectBookByConditions" resultMap="BookSearchResultMap">
 		<!-- BookInfoテーブルから書籍情報を取得する -->
-		SELECT 
-			 id
-			,book_name
-			,genre
-			,storage_location
-			,status
-		FROM 
-			book_info
+		<include refid="BaseSelect"/>
+		
+		<!-- 条件付き検索（WHERE句） -->
 		<where>
 			<!-- 書籍ID検索（完全一致） ・bookId が null でない場合のみ条件に追加 -->
 			<if test="bookId != null">
-				AND id = #{bookId}
+				AND book_info.id = #{bookId}
 			</if>
 			<!-- ジャンル検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
-			<if test="genre != null and genre != ''">
-				AND genre = #{genre}
+			<if test="fkGenreId != null">
+				AND book_info.fk_genre_id = #{fkGenreId}
 			</if>
 			<!-- 置き場所検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
-			<if test="storageLocation != null and storageLocation != ''">
-				AND storage_location = #{storageLocation}
+			<if test="fkStorageLocationId != null">
+				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
 			</if>
 		</where>
 	</select>

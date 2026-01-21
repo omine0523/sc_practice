@@ -11,8 +11,8 @@
     <jdbcConnection
       driverClass="com.mysql.cj.jdbc.Driver"
       connectionURL="jdbc:mysql://localhost:3306/booksearch"
-      userId="root"
-      password="Tmine0523!"/>
+      userId=""
+      password=""/>
 
     <!-- Entity -->
     <javaModelGenerator
@@ -31,7 +31,17 @@
       targetProject="src/main/java"/>
 
     <!-- 対象テーブル -->
-   <!--  <table tableName="user_info"/> -->
-    
+    <table tableName="genre">
+	  <property name="enableCountByExample" value="false"/>
+	  <property name="enableUpdateByExample" value="false"/>
+	  <property name="enableDeleteByExample" value="false"/>
+	  <property name="enableSelectByExample" value="false"/>
+	</table>
+    <table tableName="storage_location">
+   	  <property name="enableCountByExample" value="false"/>
+	  <property name="enableUpdateByExample" value="false"/>
+	  <property name="enableDeleteByExample" value="false"/>
+	  <property name="enableSelectByExample" value="false"/>
+    </table>
   </context>
 </generatorConfiguration>

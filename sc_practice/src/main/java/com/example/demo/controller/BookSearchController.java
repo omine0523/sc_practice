@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.domain.condition.BookSearchCondition;
-import com.example.demo.domain.value.BookId;
+import com.example.demo.domain.condition.BookSearchConditionFactory;
 import com.example.demo.form.BookSearchForm;
+import com.example.demo.service.BookSearchConditionService;
 import com.example.demo.service.BookSearchService;
 
 /**
@@ -26,13 +27,17 @@ public class BookSearchController {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
+	private BookSearchConditionService bookSearchConditionService;
+	@Autowired
 	private BookSearchService bookSearchService;
+	@Autowired
+	private BookSearchConditionFactory bookSearchConditionFactory;
 
 	/**
 	 *  検索条件が入力・選択されている場合に書籍検索を行う。
 	 *  <p>
 	 *  検索条件が未指定の場合は案内メッセージを表示し、全件取得した書籍情報を一覧に表示する。
-	 *  検索条件に不備がある場合はバリデーションエラーメッセージを表示する。
+	 *  検索条件に不備がある場合はバリデーションエラーメッセージを検索条件下部に表示する。
 	 *  該当する検索情報が存在しない場合は、
 	 *  テンプレートで「該当なし」メッセージを一覧に表示する。
 	 *  
@@ -44,18 +49,18 @@ public class BookSearchController {
 	@GetMapping("/book-search-top")
 	public String showBookSearchPage(@Validated @ModelAttribute BookSearchForm bookSearchForm,
 			BindingResult bindingResult, Model model) {
-
-		// 空の書籍IDオブジェクトを生成する。
-		BookId bookId = null;
-		// 画面で入力された書籍IDを検索条件として業務ロジック内で使用できるように正規化し、数値に変換する。
-		if (StringUtils.hasText(bookSearchForm.getBookId())) {
-			bookId = new BookId(bookSearchForm.getBookId());
-		}
-		// 検索条件（変換した書籍ID、ジャンル、置き場所）を引数として検索条件オブジェクトを生成する。
-		BookSearchCondition condition = new BookSearchCondition(
-				bookId,
-				bookSearchForm.getGenre(),
-				bookSearchForm.getStorageLocation());
+		
+		// 検索条件の選択肢を取得
+		// ジャンルをテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
+		model.addAttribute("genres", bookSearchConditionService.findAllGenres());
+		model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
+		
+//		// 空の書籍IDオブジェクトを生成する。
+//		BookId bookId = null;
+//		// 画面で入力された書籍IDを検索条件として業務ロジック内で使用できるように正規化し、文字列型→数値型に変換する。
+//		if (StringUtils.hasText(bookSearchForm.getBookId())) {
+//			bookId = new BookId(bookSearchForm.getBookId());
+//		}
 
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookSearchForm) && !bindingResult.hasErrors()) {
@@ -63,11 +68,14 @@ public class BookSearchController {
 			model.addAttribute("infoMessage",
 					messageSource.getMessage("search.book.condition.required", null, Locale.JAPAN));
 			// 検索条件を未指定のまま書籍情報を検索し、テーブル登録されている全ての書籍一覧をモデルに設定し一覧表示する。
-			model.addAttribute("resultSearchBook", bookSearchService.searchBookByConditions(condition));
+			model.addAttribute("resultSearchBook", bookSearchService.fetchAllBook());
 
 			// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
 			// 不備がある場合はエラーメッセージを検索条件下部に表示する。
 		} else if (!(unSpecifiedConditions(bookSearchForm) || bindingResult.hasErrors())) {
+			// 画面で入力した検索条件（変換した書籍ID、ジャンル、置き場所）を引数として
+			// 業務ロジック・DB検索等で使用できるように正規化・数値化し検索条件オブジェクトを生成する。
+			BookSearchCondition condition = bookSearchConditionFactory.createCondition(bookSearchForm);
 			// 検索条件をもとに書籍情報を検索し、検索結果一覧をモデルに設定し一覧表示する。
 			model.addAttribute("resultSearchBook", bookSearchService.searchBookByConditions(condition));
 		}
@@ -83,7 +91,7 @@ public class BookSearchController {
 	 */
 	private boolean unSpecifiedConditions(BookSearchForm bookSearchForm) {
 		return !StringUtils.hasText(bookSearchForm.getBookId())
-				&& !StringUtils.hasText(bookSearchForm.getGenre())
-				&& !StringUtils.hasText(bookSearchForm.getStorageLocation());
+				&& !StringUtils.hasText(bookSearchForm.getGenreId())
+				&& !StringUtils.hasText(bookSearchForm.getStorageLocationId());
 	}
 }
