@@ -26,13 +26,13 @@ public class BookSearchConditionFactory {
 			bookId = new BookId(form.getBookId());
 		}
 
-		// バリューオブジェクトで正規化・数値化した書籍IDのオブジェクトを取得する。
+		// フォームで文字列として受け取ったジャンルIDを数値型に変換する。
 		Integer genreId = null;
 		if (StringUtils.hasText(form.getGenreId())) {
 			genreId = Integer.valueOf(form.getGenreId());
 		}
 
-		// フォーム内で文字列で置き場所IDを受け取った値を数値型に変換する。
+		// フォームで文字列として受け取った置き場所IDを数値型に変換する。
 		Integer storageLocationId = null;
 		if (StringUtils.hasText(form.getStorageLocationId())) {
 			storageLocationId = Integer.valueOf(form.getStorageLocationId());

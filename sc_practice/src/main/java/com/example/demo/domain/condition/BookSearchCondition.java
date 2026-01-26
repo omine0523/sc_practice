@@ -3,7 +3,7 @@ package com.example.demo.domain.condition;
 import com.example.demo.domain.value.BookId;
 
 /**
- * 業務ロジック・DB検索用に使用する書籍検索条件を保持するクラス。
+ * 業務ロジック・DB検索用に使用する変更不可能な書籍検索条件を保持するレコード。
  * 　※ 未変更項目も含む
  * <p>
  * 生成には Builder を使用し、

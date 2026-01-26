@@ -27,12 +27,12 @@ public class BookSearchServiceImpl implements BookSearchService {
 	/**
 	 * 画面遷移時に初期情報を全件取得する
 	 *
-	 * @return 全件取得結果を返却する
+	 * @return 書籍情報の全件取得結果を返却する
 	 */
 	@Override
 	@Transactional(readOnly = true)
 	public List<BookSearchResultDto> fetchAllBook() {
-		// 
+		// 書籍情報を全件取得する。
 		return bookInfoMapper.selectAllBooks();
 	}
 	

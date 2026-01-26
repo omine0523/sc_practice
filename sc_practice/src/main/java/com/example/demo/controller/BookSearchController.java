@@ -54,13 +54,6 @@ public class BookSearchController {
 		// ジャンルをテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
 		model.addAttribute("genres", bookSearchConditionService.findAllGenres());
 		model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
-		
-//		// 空の書籍IDオブジェクトを生成する。
-//		BookId bookId = null;
-//		// 画面で入力された書籍IDを検索条件として業務ロジック内で使用できるように正規化し、文字列型→数値型に変換する。
-//		if (StringUtils.hasText(bookSearchForm.getBookId())) {
-//			bookId = new BookId(bookSearchForm.getBookId());
-//		}
 
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookSearchForm) && !bindingResult.hasErrors()) {

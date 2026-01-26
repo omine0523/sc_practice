@@ -12,8 +12,8 @@ import com.example.demo.dto.BookSearchResultDto;
 public interface BookSearchService {
 	
 	/**
-	 * 
-	 * @return
+	 * 画面遷移時に初期情報を全件取得する
+	 * @return 全件取得結果を返却する
 	 */
 	List<BookSearchResultDto> fetchAllBook();
 	/**
