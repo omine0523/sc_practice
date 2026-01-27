@@ -15,10 +15,15 @@
 	<!-- フィルターエリア -->
 	<div class="filter-area">
 		<form th:object="${bookSearchForm}" method="get">
+			<!-- 検索条件：書籍ID指定 -->
 			<label>書籍ID：</label>
 			<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 
-			<!-- 仮実装：時間があればジャンル・棚検索実装予定 -->
+			<!-- 検索条件：書籍名指定 -->
+			<label>書籍名：</label>
+			<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
+						
+			<!-- 検索条件：ジャンル指定 -->
 			<label>ジャンル：</label>
 			<select th:field="*{genreId}">
 				<option value="">-- 全て --</option>
@@ -26,9 +31,9 @@
 						th:value="${genre.genreId}" 
 						th:text="${genre.genreName}">
 				</option>
-
 			</select>
 
+			<!-- 検索条件：置き場所指定 -->
 			<label>置き場所：</label>
 			<select th:field="*{storageLocationId}">
 				<option value="">-- 全て --</option>
@@ -42,8 +47,9 @@
 
 			<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
-			<!-- 検索時に書籍IDの入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
-			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
+			<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
+			<div th:errors="*{bookId}" class="error"></div> 
+			<div th:errors="*{bookName}" class="error"></div>
 		</form>
 		<br>
 	</div>

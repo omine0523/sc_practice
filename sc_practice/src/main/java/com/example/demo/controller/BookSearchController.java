@@ -66,6 +66,7 @@ public class BookSearchController {
 			// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
 			// 不備がある場合はエラーメッセージを検索条件下部に表示する。
 		} else if (!(unSpecifiedConditions(bookSearchForm) || bindingResult.hasErrors())) {
+			
 			// 画面で入力した検索条件（変換した書籍ID、ジャンル、置き場所）を引数として
 			// 業務ロジック・DB検索等で使用できるように正規化・数値化し検索条件オブジェクトを生成する。
 			BookSearchCondition condition = bookSearchConditionFactory.createCondition(bookSearchForm);
@@ -83,8 +84,9 @@ public class BookSearchController {
 	 * @return 検索条件がすべて未指定の場合は true、それ以外は false
 	 */
 	private boolean unSpecifiedConditions(BookSearchForm bookSearchForm) {
-		return !StringUtils.hasText(bookSearchForm.getBookId())
-				&& !StringUtils.hasText(bookSearchForm.getGenreId())
-				&& !StringUtils.hasText(bookSearchForm.getStorageLocationId());
+		return !StringUtils.hasText(bookSearchForm.getBookId()) // 書籍ID
+				&& !StringUtils.hasText(bookSearchForm.getBookName()) // 書籍名
+				&& !StringUtils.hasText(bookSearchForm.getGenreId()) // ジャンルID
+				&& !StringUtils.hasText(bookSearchForm.getStorageLocationId()); // 置き場所ID
 	}
 }

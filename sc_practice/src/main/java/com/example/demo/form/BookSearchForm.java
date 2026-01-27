@@ -1,6 +1,7 @@
 package com.example.demo.form;
 
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 /**
@@ -13,6 +14,8 @@ public class BookSearchForm {
 	@Pattern(regexp = "^[0-9０-９]*$", message = "{book.id.number.only}")
 	private String bookId;
 	/** 書籍名 */
+	@Size(max = 100, message = "{book.name.max}")
+	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{book.name.not.empty}")
 	private String bookName;
 	/** ジャンル */
 	private String genreId;

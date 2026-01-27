@@ -26,6 +26,13 @@ public class BookSearchConditionFactory {
 			bookId = new BookId(form.getBookId());
 		}
 
+		// 入力された書籍名の先頭・末尾に空白（半角or全角）がある場合、バグ防止のため削除する。
+		// ひらがなとカタカナ、全角・半角、大文字・小文字 の同一扱いはDB側の設定で制御する
+		String bookName = null;
+		if (StringUtils.hasText(form.getBookName())) {
+			bookName = form.getBookName().trim().replace("　", "");
+		}
+		
 		// フォームで文字列として受け取ったジャンルIDを数値型に変換する。
 		Integer genreId = null;
 		if (StringUtils.hasText(form.getGenreId())) {
@@ -43,9 +50,10 @@ public class BookSearchConditionFactory {
 		// ・入力がある項目のみを Condition に設定する
 		// ・すべて未指定の場合は build() 内で例外が発生する
 		return BookSearchCondition.builder()
-				.bookId(bookId) // 正規化・数値変換済みの書籍ID
-				.fkGenreId(genreId) // 選択されたジャンルID（未選択なら null）
-				.fkStorageLocationId(storageLocationId) // 選択された置き場所ID（未選択なら null）
+				.bookId(bookId) // 正規化・数値変換済みの書籍ID（未入力なら null）
+				.bookName(bookName) // 先頭・末尾の空白を削除した後の書籍名（未入力なら null）
+				.fkGenreId(genreId) // 数値化したジャンルID（未選択なら null）
+				.fkStorageLocationId(storageLocationId) // 数値化した置き場所ID（未選択なら null）
 				.build(); // 検索条件オブジェクトを生成
 	}
 }

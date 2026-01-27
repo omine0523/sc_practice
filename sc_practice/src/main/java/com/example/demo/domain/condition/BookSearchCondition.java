@@ -13,6 +13,8 @@ import com.example.demo.domain.value.BookId;
 public record BookSearchCondition(
 		/** 書籍ID（主キー）（正規化＋数値変換後） */
 		BookId bookId,
+		/** 書籍名 */
+		String bookName,
 		/** ジャンルID（外部キー） */
 		Integer fkGenreId,
 		/** 置き場所ID（外部キー） */
@@ -35,6 +37,7 @@ public record BookSearchCondition(
      */
 	public static class Builder {
 		private BookId bookId;
+		private String bookName;
 		private Integer fkGenreId;
 		private Integer fkStorageLocationId;
 
@@ -45,6 +48,16 @@ public record BookSearchCondition(
          */
 		public Builder bookId(BookId bookId) {
 			this.bookId = bookId;
+			return this;
+		}
+		
+		/**
+         * 書籍名検索条件を設定する。
+         * @param bookName 正規化・数値変換後の書籍ID
+         * @return Builder（メソッドチェーン用）
+         */
+		public Builder bookName(String bookName) {
+			this.bookName = bookName;
 			return this;
 		}
 		
@@ -79,11 +92,12 @@ public record BookSearchCondition(
          * @throws IllegalStateException 検索条件がすべて未指定の場合
          */
 		public BookSearchCondition build() {
-			if (bookId == null && fkGenreId == null && fkStorageLocationId == null) {
+			if (bookId == null && bookName == null && fkGenreId == null && fkStorageLocationId == null) {
 				throw new IllegalStateException("検索条件が未指定です");
 			}
 			return new BookSearchCondition(
 					bookId,
+					bookName,
 					fkGenreId,
 					fkStorageLocationId);
 		}

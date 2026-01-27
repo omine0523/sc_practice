@@ -26,12 +26,14 @@ public interface BookInfoMapper {
 	 * 検索条件と一致している書籍情報を一覧で取得する。
 	 * 
 	 * @param bookId 書籍ID
-	 * @param genre ジャンル
-	 * @param storageLocation 置き場所
+	 * @param bookName 書籍名
+	 * @param genreId ジャンルID
+	 * @param storageLocationId 置き場所ID
 	 * @return 検索条件を満たす書籍情報一覧
 	 */
 	List<BookSearchResultDto> selectBookByConditions(
-			@Param("bookId") Integer bookId,
+			@Param("bookId") Integer bookId, 
+			@Param("bookName") String bookName,
 	        @Param("fkGenreId") Integer fkGenreId,
 	        @Param("fkStorageLocationId") Integer fkStorageLocationId);
 }

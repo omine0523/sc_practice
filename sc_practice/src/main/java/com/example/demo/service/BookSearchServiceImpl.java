@@ -55,8 +55,9 @@ public class BookSearchServiceImpl implements BookSearchService {
 		}
 		// 全ての検索条件をもとに、書籍情報を検索する
 		return bookInfoMapper.selectBookByConditions(
-				bookId,
-				condition.fkGenreId(),
-				condition.fkStorageLocationId());
+				bookId, // 書籍ID
+				condition.bookName(), // 書籍名
+				condition.fkGenreId(), // ジャンルID
+				condition.fkStorageLocationId()); // 置き場所ID
 	}
 }
