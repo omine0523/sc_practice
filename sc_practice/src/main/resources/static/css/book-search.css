@@ -30,6 +30,7 @@ th {
 
 .error {
   color: rgb(255, 0, 0);
+  font-size: 0.9em;
   margin-top: 10px;
 }
 

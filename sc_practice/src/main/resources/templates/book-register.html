@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍検索画面</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/book-register.css}">
+</head>
+
+
+<body>
+	<h2>書籍登録フォーム</h2>
+
+	<div class="form-container">
+		<form th:object="${bookRegisterForm}" method="post">
+
+			<!-- メッセージを表示する -->
+			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
+
+			<!-- 検索条件：書籍ID 画面には表示しない自動で登録される予定
+			<label>書籍ID：</label>
+			<input type="text" th:field="*{bookId}" placeholder="数字を入力"> -->
+
+			<!-- 書籍名の登録 -->
+			<div class="form-group">
+				<label>書籍名 <span class="required">※必須</span></label>
+				<input type="text" th:field="*{bookName}" placeholder="例：Java入門">
+				<!-- 登録時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
+				<div th:errors="*{bookName}" class="error"></div>
+			</div>
+
+			<!-- ジャンルの設定 -->
+			<div class="form-group">
+				<label>ジャンル <span class="required">※必須</span></label>
+				<select th:field="*{genreId}">
+					<option value="">-- 選択してください --</option>
+					<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
+					</option>
+				</select>
+			</div>
+
+			<!-- 置き場所の設定 -->
+			<div class="form-group">
+				<label>置き場所 <span class="required">※必須</span></label>
+				<select th:field="*{storageLocationId}">
+					<option value="">-- 選択してください --</option>
+					<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
+						th:text="${location.storageLocationName}">
+					</option>
+				</select>
+			</div>
+
+			<!-- ステータスの設定 -->
+			<div class="form-group">
+				<label>ステータス</label>
+				<div class="radio-group">
+				    <label class="radio-item">
+				      <input type="radio" th:field="*{status}" value="未貸出">
+				      <span>未貸出</span>
+				    </label>
+
+				    <label class="radio-item">
+				      <input type="radio" th:field="*{status}" value="貸出中">
+				      <span>貸出中</span>
+				    </label>
+				  </div>
+			</div>
+
+			<!-- あらすじの設定 -->
+			<div class="form-group">
+				<label>あらすじ</label>
+				<textarea th:field="*{summary}" rows="4" placeholder="あらすじを入力してください"></textarea>
+				<div th:errors="*{summary}" class="error"></div>
+			</div>
+
+			<div class="button-area">
+				<button type="submit" class="register-btn">書籍を登録する</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

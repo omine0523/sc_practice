@@ -15,7 +15,7 @@
     	<result column="status" property="status"/>
 	</resultMap>
 	
-	<!-- 書籍情報検索の共通のSELECT句とFROM句をまとめる -->
+	<!-- 共通部品：書籍情報検索で共通のSELECT句とFROM句をまとめる -->
 	<sql id="BaseSelect">
 	  SELECT
 	     book_info.id
@@ -27,19 +27,19 @@
 	    book_info
 	  INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
 	  INNER JOIN storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
-	  ORDER BY 
-	  	book_info.id ASC
 	</sql>
 
 	<!-- 書籍検索 全件取得用SQL -->
 	<select id="selectAllBooks" resultMap="BookSearchResultMap">
-		<!-- BookInfoテーブルから書籍情報を取得する -->
+		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
 		<include refid="BaseSelect"/>
+		<!-- 書籍IDが昇順で並ぶようにする -->
+		ORDER BY book_info.id ASC
 	</select>
 
 	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
 	<select id="selectBookByConditions" resultMap="BookSearchResultMap">
-		<!-- BookInfoテーブルから書籍情報を取得する -->
+		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
 		<include refid="BaseSelect"/>
 		
 		<!-- 条件付き検索（WHERE句） -->
@@ -61,6 +61,8 @@
 			<if test="fkStorageLocationId != null">
 				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
 			</if>
+			<!-- 書籍IDが昇順で並ぶようにする -->
+			ORDER BY book_info.id ASC
 		</where>
 	</select>
 

@@ -46,12 +46,12 @@ public class BookSearchController {
 	 *  @param model 検索結果やメッセージをビュー渡すモデル
 	 *  @return 書籍検索結果を表示する
 	 */
-	@GetMapping("/book-search-top")
+	@GetMapping("/books/search")
 	public String showBookSearchPage(@Validated @ModelAttribute BookSearchForm bookSearchForm,
 			BindingResult bindingResult, Model model) {
 		
 		// 検索条件の選択肢を取得
-		// ジャンルをテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
+		// ジャンル・置き場所をテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
 		model.addAttribute("genres", bookSearchConditionService.findAllGenres());
 		model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
 
