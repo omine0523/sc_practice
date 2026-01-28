@@ -21,15 +21,22 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class TransactionConfig {
 
+	/**
+	 * MyBatisで実行された複数SQLを1トランザクションでまとめ例外時にロールバックされるよう管理する
+	 * <p>
+	 * 例外発生時に自動的にロールバックし、デフォルトのタイムアウト時間（30秒）を超えた場合にもロールバックされる。
+	 * </p>
+	 * @param dataSource トランザクション管理に使用するデータソース
+	 * @return トランザクション管理を行う
+	 */
 	@Bean
-	public PlatformTransactionManager transactionManager(
-			DataSource dataSource) {
+	public PlatformTransactionManager transactionManager(DataSource dataSource) {
 
 		// MyBatis向けのトランザクションマネージャを用意する。
 		DataSourceTransactionManager txManager = new DataSourceTransactionManager(dataSource);
 
 		// トランザクションのデフォルトタイムアウト（秒）
-        // 指定時間を超えた場合、トランザクションはロールバックされる。
+		// 指定時間を超えた場合、トランザクションはロールバックされる。
 		txManager.setDefaultTimeout(30);
 
 		return txManager;
