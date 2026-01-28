@@ -82,4 +82,13 @@ input, select {
   resize: vertical;
 }
 
+button,
+.register-btn,
+input[type=radio],
+.radio-item,
+input[type=checkbox],
+select {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=book-register.css.map */

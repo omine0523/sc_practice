@@ -23,6 +23,6 @@ public class BookRegisterForm {
 	private String storageLocationId;
 	/** ステータス（未貸出 / 貸出中） */
 	private String status = "未貸出"; // デフォルト値;
-	/** あらすじ */
+	/** 書籍内容 */
 	private String summary;
 }

@@ -50,9 +50,9 @@
 			<if test="bookId != null">
 				AND book_info.id = #{bookId}
 			</if>
-			<!-- 書籍名検索（部分一致）・bookName が null でない場合のみ条件に追加 -->
+			<!-- 書籍名検索（部分一致）・bookName が null でない場合のみ条件に追加 ※valueクラス内でワイルドカード対策済み-->
 		    <if test="bookName != null and bookName != ''">
-		      	AND book_name LIKE CONCAT('%', #{bookName}, '%')
+		      	AND book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
 		    </if>
 			<!-- ジャンル検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
 			<if test="fkGenreId != null">

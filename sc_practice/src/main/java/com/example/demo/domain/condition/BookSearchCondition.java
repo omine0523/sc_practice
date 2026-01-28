@@ -1,6 +1,7 @@
 package com.example.demo.domain.condition;
 
-import com.example.demo.domain.value.BookId;
+import com.example.demo.domain.value.BookIdKey;
+import com.example.demo.domain.value.BookNameKey;
 
 /**
  * 業務ロジック・DB検索用に使用する変更不可能な書籍検索条件を保持するレコード。
@@ -12,9 +13,9 @@ import com.example.demo.domain.value.BookId;
  */
 public record BookSearchCondition(
 		/** 書籍ID（主キー）（正規化＋数値変換後） */
-		BookId bookId,
-		/** 書籍名 */
-		String bookName,
+		BookIdKey bookId,
+		/** 書籍名 （正規化＋ワイルドカード対策後）*/
+		BookNameKey bookName,
 		/** ジャンルID（外部キー） */
 		Integer fkGenreId,
 		/** 置き場所ID（外部キー） */
@@ -36,8 +37,8 @@ public record BookSearchCondition(
      * </p>
      */
 	public static class Builder {
-		private BookId bookId;
-		private String bookName;
+		private BookIdKey bookId;
+		private BookNameKey bookName;
 		private Integer fkGenreId;
 		private Integer fkStorageLocationId;
 
@@ -46,7 +47,7 @@ public record BookSearchCondition(
          * @param bookId 正規化・数値変換後の書籍ID
          * @return Builder（メソッドチェーン用）
          */
-		public Builder bookId(BookId bookId) {
+		public Builder bookId(BookIdKey bookId) {
 			this.bookId = bookId;
 			return this;
 		}
@@ -56,7 +57,7 @@ public record BookSearchCondition(
          * @param bookName 正規化・数値変換後の書籍ID
          * @return Builder（メソッドチェーン用）
          */
-		public Builder bookName(String bookName) {
+		public Builder bookName(BookNameKey bookName) {
 			this.bookName = bookName;
 			return this;
 		}

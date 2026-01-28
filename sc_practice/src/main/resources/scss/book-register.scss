@@ -78,3 +78,12 @@ input, select {
   box-sizing: border-box;
   resize: vertical;
 }
+
+button,
+.register-btn,
+input[type="radio"],
+.radio-item,
+input[type="checkbox"],
+select {
+  cursor: pointer;
+}

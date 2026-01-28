@@ -48,15 +48,21 @@ public class BookSearchServiceImpl implements BookSearchService {
 	public List<BookSearchResultDto> searchBookByConditions(BookSearchCondition condition) {
 		// mapperクラスに受け渡すために空の変数を生成する。
 		Integer bookId = null;
-
+		String bookName = null;
+		
 		// 検索条件に書籍IDが入力されてた場合にのみ、オブジェクトから変換後の書籍IDの値を参照する。
 		if (condition.bookId() != null) {
 			bookId = condition.bookId().getValue();
 		}
-		// 全ての検索条件をもとに、書籍情報を検索する
+		// 検索条件に書籍名が入力されてた場合にのみ、オブジェクトから加工後の書籍名の値を参照する。
+		if (condition.bookName() != null) {
+			bookName = condition.bookName().getValue();
+		}
+		
+		// 全ての検索条件をもとに、書籍情報を検索する。
 		return bookInfoMapper.selectBookByConditions(
 				bookId, // 書籍ID
-				condition.bookName(), // 書籍名
+				bookName, // 書籍名
 				condition.fkGenreId(), // ジャンルID
 				condition.fkStorageLocationId()); // 置き場所ID
 	}

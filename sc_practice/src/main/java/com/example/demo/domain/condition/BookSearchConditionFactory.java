@@ -3,7 +3,8 @@ package com.example.demo.domain.condition;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.example.demo.domain.value.BookId;
+import com.example.demo.domain.value.BookIdKey;
+import com.example.demo.domain.value.BookNameKey;
 import com.example.demo.form.BookSearchForm;
 
 /**
@@ -21,16 +22,16 @@ public class BookSearchConditionFactory {
 	public BookSearchCondition createCondition(BookSearchForm form) {
 
 		// バリューオブジェクトで正規化・数値化した書籍IDのオブジェクトを取得する
-		BookId bookId = null;
+		BookIdKey bookId = null;
 		if (StringUtils.hasText(form.getBookId())) {
-			bookId = new BookId(form.getBookId());
+			bookId = new BookIdKey(form.getBookId());
 		}
 
 		// 入力された書籍名の先頭・末尾に空白（半角or全角）がある場合、バグ防止のため削除する。
 		// ひらがなとカタカナ、全角・半角、大文字・小文字 の同一扱いはDB側の設定で制御する
-		String bookName = null;
+		BookNameKey bookName = null;
 		if (StringUtils.hasText(form.getBookName())) {
-			bookName = form.getBookName().trim().replace("　", "");
+			bookName = new BookNameKey(form.getBookName());
 		}
 		
 		// フォームで文字列として受け取ったジャンルIDを数値型に変換する。
