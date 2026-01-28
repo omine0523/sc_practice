@@ -15,6 +15,7 @@
 	
 	<!-- 検索条件：ジャンルの選択肢取得用SQL（セレクトボタンの選択して活用を目的とする） -->
 	<select id="selectAllGenres" resultMap="GenreResultMap">
+	 /* マスタ取得：ジャンル一覧 */
         SELECT 
         	  genre_id
         	, genre_name 

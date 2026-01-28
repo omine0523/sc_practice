@@ -17,6 +17,7 @@
 	
 	<!-- 共通部品：書籍情報検索で共通のSELECT句とFROM句をまとめる -->
 	<sql id="BaseSelect">
+	 /* 検索SQL：書籍情報検索 */
 	  SELECT
 	     book_info.id
 	    ,book_info.book_name
