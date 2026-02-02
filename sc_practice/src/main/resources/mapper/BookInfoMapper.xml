@@ -7,12 +7,13 @@
 
 	<!-- 画面出力用 BookSearchResultDto とDBカラムのマッピング定義をする -->
 	<resultMap id="BookSearchResultMap"
-           	   type="com.example.demo.dto.BookSearchResultDto">
+           	   type="com.example.demo.dto.view.BookSearchResultDto">
    		<id column="id" property="bookId"/>
     	<result column="book_name" property="bookName"/>
     	<result column="genre_name" property="genreName"/>
     	<result column="storage_location_name" property="storageLocationName"/>
     	<result column="status" property="status"/>
+    	<result column="summary" property="summary"/>
 	</resultMap>
 	
 	<!-- 共通部品：書籍情報検索で共通のSELECT句とFROM句をまとめる -->
@@ -63,11 +64,21 @@
 				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
 			</if>
 			<!-- 書籍IDが昇順で並ぶようにする -->
-			ORDER BY book_info.id ASC
+			ORDER BY book_info.id ASC;
 		</where>
 	</select>
 
-	<!-- <insert id="" parameterType=""> </insert> -->
+	<!-- 書籍情報 登録用SQL -->
+	<insert id="insertBook" parameterType="com.example.demo.entity.BookInfo"> 
+		insert into 
+			book_info 
+			(book_name, fk_genre_id, fk_storage_location_id, status, summary) 
+		value 
+			(#{bookName}, #{fkGenreId}, #{fkStorageLocationId}, #{status}, #{summary}); 
+	</insert>
+
+
+
 
 	<!-- <update id="" parameterType=""> </update> -->
 

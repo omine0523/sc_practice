@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>エラー画面</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+
+<body>
+	<div class="error-container">
+
+		<h2>エラーが発生しました</h2>
+
+		<p th:text="${message}">
+			予期しないエラーが発生しました。
+		</p>
+
+		<div class="buttons">
+			<a th:href="@{/books/menu}" class="btn">メニューへ戻る</a>
+		</div>
+
+		<p class="support">
+			※問題が解決しない場合は管理者へお問い合わせください。
+		</p>
+
+	</div>
+</body>
+
+</html>

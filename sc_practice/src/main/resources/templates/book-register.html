@@ -17,6 +17,7 @@
 
 			<!-- メッセージを表示する -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
+			<div th:if="${successMessage}" th:text="${successMessage}" class="infoMessage"></div>
 
 			<!-- 検索条件：書籍ID 画面には表示しない自動で登録される予定
 			<label>書籍ID：</label>

@@ -17,12 +17,12 @@ public class BookRegisterForm {
 	@Size(max = 100, message = "{book.name.max}")
 	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{book.name.not.empty}")
 	private String bookName;
-	/** ジャンル */
-	private String genreId;
-	/** 置き場所 */
-	private String storageLocationId;
-	/** ステータス（未貸出 / 貸出中） */
-	private String status = "未貸出"; // デフォルト値;
+	/** ジャンルID */
+	private Integer genreId;
+	/** 置き場所ID */
+	private Integer storageLocationId;
+	/** ステータス（未貸出 / 貸出中） デフォルトで未貸出を設定 */
+	private String status = "未貸出"; 
 	/** 書籍内容 */
 	private String summary;
 }

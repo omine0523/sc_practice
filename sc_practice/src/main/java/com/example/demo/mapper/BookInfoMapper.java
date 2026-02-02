@@ -5,7 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.example.demo.dto.BookSearchResultDto;
+import com.example.demo.dto.request.BookRegisterRequestDto;
+import com.example.demo.dto.view.BookSearchResultDto;
 
 /**
  *  BookInfoMapper インターフェース
@@ -36,4 +37,16 @@ public interface BookInfoMapper {
 			@Param("bookName") String bookName,
 	        @Param("fkGenreId") Integer fkGenreId,
 	        @Param("fkStorageLocationId") Integer fkStorageLocationId);
+	
+	
+//	void insertBook(
+//			@Param("bookId") Integer bookId, 
+//			@Param("bookName") String bookName,
+//	        @Param("fkGenreId") Integer fkGenreId,
+//	        @Param("fkStorageLocationId") Integer fkStorageLocationId,
+//			@Param("status") String status,
+//			@Param("summary") String summary);
+	
+
+	void insertBook(BookRegisterRequestDto requestDto);
 }

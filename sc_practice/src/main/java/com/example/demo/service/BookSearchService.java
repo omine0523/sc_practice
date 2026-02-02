@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.domain.condition.BookSearchCondition;
-import com.example.demo.dto.BookSearchResultDto;
+import com.example.demo.dto.view.BookSearchResultDto;
 
 /** 
  * Controllerから受け取った検索条件を用いて書籍情報を検索する インターフェース

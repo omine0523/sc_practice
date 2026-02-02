@@ -4,6 +4,14 @@
 @use "button.scss";
 @use "error.scss";
 
-.infoMessage{
+h2 {
+	margin-left: 20px;
+}
+
+.filter-area {
+	margin-left: 20px;
+}
+
+.infoMessage {
 	margin-top: 10px;
 }

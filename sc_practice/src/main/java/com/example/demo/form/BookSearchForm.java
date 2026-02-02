@@ -17,10 +17,10 @@ public class BookSearchForm {
 	@Size(max = 100, message = "{book.name.max}")
 	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{book.name.not.empty}")
 	private String bookName;
-	/** ジャンル */
-	private String genreId;
-	/** 置き場所 */
-	private String storageLocationId;
+	/** ジャンルID */
+	private Integer genreId;
+	/** 置き場所ID */
+	private Integer storageLocationId;
 	/** ステータス（未貸出 / 貸出中） */
 	private String status;
 

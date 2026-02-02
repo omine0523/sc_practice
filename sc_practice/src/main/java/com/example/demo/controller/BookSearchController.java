@@ -86,7 +86,7 @@ public class BookSearchController {
 	private boolean unSpecifiedConditions(BookSearchForm bookSearchForm) {
 		return !StringUtils.hasText(bookSearchForm.getBookId()) // 書籍ID
 				&& !StringUtils.hasText(bookSearchForm.getBookName()) // 書籍名
-				&& !StringUtils.hasText(bookSearchForm.getGenreId()) // ジャンルID
-				&& !StringUtils.hasText(bookSearchForm.getStorageLocationId()); // 置き場所ID
+				&& bookSearchForm.getGenreId() == null // ジャンルID
+				&& bookSearchForm.getStorageLocationId() == null; // 置き場所ID
 	}
 }

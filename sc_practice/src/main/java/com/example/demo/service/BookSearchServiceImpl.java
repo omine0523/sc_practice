@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.condition.BookSearchCondition;
-import com.example.demo.dto.BookSearchResultDto;
+import com.example.demo.dto.view.BookSearchResultDto;
 import com.example.demo.mapper.BookInfoMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-@Service
 @Transactional(isolation = Isolation.REPEATABLE_READ)
+@Service
 public class BookSearchServiceImpl implements BookSearchService {
 
 	@Autowired
