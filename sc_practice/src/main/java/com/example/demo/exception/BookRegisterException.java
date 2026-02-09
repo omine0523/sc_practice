@@ -14,7 +14,7 @@ public class BookRegisterException extends RuntimeException {
 	 */	
 	public BookRegisterException(String message, Throwable cause) {
 		// RuntimeExceptionクラスのコンストラクタを呼んで
-		// 各フィールド変数にエラーメッセージと元例外（cause）をセットしている
+		// 各フィールド変数にエラーメッセージと元例外：PersistenceExceptionををcauseにセットしている
 		super(message, cause);
 	}
 }

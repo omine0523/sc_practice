@@ -5,6 +5,10 @@
   margin-top: 10px;
 }
 
+.errorMessage {
+  color: rgb(255, 0, 0);
+}
+
 .error-container {
   width: 550px;
   margin: 100px auto;
@@ -62,6 +66,21 @@ h2 {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.topMsg {
+  margin-bottom: 30px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.infoMessage {
+  color: rgb(66, 66, 66);
+}
+
+.successMessage {
+  color: rgb(0, 51, 204);
 }
 
 .form-group {

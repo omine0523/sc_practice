@@ -15,15 +15,17 @@
 	<div class="form-container">
 		<form th:object="${bookRegisterForm}" method="post">
 
-			<!-- メッセージを表示する -->
-			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
-			<div th:if="${successMessage}" th:text="${successMessage}" class="infoMessage"></div>
+			<!-- メッセージを表示項目 -->
+			<!-- エラーがないかつ登録完了していない時に表示されるメッセージ項目 -->
+			<div th:if="${!#fields.hasAnyErrors() and successMessage == null}" class="infoMessage topMsg">
+				登録する書籍情報を入力してください。
+			</div>
+			<!-- 入力項目にエラーがある時に表示されるメッセージ項目 -->
+			<div th:if="${#fields.hasAnyErrors()}" class="errorMessage topMsg">入力内容に誤りがあります。</div>
+			<!-- エラーがなく登録が完了した時に表示されるメッセージ項目 -->
+			<div th:if="${successMessage}" th:text="${successMessage}" class="successMessage topMsg"></div>
 
-			<!-- 検索条件：書籍ID 画面には表示しない自動で登録される予定
-			<label>書籍ID：</label>
-			<input type="text" th:field="*{bookId}" placeholder="数字を入力"> -->
-
-			<!-- 書籍名の登録 -->
+			<!-- 書籍名の入力項目 -->
 			<div class="form-group">
 				<label>書籍名 <span class="required">※必須</span></label>
 				<input type="text" th:field="*{bookName}" placeholder="例：Java入門">
@@ -31,7 +33,7 @@
 				<div th:errors="*{bookName}" class="error"></div>
 			</div>
 
-			<!-- ジャンルの設定 -->
+			<!-- ジャンルの設定項目 -->
 			<div class="form-group">
 				<label>ジャンル <span class="required">※必須</span></label>
 				<select th:field="*{genreId}">
@@ -39,9 +41,10 @@
 					<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
 					</option>
 				</select>
+				<div th:errors="*{genreId}" class="error"></div>
 			</div>
 
-			<!-- 置き場所の設定 -->
+			<!-- 置き場所の設定項目 -->
 			<div class="form-group">
 				<label>置き場所 <span class="required">※必須</span></label>
 				<select th:field="*{storageLocationId}">
@@ -50,9 +53,10 @@
 						th:text="${location.storageLocationName}">
 					</option>
 				</select>
+				<div th:errors="*{storageLocationId}" class="error"></div>
 			</div>
 
-			<!-- ステータスの設定 -->
+			<!-- ステータスの設定項目 -->
 			<div class="form-group">
 				<label>ステータス</label>
 				<div class="radio-group">
@@ -68,7 +72,7 @@
 				  </div>
 			</div>
 
-			<!-- 書籍内容の設定 -->
+			<!-- 書籍内容の入力項目 -->
 			<div class="form-group">
 				<label>書籍内容</label>
 				<textarea th:field="*{summary}" rows="4" placeholder="書籍内容を入力してください"></textarea>

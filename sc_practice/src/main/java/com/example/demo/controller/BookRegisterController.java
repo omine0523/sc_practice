@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,8 @@ public class BookRegisterController {
 	private BookSearchConditionService bookSearchConditionService;
 	@Autowired
 	private BookRegisterService bookRegisterService;
+	@Autowired
+	private MessageSource messageSource;
 
 	/**
 	 * 選択肢をマスタから取得して書籍情報を登録するフォームを画面表示する。
@@ -57,7 +62,7 @@ public class BookRegisterController {
 	@PostMapping("/books/register")
 	public String registerBook(@Validated @ModelAttribute BookRegisterForm bookRegisterForm,
 			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
-
+		// ジャンル・置き場所を選択肢を各マスタから取得してモデルに設定し反映する。
 	    model.addAttribute("genres", bookSearchConditionService.findAllGenres());
 	    model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
 	    
@@ -68,7 +73,9 @@ public class BookRegisterController {
 		if (!bindingResult.hasErrors()) {
 			// 入力された書籍情報を元に登録処理を呼び出す。
 			bookRegisterService.registerBook(requestDto);
-			redirectAttributes.addFlashAttribute("successMessage", "書籍情報を登録しました。");
+			// 登録処理完了後のリダイレクト画面に登録完了メッセージを表示する。
+			redirectAttributes.addFlashAttribute("successMessage", 
+					messageSource.getMessage("book.register.success", null, Locale.JAPAN));
 			// 書籍登録処理結果を返却し登録画面を再度表示する。
 			return "redirect:/books/register";
 		}

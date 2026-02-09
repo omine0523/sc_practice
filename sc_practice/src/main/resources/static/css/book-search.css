@@ -35,6 +35,10 @@ th {
   margin-top: 10px;
 }
 
+.errorMessage {
+  color: rgb(255, 0, 0);
+}
+
 .error-container {
   width: 550px;
   margin: 100px auto;
