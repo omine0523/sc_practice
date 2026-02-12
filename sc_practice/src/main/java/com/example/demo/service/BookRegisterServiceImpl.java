@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +29,13 @@ public class BookRegisterServiceImpl implements BookRegisterService {
 	 * 
 	 * @param bookRegisterForm 登録画面で入力された書籍情報
 	 */
-	@Transactional
 	@Override
 	public void registerBook(BookRegisterRequestDto requestDto) {
 			
 			// 書籍情報を登録する処理を実行する
 		    try {
 		        bookInfoMapper.insertBook(requestDto);
-		    } catch (PersistenceException e) {
+		    } catch (DataAccessException e) {
 		    	// DB操作中に起きる問題（SQL文のエラー、接続問題、データ整合性違反など）が発生した場合は
 		    	// エラーログを出力し、DB操作中の例外はカスタム例外に変換してメッセージと共にを投げる
 		    	log.error("書籍登録失敗", e);
