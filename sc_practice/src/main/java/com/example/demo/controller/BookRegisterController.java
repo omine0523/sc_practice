@@ -66,14 +66,14 @@ public class BookRegisterController {
 	    model.addAttribute("genres", bookSearchConditionService.findAllGenres());
 	    model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
 	    
-	    // Form → Request DTO に変換
+	    // 画面で受け取った情報を画面と切り離して登理用に変換する（Form → Request DTO）
 	    BookRegisterRequestDto requestDto = BookRegisterConverter.toRequestDto(bookRegisterForm);
 		
 		// 入力された内容に不備があれば各入力欄の下部にエラーメッセージを表示する。
 		if (!bindingResult.hasErrors()) {
-			// 入力された書籍情報を元に登録処理を呼び出す。
+			// 入力された書籍情報をもとに登録処理を呼び出し実行結果を取得する。
 			bookRegisterService.registerBook(requestDto);
-			// 登録処理完了後のリダイレクト画面に登録完了メッセージを表示する。
+			// 登録処理完了時にリダイレクト画面に登録完了メッセージを表示する。
 			redirectAttributes.addFlashAttribute("successMessage", 
 					messageSource.getMessage("book.register.success", null, Locale.JAPAN));
 			// 書籍登録処理結果を返却し登録画面を再度表示する。

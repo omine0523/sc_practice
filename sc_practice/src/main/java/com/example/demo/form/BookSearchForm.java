@@ -11,11 +11,11 @@ import lombok.Data;
 public class BookSearchForm {
 	
 	/** 書籍ID（主キー） */
-	@Pattern(regexp = "^[0-9０-９]*$", message = "{book.id.number.only}")
+	@Pattern(regexp = "^[0-9０-９]*$", message = "{error.book.id.number.only}")
 	private String bookId;
 	/** 書籍名 */
-	@Size(max = 100, message = "{book.name.max}")
-	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{book.name.not.empty}")
+	@Size(max = 100, message = "{error.book.name.max}")
+	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{error.book.name.not.empty}")
 	private String bookName;
 	/** ジャンルID */
 	private Integer genreId;

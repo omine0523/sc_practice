@@ -1,5 +1,9 @@
 package com.example.demo.exception;
 
+import java.util.Locale;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
+	@Autowired
+	private MessageSource messageSource;
+	
 	/**
 	 * 予期せぬ RuntimeException が発生した際に共通のメッセージと共通の画面を表示させる（共通）
 	 * @param e アプリ全体で予期せぬ業務例外
@@ -21,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeError(RuntimeException e, Model model) {
     	// 画面にエラーメッセージを表示する。
-        model.addAttribute("message", "システムエラーが発生しました。");
+        model.addAttribute("message", messageSource.getMessage("error.system", null , Locale.JAPAN));
         // 共通のエラー画面を表示する。
         return "common/error";
     }
