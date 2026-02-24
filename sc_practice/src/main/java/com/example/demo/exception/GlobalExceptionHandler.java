@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 	 * @return エラー画面を表示する
 	 */
     @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeError(RuntimeException e, Model model) {
+    public String handleRuntimeException(RuntimeException e, Model model) {
     	// 画面にエラーメッセージを表示する。
         model.addAttribute("message", messageSource.getMessage("error.system", null , Locale.JAPAN));
         // 共通のエラー画面を表示する。
@@ -42,7 +42,23 @@ public class GlobalExceptionHandler {
 	 * @return エラー画面を表示する
 	 */
 	@ExceptionHandler(BookRegisterException.class)
-	public String handleError(BookRegisterException e, Model model) {
+	public String handleBookRegisterException(BookRegisterException e, Model model) {
+		// 画面に「書籍登録に失敗しました」メッセージを表示する。
+	    model.addAttribute("message", e.getMessage());
+	    // 共通のエラー画面を表示する。
+	    return "common/error";
+	}
+	
+	/**
+	 * 書籍情報を論理削除する処理中で例外が発生した際に
+	 * メッセージを表示して専用のエラー画面に遷移させる
+	 * 
+	 * @param e 書籍情報の登録処理でDB操作中に起きた例外情報（メッセージ情報を内包している）
+	 * @param model 画面に渡す情報
+	 * @return エラー画面を表示する
+	 */
+	@ExceptionHandler(BookAlreadyDeletedException.class)
+	public String handleBookAlreadyDeletedException(BookAlreadyDeletedException e, Model model) {
 		// 画面に「書籍登録に失敗しました」メッセージを表示する。
 	    model.addAttribute("message", e.getMessage());
 	    // 共通のエラー画面を表示する。

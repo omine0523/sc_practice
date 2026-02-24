@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.exception.BookAlreadyDeletedException;
 import com.example.demo.mapper.BookInfoMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,7 @@ public class BookDeleteServiceImpl implements BookDeleteService {
 		int count = bookInfoMapper.logicalDeleteBook(bookId);
 				// 更新処理実行結果（更新行数）が0行だった場合、例外とメッセージを投げる。
 				if(count == 0) {
-					throw new IllegalStateException("すでに削除されています");
+					throw new BookAlreadyDeletedException("すでに削除されています");
 				}
 	}
-
 }
