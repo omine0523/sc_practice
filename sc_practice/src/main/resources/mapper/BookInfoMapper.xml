@@ -5,9 +5,9 @@
 
 <mapper namespace="com.example.demo.mapper.BookInfoMapper">
 
-	<!-- 画面出力用 BookSearchResultDto とDBカラムのマッピング定義をする -->
-	<resultMap id="BookSearchResultMap"
-           	   type="com.example.demo.dto.view.BookSearchResultDto">
+	<!-- 画面出力用 BookListViewDto とDBカラムのマッピング定義をする -->
+	<resultMap id="BookListViewMap"
+           	   type="com.example.demo.dto.view.BookListViewDto">
    		<id column="id" property="bookId"/>
     	<result column="book_name" property="bookName"/>
     	<result column="genre_name" property="genreName"/>
@@ -25,6 +25,7 @@
 	    ,genre.genre_name
 	    ,storage_location.storage_location_name
 	    ,book_info.status
+	    ,book_info.summary
 	  FROM 
 	    book_info
 	  INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
@@ -32,28 +33,33 @@
 	</sql>
 
 	<!-- 書籍検索 全件取得用SQL -->
-	<select id="selectAllBooks" resultMap="BookSearchResultMap">
+	<select id="selectAllBooks" resultMap="BookListViewMap">
 		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
 		<include refid="BaseSelect"/>
+		<!-- 削除フラグが false（is_deleted = 0）の書籍情報だけを表示する -->
+		WHERE is_deleted = 0
 		<!-- 書籍IDが昇順で並ぶようにする -->
 		ORDER BY book_info.id ASC
 	</select>
 
 	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
-	<select id="selectBookByConditions" resultMap="BookSearchResultMap">
+	<select id="selectBookByConditions" resultMap="BookListViewMap">
 		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
 		<include refid="BaseSelect"/>
 		
 		<!-- 条件付き検索（WHERE句） -->
 		<where>
+			<!-- 削除フラグが false（is_deleted = 0）の書籍情報だけを表示する -->
+			AND is_deleted = 0
+		
 			<!-- 書籍ID検索（完全一致） ・bookId が null でない場合のみ条件に追加 -->
-			<!-- DBの設定により大文字小文字 / 全角半角 / ひらがなカタカナを区別しない -->
 			<if test="bookId != null">
 				AND book_info.id = #{bookId}
 			</if>
 			<!-- 書籍名検索（部分一致）・bookName が null でない場合のみ条件に追加 ※valueクラス内でワイルドカード対策済み-->
+			<!-- DBの設定により大文字小文字 / 全角半角 / ひらがなカタカナを区別しない -->
 		    <if test="bookName != null and bookName != ''">
-		      	AND book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
+		      	AND book_info.book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
 		    </if>
 			<!-- ジャンル検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
 			<if test="fkGenreId != null">
@@ -63,24 +69,37 @@
 			<if test="fkStorageLocationId != null">
 				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
 			</if>
-			<!-- 書籍IDが昇順で並ぶようにする -->
-			ORDER BY book_info.id ASC;
+			
 		</where>
+		
+		<!-- 書籍IDが昇順で並ぶようにする -->
+		ORDER BY book_info.id ASC
+		
 	</select>
+
 
 	<!-- 書籍情報 登録用SQL -->
 	<insert id="insertBook" parameterType="com.example.demo.entity.BookInfo"> 
-		insert into 
+		INSERT INTO 
 			book_info 
 			(book_name, fk_genre_id, fk_storage_location_id, status, summary) 
-		value 
-			(#{bookName}, #{fkGenreId}, #{fkStorageLocationId}, #{status}, #{summary}); 
+		VALUES
+			(#{bookName}, #{fkGenreId}, #{fkStorageLocationId}, #{status}, #{summary})
 	</insert>
 
 
 
-
-	<!-- <update id="" parameterType=""> </update> -->
+	<!-- 書籍情報 論理削除用SQL -->
+	<update id="logicalDeleteBook" parameterType="int">
+		UPDATE 
+			book_info 
+		SET
+			is_deleted = 1
+		WHERE 
+			book_info.id = #{value}
+		AND
+			book_info.is_deleted = 0
+	</update>
 
 	<!-- <delete id="" parameterType=""> </delete> -->
 

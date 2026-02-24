@@ -17,7 +17,7 @@ import com.example.demo.dto.converter.BookRegisterConverter;
 import com.example.demo.dto.request.BookRegisterRequestDto;
 import com.example.demo.form.BookRegisterForm;
 import com.example.demo.service.BookRegisterService;
-import com.example.demo.service.BookSearchConditionService;
+import com.example.demo.service.BookQueryConditionService;
 
 /**
  * 書籍登録画面にてフォームを表示し入力された書籍情報に登理処理を行う クラス
@@ -25,7 +25,7 @@ import com.example.demo.service.BookSearchConditionService;
 @Controller
 public class BookRegisterController {
 	@Autowired
-	private BookSearchConditionService bookSearchConditionService;
+	private BookQueryConditionService bookSearchConditionService;
 	@Autowired
 	private BookRegisterService bookRegisterService;
 	@Autowired

@@ -13,7 +13,7 @@
 
 	<!-- フィルターエリア -->
 	<div class="filter-area">
-		<form th:object="${bookSearchForm}" method="get">
+		<form th:object="${bookQueryForm}" method="get">
 			<!-- 検索条件：書籍ID指定 -->
 			<label>書籍ID：</label>
 			<input type="text" th:field="*{bookId}" placeholder="数字を入力">

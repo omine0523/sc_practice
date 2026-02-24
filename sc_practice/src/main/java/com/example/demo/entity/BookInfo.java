@@ -18,5 +18,7 @@ public class BookInfo {
 	private Integer fkStorageLocationId;
 	/** ステータス（未貸出 / 貸出中） */
 	private String status;
+	/** 書籍内容 */
+    private String summary;
 
 }
