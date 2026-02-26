@@ -21,22 +21,54 @@ public interface BookInfoMapper {
 	 * 登録されている書籍情報を全件取得する
 	 * @return 全件取得した書籍一覧
 	 */
-	List<BookListViewDto> selectAllBooks();
+	List<BookListViewDto> selectAllBooks(int pageSize, int offset);
+	
 	
 	/**
-	 * 検索条件と一致している書籍情報を一覧で取得する。
+	 * 検索条件と一致している書籍情報を一覧でページネーションごとに取得する。
 	 * 
 	 * @param bookId 書籍ID
 	 * @param bookName 書籍名
 	 * @param genreId ジャンルID
 	 * @param storageLocationId 置き場所ID
+	 * @param pageSize ページサイズ
+	 * @param offset 現在のページ
 	 * @return 検索条件を満たす書籍情報一覧
 	 */
 	List<BookListViewDto> selectBookByConditions(
 			@Param("bookId") Integer bookId, 
 			@Param("bookName") String bookName,
 	        @Param("fkGenreId") Integer fkGenreId,
-	        @Param("fkStorageLocationId") Integer fkStorageLocationId);
+	        @Param("fkStorageLocationId") Integer fkStorageLocationId,
+	        int pageSize,
+	        int offset
+	        );
+	
+	
+	/**
+	 * 登録されている全書籍の件数をページネーション用に取得する。
+	 * 
+	 * @return 全ての書籍件数の取得結果
+	 */
+	int countAllBooks();
+	
+	
+	/**
+	 * 指定された検索条件で該当する書籍の件数をページネーション用に取得する。
+	 * 
+	 * @param bookId 書籍ID
+	 * @param bookName 書籍名
+	 * @param genreId ジャンルID
+	 * @param storageLocationId 置き場所ID
+	 * @return 書籍情報件数の取得結果
+	 */
+	int countBookByConditions(
+			@Param("bookId") Integer bookId, 
+			@Param("bookName") String bookName,
+	        @Param("fkGenreId") Integer fkGenreId,
+	        @Param("fkStorageLocationId") Integer fkStorageLocationId
+		    );
+	
 	
 	/**
 	 * 画面で入力した書籍情報をDBに登録する。

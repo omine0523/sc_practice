@@ -1,97 +1,110 @@
-
-
 @use "error.scss";
 
 h2 {
-    text-align: center;
+	text-align: center;
 }
 
 .form-container {
-    width: 400px;
-    margin: 30px auto;
-    padding: 60px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	width: 400px;
+	margin: 30px auto;
+	padding: 60px;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.topMsg{
+.topMsg {
 	margin-bottom: 30px;
 	font-size: 1.1em;
 	font-weight: bold;
 	text-align: center;
 }
 
-.infoMessage{
+.infoMessage {
 	color: rgb(66, 66, 66);
 }
 
-.successMessage{
+.successMessage {
 	color: rgb(0, 51, 204);
 }
 
+.errorMessage {
+	margin: 0 0 20px 0;
+	padding: 5px 15px;
+	border: 1px solid rgb(255, 0, 0);
+	background-color: rgb(255, 247, 249);
+	color: rgb(255, 0, 0);
+	border-radius: 6px;
+	font-weight: bold;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .form-group {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
 }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-	box-sizing: border-box; 
+input,
+select {
+	width: 100%;
+	padding: 8px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
 }
 
 .register-btn {
-    width: 100%;
+	width: 100%;
 	margin-top: 30px;
-    padding: 10px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
+	padding: 10px;
+	background-color: #4CAF50;
+	border: none;
+	color: white;
+	font-size: 16px;
+	border-radius: 5px;
 }
 
 .register-btn:hover {
-    background-color: #45a049;
+	background-color: #45a049;
 }
 
 .required {
-    color: red;
+	color: red;
 	font-size: 0.9em;
 }
 
 .radio-group {
-  display: flex;
-  gap: 30px;
+	display: flex;
+	gap: 30px;
 }
 
 .radio-item {
-  display: flex;
-  align-items: center; /* 縦中央揃え */
-  gap: 6px;           /* ボタンと文字の間隔 */
-  font-weight: normal; 
+	display: flex;
+	align-items: center;
+	/* 縦中央揃え */
+	gap: 6px;
+	/* ボタンと文字の間隔 */
+	font-weight: normal;
 }
 
 .radio-item span {
-  white-space: nowrap;   /* ←これが超重要 */
-  margin-left: 5px;
+	white-space: nowrap;
+	/* ←これが超重要 */
+	margin-left: 5px;
 }
 
 .form-group textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  resize: vertical;
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	resize: vertical;
 }
 
 button,
@@ -100,5 +113,5 @@ input[type="radio"],
 .radio-item,
 input[type="checkbox"],
 select {
-  cursor: pointer;
+	cursor: pointer;
 }

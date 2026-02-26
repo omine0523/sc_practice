@@ -10,12 +10,12 @@
 
 <body>
 	<h2>書籍削除</h2>
-	
+
 	<!-- フィルターエリア -->
 	<div class="filter-area">
 		<!-- 論理削除が完了した際に削除完了メッセージをcontrollerから受け取り表示する。 -->
-			<div th:if="${deleteMessage}" th:text="${deleteMessage}" class="deleteMessage"></div>
-			
+		<div th:if="${deleteMessage}" th:text="${deleteMessage}" class="deleteMessage"></div>
+
 		<form th:object="${bookQueryForm}" method="get">
 			<!-- ID 入力項目 -->
 			<label>ID：</label>
@@ -65,15 +65,15 @@
 		</thead>
 		<!-- リストの本体部分 -->
 		<tbody>
-			<!-- 検索結果が(resultSearchBook)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
-			<tr th:if="${resultSearchBook != null and #lists.isEmpty(resultSearchBook)}">
+			<!-- 検索結果が(bookList)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
+			<tr th:if="${bookList != null and #lists.isEmpty(bookList)}">
 				<td colspan="6">該当する書籍はありません</td>
 			</tr>
 
 			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
-			<tr th:each="book : ${resultSearchBook}">
+			<tr th:each="book : ${bookList}">
 				<td>
-					<form th:action="@{/books/delete}" method="post">
+					<form th:action="@{/books/delete}" method="post" class="delete-form">
 						<input type="hidden" name="bookId" th:value="${book.bookId}">
 						<button class="delete-btn" type="submit">削除</button>
 					</form>
@@ -87,5 +87,6 @@
 		</tbody>
 	</table>
 </body>
+<script th:src="@{/js/book-delete.js}"></script>
 
 </html>

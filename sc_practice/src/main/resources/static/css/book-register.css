@@ -83,6 +83,17 @@ h2 {
   color: rgb(0, 51, 204);
 }
 
+.errorMessage {
+  margin: 0 0 20px 0;
+  padding: 5px 15px;
+  border: 1px solid rgb(255, 0, 0);
+  background-color: rgb(255, 247, 249);
+  color: rgb(255, 0, 0);
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .form-group {
   margin-bottom: 15px;
 }
@@ -93,7 +104,8 @@ label {
   margin-bottom: 5px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 8px;
   border-radius: 5px;
@@ -128,13 +140,16 @@ input, select {
 
 .radio-item {
   display: flex;
-  align-items: center; /* 縦中央揃え */
-  gap: 6px; /* ボタンと文字の間隔 */
+  align-items: center;
+  /* 縦中央揃え */
+  gap: 6px;
+  /* ボタンと文字の間隔 */
   font-weight: normal;
 }
 
 .radio-item span {
-  white-space: nowrap; /* ←これが超重要 */
+  white-space: nowrap;
+  /* ←これが超重要 */
   margin-left: 5px;
 }
 

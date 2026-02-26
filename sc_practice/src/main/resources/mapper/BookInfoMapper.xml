@@ -40,7 +40,10 @@
 		WHERE is_deleted = 0
 		<!-- 書籍IDが昇順で並ぶようにする -->
 		ORDER BY book_info.id ASC
+		<!-- ページングを実装するために LIMIT（何件取るか） / OFFSET（何軒目から取るか） を設定する -->
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
+
 
 	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
 	<select id="selectBookByConditions" resultMap="BookListViewMap">
@@ -71,11 +74,53 @@
 			</if>
 			
 		</where>
-		
 		<!-- 書籍IDが昇順で並ぶようにする -->
 		ORDER BY book_info.id ASC
-		
+		<!-- ページングを実装するためにLIMIT / OFFSET でページ数と-->
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
+	
+	<!-- 書籍検索 全書籍の件数取得用SQL（ページネーション用） -->
+	<select id="countAllBooks" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			book_info
+		WHERE is_deleted = 0
+	</select>
+	
+	<!-- 書籍検索 指定された検索条件で該当する書籍の件数取得用SQL（ページネーション用） -->
+	<select id="countBookByConditions" resultType="int">
+	    <!-- COUNT関数で件数を取得する -->
+	    SELECT 
+	    	COUNT(*)
+	    FROM 
+	      	book_info
+	    INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
+	    INNER JOIN storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
+	
+	    <where>
+	        AND is_deleted = 0
+	
+	        <if test="bookId != null">
+	            AND book_info.id = #{bookId}
+	        </if>
+	
+	        <if test="bookName != null and bookName != ''">
+	            AND book_info.book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
+	        </if>
+	
+	        <if test="fkGenreId != null">
+	            AND book_info.fk_genre_id = #{fkGenreId}
+	        </if>
+	
+	        <if test="fkStorageLocationId != null">
+	            AND book_info.fk_storage_location_id = #{fkStorageLocationId}
+	        </if>
+	    </where>
+	</select>
+	
+	
 
 
 	<!-- 書籍情報 登録用SQL -->

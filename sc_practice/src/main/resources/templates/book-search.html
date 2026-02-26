@@ -66,13 +66,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- 検索結果が(resultSearchBook)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
-			<tr th:if="${resultSearchBook != null and #lists.isEmpty(resultSearchBook)}">
+			<!-- 検索結果が(bookList)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
+			<tr th:if="${bookList != null and #lists.isEmpty(bookList)}">
 				<td colspan="6">該当する書籍はありません</td>
 			</tr>
 
 			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
-			<tr th:each="book : ${resultSearchBook}">
+			<tr th:each="book : ${bookList}">
 				<td th:text="${book.bookId}">ID</td>
 				<td th:text="${book.bookName}">書籍名</td>
 				<td th:text="${book.genreName}">ジャンル</td>
