@@ -33,7 +33,7 @@ public class BookRegisterForm {
 	/** ステータス（未貸出 / 貸出中） デフォルトで未貸出を設定 */
 	private String status = "未貸出"; 
 	
-	/** 書籍内容 */
+	/** 書籍内容 TODO 空欄、改行がどこかにあると書籍を登録できなくなってしまうため修正予定 */
 	@Size(max = 250, message = "{error.book.summary.max}")
 	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{error.book.summary.not.empty}")
 	private String summary;

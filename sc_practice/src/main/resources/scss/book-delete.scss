@@ -1,7 +1,8 @@
 @use "base.scss";
-@use "table.scss";
 @use "button.scss";
 @use "error.scss";
+@use "list.scss";
+@use "pagination.scss";
 
 h2 {
 	margin-left: 20px;
@@ -39,6 +40,11 @@ h2 {
 
 .delete-btn:hover {
   background-color: rgb(255, 226, 232);
+}
+
+.list-area {
+	width: 90%;
+	margin: 0 auto;
 }
 
 

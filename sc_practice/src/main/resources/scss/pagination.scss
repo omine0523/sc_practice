@@ -1,0 +1,52 @@
+.pagination-area {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+/* pagination は真ん中 */
+.pagination {
+  grid-column: 2;
+  justify-self: center;
+}
+
+/* page-info は右 */
+.page-info {
+  grid-column: 3;
+  justify-self: end;
+  text-align: right;
+}
+
+.pagination ul {
+	display: flex;
+	justify-content: center;
+	/* 横並びにする */
+	list-style: none;
+	/* ・を消す */
+	padding: 0;
+	gap: 8px;
+	/* ボタン間の余白 */
+}
+
+.pagination li {
+	display: inline-block;
+}
+
+.pagination a,
+.pagination span {
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	text-decoration: none;
+	color: #333;
+}
+
+.pagination .active span {
+	background-color: #007bff;
+	color: white;
+	font-weight: bold;
+}
+
+.pagination .disabled span {
+	color: #aaa;
+	border-color: #ddd;
+}

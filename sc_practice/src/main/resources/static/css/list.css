@@ -13,4 +13,9 @@ th {
   background-color: #f0f0f0;
 }
 
-/*# sourceMappingURL=table.css.map */
+.list-area {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=list.css.map */

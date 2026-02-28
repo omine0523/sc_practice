@@ -127,7 +127,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 	    // 総件数 ÷ 1ページあたりの件数 を切り上げして、総ページ数を求める
 	    int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 	    // 一覧取得結果（list）とページ情報をまとめて
-	    // PageResult オブジェクトとして生成し、Controller に返却する
+	    // PageResult オブジェクトとして生成し、Controller に返却する（型推論により<>の中身は省略）
 	    return new PageResult<>(list, page, totalPages, totalCount);
 				
 	}

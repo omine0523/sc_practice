@@ -2,13 +2,14 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.condition.BookQueryCondition;
 import com.example.demo.domain.condition.BookQueryConditionFactory;
+import com.example.demo.dto.view.BookListViewDto;
+import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookDeleteService;
 import com.example.demo.service.BookQueryConditionService;
@@ -44,25 +47,30 @@ public class BookDeleteController {
 	 * 書籍検索画面のオブジェクト使用して削除対象の書籍をDBから一覧で取得し表示する。
 	 * 
 	 * @param  bookQueryForm 画面の検索条件の値を受け取るフォーム
-	 * @param bindingResult @Validated によるバリデーション結果
+	 * @param bindingResult @Valid によるバリデーション結果
 	 * @param model 検索結果やメッセージをビュー渡すモデル
 	 * @return 書籍検索結果を表示する
 	 */
 	@GetMapping("/books/delete")
-	public String showBookDeletePage(@Validated @ModelAttribute BookQueryForm bookQueryForm,
-			BindingResult bindingResult, Model model) {
+	public String showBookDeletePage(@Valid @ModelAttribute BookQueryForm bookQueryForm,
+			BindingResult bindingResult, @RequestParam(defaultValue = "1") int page, Model model) {
 
 		// 検索条件の選択肢を取得
 		// ジャンル・置き場所をテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
 		model.addAttribute("genres", bookQueryConditionService.findAllGenres());
 		model.addAttribute("storageLocations", bookQueryConditionService.findAllStorageLocations());
 
+		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
+		PageResult<BookListViewDto> result = null;
+
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {
 			// 検索欄下部に検索条件の入力を促す案内メッセージを表示する。
-			model.addAttribute("infoMessage", messageSource.getMessage("delete.book.search.info", null, Locale.JAPAN));
-			// 検索条件が未指定で書籍情報を検索し、テーブル登録されている全ての書籍一覧をモデルに設定し一覧表示する。
-			model.addAttribute("bookList", bookQueryService.findAllBook());
+			model.addAttribute("infoMessage",
+					messageSource.getMessage("search.book.condition.required", null, Locale.JAPAN));
+
+			// ページ情報を引数に検索条件が未指定の状態で表示する書籍情報の一覧とページング情報を取得する。
+			result = bookQueryService.findAllBook(page);
 
 			// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
 			// 不備がある場合はエラーメッセージを検索条件下部に表示する。
@@ -71,9 +79,17 @@ public class BookDeleteController {
 			// 画面で入力した検索条件（変換した書籍ID、ジャンル、置き場所）を引数として
 			// 業務ロジック・DB検索等で使用できるように正規化・数値化し検索条件オブジェクトを生成する。
 			BookQueryCondition condition = bookQueryConditionFactory.createCondition(bookQueryForm);
-			// 検索条件をもとに書籍情報を検索し、検索結果一覧をモデルに設定し一覧表示する。
-			model.addAttribute("bookList", bookQueryService.findBookByConditions(condition));
+
+			// ページ情報を引数にして、検索条件をもとに表示する書籍情報の一覧とページング情報を取得する。
+			result = bookQueryService.findBookByConditions(condition, page);
 		}
+
+		// 取得したページング情報と書籍一覧をモデルに設定する。
+		if (result != null) {
+			model.addAttribute("bookList", result.getList()); // 書籍一覧をモデルに詰める
+			model.addAttribute("pageResult", result); // ページングの情報を詰める
+		}
+		
 		// 書籍削除画面を表示する
 		return "book-delete";
 	}
@@ -90,7 +106,7 @@ public class BookDeleteController {
 
 		// 対象の書籍IDに紐づく書籍情報を論理削除する処理を呼び出し、実行結果を取得する。
 		bookDeleteService.logicalDeleteBook(bookId);
-		
+
 		// リダイレクト後の画面で削除完了メッセージを表示するため一時的にオブジェクトに保持して画面に渡す。
 		redirectAttributes.addFlashAttribute("deleteMessage",
 				messageSource.getMessage("book.delete.complete", null, Locale.JAPAN));
