@@ -27,7 +27,6 @@ import com.example.demo.service.BookQueryService;
  */
 @Controller
 public class BookSearchController {
-
 	@Autowired
 	private BookQueryConditionService bookQueryConditionService;
 	@Autowired
@@ -36,15 +35,11 @@ public class BookSearchController {
 	private BookQueryConditionFactory bookQueryConditionFactory;
 	@Autowired
 	private MessageSource messageSource;
-
 	/**
 	 *  検索条件が入力・選択されている場合に書籍検索を行う。
-	 *  <p>
-	 *  検索条件が未指定の場合は案内メッセージを表示し、全件取得した書籍情報を一覧に表示する。
+	 *  <p>検索条件が未指定の場合は案内メッセージを表示し、全件取得した書籍情報を一覧に表示する。
 	 *  検索条件に不備がある場合はバリデーションエラーメッセージを検索条件下部に表示する。
-	 *  該当する検索情報が存在しない場合は、
-	 *  テンプレートで「該当なし」メッセージを一覧に表示する。
-	 *  
+	 *  該当する検索情報が存在しない場合は、テンプレートで「該当なし」メッセージを一覧に表示する。</p>
 	 *  @param  bookQueryForm 画面の検索条件の値を受け取るフォーム
 	 *  @param bindingResult @Valid によるバリデーション結果
 	 *  @param page 画面から受け取ったページングの情報
@@ -72,8 +67,8 @@ public class BookSearchController {
 			// ページ情報を引数に検索条件が未指定の状態で表示する書籍情報の一覧とページング情報を取得する。
 			result = bookQueryService.findAllBook(page);
 
-			// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
-			// 不備がある場合はエラーメッセージを検索条件下部に表示する。
+		// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
+		// 不備がある場合はエラーメッセージを検索条件下部に表示する。
 		} else if (!unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {
 			
 			// 画面で入力した検索条件（変換した書籍ID、ジャンル、置き場所）を引数として
