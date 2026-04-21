@@ -84,9 +84,9 @@
 		</table>
 
 		<!-- ページネーション関連 -->
-		<div class="pagination-area" th:with="form=${bookQueryForm}">
+		<div class="pagination-area" th:if="${pageResult != null}" th:with="form=${bookQueryForm}">
 			<!-- ページリンク -->
-			<nav class="pagination" th:if="${pageResult != null}">
+			<nav class="pagination">
 				<ul>
 					<!-- 前へ -->
 					<li th:classappend="${pageResult.currentPage == 1} ? 'disabled'">
@@ -94,9 +94,9 @@
 							th:href="@{/books/search(
 								page=${pageResult.currentPage - 1},
 								bookId=${form.bookId},
-						    	bookName=${form.bookName},
-						    	genreId=${form.genreId},
-						    	storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 							)}">
 							前へ
 						</a>
@@ -104,7 +104,7 @@
 					</li>
 					<!-- ページ番号（最大5個表示） -->
 					<th:block th:with="start=${T(java.lang.Math).max(1, pageResult.currentPage - 2)},
-		    			  end=${T(java.lang.Math).min(pageResult.totalPages, pageResult.currentPage + 2)}">
+						end=${T(java.lang.Math).min(pageResult.totalPages, pageResult.currentPage + 2)}">
 						<!-- 前の省略 -->
 						<li th:if="${start > 1}">
 							<span>…</span>
@@ -112,15 +112,15 @@
 						<!-- ページ番号 -->
 						<li th:each="i : ${#numbers.sequence(start, end)}"
 							th:classappend="${i == pageResult.currentPage} ? 'active'">
-							<a th:if="${i != pageResult.currentPage}" 
-							   th:href="@{/books/search(
+							<a th:if="${i != pageResult.currentPage}"
+								th:href="@{/books/search(
 								page=${i},
 								bookId=${form.bookId},
-							    bookName=${form.bookName},
-							    genreId=${form.genreId},
-							    storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 								)}"
-							   th:text="${i}"></a>
+								th:text="${i}"></a>
 							<span th:if="${i == pageResult.currentPage}" th:text="${i}"></span>
 						</li>
 						<!-- 後の省略 -->
@@ -134,9 +134,9 @@
 							th:href="@{/books/search(
 								page=${pageResult.currentPage + 1},
 								bookId=${form.bookId},
-							    bookName=${form.bookName},
-							    genreId=${form.genreId},
-							    storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 							)}">
 							次へ
 						</a>
@@ -150,8 +150,8 @@
 				<span th:text="'全 ' + ${pageResult.totalCount} + '件中 ' 
 			    + ${(pageResult.currentPage - 1) * 10 + 1} + '〜' 
 			    + ${T(java.lang.Math).min(pageResult.currentPage * 10, pageResult.totalCount)} 
-			    + '件を表示（' 
-			    + ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
+				+ '件を表示（' 
+				+ ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
 				</span>
 			</div>
 		</div>

@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,8 @@ import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookQueryService;
+
+import jakarta.validation.Valid;
 
 /**
  * 書籍検索画面で指定された検索条件に応じて書籍検索結果の表示内容を制御するクラス
@@ -58,33 +58,32 @@ public class BookSearchController {
 		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
 		PageResult<BookListViewDto> result = null;
 		
+		if (bindingResult.hasErrors()) {
+        // バリデーションエラー時は空リストとnullページ情報をセットし、エラーメッセージを検索条件下部に表示する。
+        model.addAttribute("bookList", null);
+        model.addAttribute("pageResult", null);
+        return "book-search";
+    }
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
-		if (unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {
+		if (unSpecifiedConditions(bookQueryForm)) {
 			// 検索欄下部に検索条件の入力を促す案内メッセージを表示する。
 			model.addAttribute("infoMessage",
-					messageSource.getMessage("search.book.condition.required", null, Locale.JAPAN));
-			
-			// ページ情報を引数に検索条件が未指定の状態で表示する書籍情報の一覧とページング情報を取得する。
+				messageSource.getMessage("search.book.condition.required", null, Locale.JAPAN));
+				// ページ情報を引数に検索条件が未指定の状態で表示する書籍情報の一覧とページング情報を取得する。
 			result = bookQueryService.findAllBook(page);
-
-		// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返し、
-		// 不備がある場合はエラーメッセージを検索条件下部に表示する。
-		} else if (!unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {
-			
+		// 検索条件が指定されており、かつバリデーションエラーがない場合は検索結果を返す。
+		} else {
 			// 画面で入力した検索条件（変換した書籍ID、ジャンル、置き場所）を引数として
 			// 業務ロジック・DB検索等で使用できるように正規化・数値化し検索条件オブジェクトを生成する。
 			BookQueryCondition condition = bookQueryConditionFactory.createCondition(bookQueryForm);
-			
 			// ページ情報を引数にして、検索条件をもとに表示する書籍情報の一覧とページング情報を取得する。
 			result = bookQueryService.findBookByConditions(condition, page);
 		}
-		
 		// 取得したページング情報と書籍一覧をモデルに設定する。
 		if (result != null) {
 		    model.addAttribute("bookList", result.getList()); // 書籍一覧をモデルに詰める
 		    model.addAttribute("pageResult", result); // ページングの情報を詰める
 		}
-		
 		// 書籍検索画面を表示する。
 		return "book-search";
 	}

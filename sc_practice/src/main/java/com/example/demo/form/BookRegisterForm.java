@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 import lombok.Data;
 /**
  * 書籍登録画面で入力された値をバインドするformクラス。
@@ -33,8 +32,8 @@ public class BookRegisterForm {
 	/** ステータス（未貸出 / 貸出中） デフォルトで未貸出を設定 */
 	private String status = "未貸出"; 
 	
-	/** 書籍内容 TODO 空欄、改行がどこかにあると書籍を登録できなくなってしまうため修正予定 */
+	/** 書籍内容 */
 	@Size(max = 250, message = "{error.book.summary.max}")
-	@Pattern(regexp = "^$|.*[^\\s　].*", message = "{error.book.summary.not.empty}")
+	@Pattern(regexp = "(?s).*[^\\s　].*", message = "{error.book.summary.not.empty}")
 	private String summary;
 }

@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -30,7 +31,7 @@ public class TransactionConfig {
 	 * @return トランザクション管理を行う
 	 */
 	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+	public PlatformTransactionManager transactionManager(@NonNull DataSource dataSource) {
 
 		// MyBatis向けのトランザクションマネージャを用意する。
 		DataSourceTransactionManager txManager = new DataSourceTransactionManager(dataSource);
