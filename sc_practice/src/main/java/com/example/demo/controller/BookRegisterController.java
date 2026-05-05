@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -12,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dto.converter.BookRegisterConverter;
@@ -20,10 +19,13 @@ import com.example.demo.form.BookRegisterForm;
 import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookRegisterService;
 
+import jakarta.validation.Valid;
+
 /**
  * 書籍登録画面にてフォームを表示し入力された書籍情報に登理処理を行う クラス
  */
 @Controller
+@RequestMapping("/books")
 public class BookRegisterController {
 	@Autowired
 	private BookQueryConditionService bookSearchConditionService;
@@ -39,7 +41,7 @@ public class BookRegisterController {
 	 * @param model テーブルから取得した選択肢やメッセージをビュー渡すモデル
 	 * @return 書籍登録を行うフォームを表示する。
 	 */
-	@GetMapping("/books/register")
+	@GetMapping("/register")
 	public String showBookRegisterPage(@ModelAttribute BookRegisterForm bookRegisterForm, Model model) {
 		// 入力フォームを初期化する。
 		model.addAttribute("bookRegisterForm", new BookRegisterForm());
@@ -59,7 +61,7 @@ public class BookRegisterController {
 	 * @param model テーブルから取得した選択肢やメッセージをビュー渡すモデル
 	 * @return 書籍登録後の結果を表示する。
 	 */
-	@PostMapping("/books/register")
+	@PostMapping("/register")
 	public String registerBook(@Valid @ModelAttribute BookRegisterForm bookRegisterForm,
 			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
 		// ジャンル・置き場所を選択肢を各マスタから取得してモデルに設定し反映する。

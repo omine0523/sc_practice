@@ -2,8 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -13,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,11 +24,14 @@ import com.example.demo.service.BookDeleteService;
 import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookQueryService;
 
+import jakarta.validation.Valid;
+
 /**
  * 書籍情報を一覧で表示し、選択した書籍の削除処理を行う Controller クラス
  * 書籍検索画面と同様に検索条件で検索することが可能。
  */
 @Controller
+@RequestMapping("/books")
 public class BookDeleteController {
 
 	@Autowired
@@ -51,7 +53,7 @@ public class BookDeleteController {
 	 * @param model 検索結果やメッセージをビュー渡すモデル
 	 * @return 書籍検索結果を表示する
 	 */
-	@GetMapping("/books/delete")
+	@GetMapping("/delete")
 	public String showBookDeletePage(@Valid @ModelAttribute BookQueryForm bookQueryForm,
 			BindingResult bindingResult, @RequestParam(defaultValue = "1") int page, Model model) {
 
@@ -101,7 +103,7 @@ public class BookDeleteController {
 	 * @param redirectAttributes リダイレクト後の画面に表示するメッセージ等を一時的に保持するためのオブジェクト
 	 * @return 削除結果（論理削除）を画面に表示する
 	 */
-	@PostMapping("/books/delete")
+	@PostMapping("/delete")
 	public String deleteBook(@RequestParam Integer bookId, RedirectAttributes redirectAttributes) {
 
 		// 対象の書籍IDに紐づく書籍情報を論理削除する処理を呼び出し、実行結果を取得する。

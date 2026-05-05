@@ -15,15 +15,15 @@
 	<div class="filter-area">
 		<form th:object="${bookQueryForm}" method="get">
 			<!-- 検索条件：書籍ID指定 -->
-			<label>書籍ID：</label>
+			<label for="bookId">書籍ID：</label>
 			<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 
 			<!-- 検索条件：書籍名指定 -->
-			<label>書籍名：</label>
+			<label for="bookName">書籍名：</label>
 			<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
 
 			<!-- 検索条件：ジャンル指定 -->
-			<label>ジャンル：</label>
+			<label for="genreId">ジャンル：</label>
 			<select th:field="*{genreId}">
 				<option value="">-- 全て --</option>
 				<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
@@ -31,7 +31,7 @@
 			</select>
 
 			<!-- 検索条件：置き場所指定 -->
-			<label>置き場所：</label>
+			<label for="storageLocationId">置き場所：</label>
 			<select th:field="*{storageLocationId}">
 				<option value="">-- 全て --</option>
 				<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
@@ -44,8 +44,8 @@
 			<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
 			<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
-			<div th:errors="*{bookId}" class="error"></div>
-			<div th:errors="*{bookName}" class="error"></div>
+			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
+			<div th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}" class="error"></div>
 		</form>
 		<br>
 	</div>

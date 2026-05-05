@@ -18,20 +18,20 @@
 
 		<form th:object="${bookQueryForm}" method="get">
 			<!-- ID 入力項目 -->
-			<label>ID：</label>
+			<label for="bookId">ID：</label>
 			<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 			<!-- 書籍名 入力項目 -->
-			<label>書籍名：</label>
+			<label for="bookName">書籍名：</label>
 			<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
 			<!-- ジャンル セレクトボタン -->
-			<label>ジャンル：</label>
+			<label for="genreId">ジャンル：</label>
 			<select th:field="*{genreId}">
 				<option value="">-- 全て --</option>
 				<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
 				</option>
 			</select>
 			<!-- 置き場所 セレクトボタン -->
-			<label>置き場所：</label>
+			<label for="storageLocationId">置き場所：</label>
 			<select th:field="*{storageLocationId}">
 				<option value="">-- 全て --</option>
 				<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
@@ -44,8 +44,8 @@
 			<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
 			<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
 			<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
-			<div th:errors="*{bookId}" class="error"></div>
-			<div th:errors="*{bookName}" class="error"></div>
+			<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
+			<div th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}" class="error"></div>
 		</form>
 		<br>
 	</div>
@@ -99,9 +99,9 @@
 							th:href="@{/books/delete(
 								page=${pageResult.currentPage - 1},
 								bookId=${form.bookId},
-						    	bookName=${form.bookName},
-						    	genreId=${form.genreId},
-						    	storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 							)}">
 							前へ
 						</a>
@@ -109,7 +109,7 @@
 					</li>
 					<!-- ページ番号（最大5個表示） -->
 					<th:block th:with="start=${T(java.lang.Math).max(1, pageResult.currentPage - 2)},
-		    			  end=${T(java.lang.Math).min(pageResult.totalPages, pageResult.currentPage + 2)}">
+						end=${T(java.lang.Math).min(pageResult.totalPages, pageResult.currentPage + 2)}">
 						<!-- 前の省略 -->
 						<li th:if="${start > 1}">
 							<span>…</span>
@@ -117,15 +117,15 @@
 						<!-- ページ番号 -->
 						<li th:each="i : ${#numbers.sequence(start, end)}"
 							th:classappend="${i == pageResult.currentPage} ? 'active'">
-							<a th:if="${i != pageResult.currentPage}" 
-							   th:href="@{/books/delete(
+							<a th:if="${i != pageResult.currentPage}"
+								th:href="@{/books/delete(
 								page=${i},
 								bookId=${form.bookId},
-							    bookName=${form.bookName},
-							    genreId=${form.genreId},
-							    storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 								)}"
-							   th:text="${i}"></a>
+							th:text="${i}"></a>
 							<span th:if="${i == pageResult.currentPage}" th:text="${i}"></span>
 						</li>
 						<!-- 後の省略 -->
@@ -139,9 +139,9 @@
 							th:href="@{/books/delete(
 								page=${pageResult.currentPage + 1},
 								bookId=${form.bookId},
-							    bookName=${form.bookName},
-							    genreId=${form.genreId},
-							    storageLocationId=${form.storageLocationId}
+								bookName=${form.bookName},
+								genreId=${form.genreId},
+								storageLocationId=${form.storageLocationId}
 							)}">
 							次へ
 						</a>
@@ -155,8 +155,8 @@
 				<span th:text="'全 ' + ${pageResult.totalCount} + '件中 ' 
 			    + ${(pageResult.currentPage - 1) * 10 + 1} + '〜' 
 			    + ${T(java.lang.Math).min(pageResult.currentPage * 10, pageResult.totalCount)} 
-			    + '件を表示（' 
-			    + ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
+				+ '件を表示（' 
+				+ ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
 				</span>
 			</div>
 		</div>

@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.condition.BookQueryCondition;
@@ -26,6 +27,7 @@ import jakarta.validation.Valid;
  * 書籍検索画面で指定された検索条件に応じて書籍検索結果の表示内容を制御するクラス
  */
 @Controller
+@RequestMapping("/books")
 public class BookSearchController {
 	@Autowired
 	private BookQueryConditionService bookQueryConditionService;
@@ -46,9 +48,9 @@ public class BookSearchController {
 	 *  @param model 検索結果やメッセージをビュー渡すモデル
 	 *  @return 書籍検索結果を表示する
 	 */
-	@GetMapping("/books/search")
+	@GetMapping("/search")
 	public String showBookSearchPage(@Valid @ModelAttribute BookQueryForm bookQueryForm,
-			BindingResult bindingResult, @RequestParam(defaultValue = "1") int page, Model model) {
+		BindingResult bindingResult, @RequestParam(defaultValue = "1") int page, Model model) {
 		
 		// 検索条件の選択肢を取得
 		// ジャンル・置き場所をテーブルから取得してモデルに設定し、セレクトボタン内の選択肢に反映する
@@ -63,7 +65,7 @@ public class BookSearchController {
         model.addAttribute("bookList", null);
         model.addAttribute("pageResult", null);
         return "book-search";
-    }
+		}
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookQueryForm)) {
 			// 検索欄下部に検索条件の入力を促す案内メッセージを表示する。

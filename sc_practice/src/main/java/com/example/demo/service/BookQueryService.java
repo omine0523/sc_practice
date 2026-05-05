@@ -5,7 +5,7 @@ import com.example.demo.dto.view.BookListViewDto;
 import com.example.demo.dto.view.PageResult;
 
 /** 
- * Controllerから受け取った検索条件を用いて書籍情報を検索する インターフェース
+ * Controllerから受け取った検索条件を用いて一覧に表示する書籍情報を検索する インターフェース
  * 
  */
 public interface BookQueryService {

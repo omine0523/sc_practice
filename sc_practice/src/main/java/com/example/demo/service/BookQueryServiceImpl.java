@@ -15,8 +15,8 @@ import com.example.demo.mapper.BookInfoMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /** 
- * Controllerから受け取った検索条件を用いて書籍情報を検索する 実装クラス
- *
+ * Controllerから受け取った検索条件を用いて一覧に表示する書籍情報を検索する 実装クラス
+ * 
  */
 @Slf4j
 @Transactional(isolation = Isolation.REPEATABLE_READ)
