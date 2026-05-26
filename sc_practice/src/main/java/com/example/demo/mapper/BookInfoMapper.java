@@ -11,7 +11,7 @@ import com.example.demo.dto.view.BookListViewDto;
 /**
  *  BookInfoMapper インターフェース
  *  メソッド名をキーとして、BookInfoMapper.xmlに定義されたSQLを実行する
- * 
+ *
  * @param bookId 書籍番号
  * @return 書籍情報一覧を取得して返却する
  */
@@ -26,7 +26,7 @@ public interface BookInfoMapper {
 	
 	/**
 	 * 検索条件と一致している書籍情報を一覧でページネーションごとに取得する。
-	 * 
+	 *
 	 * @param bookId 書籍ID
 	 * @param bookName 書籍名
 	 * @param genreId ジャンルID
@@ -36,13 +36,13 @@ public interface BookInfoMapper {
 	 * @return 検索条件を満たす書籍情報一覧
 	 */
 	List<BookListViewDto> selectBookByConditions(
-			@Param("bookId") Integer bookId, 
+			@Param("bookId") Integer bookId,
 			@Param("bookName") String bookName,
-	        @Param("fkGenreId") Integer fkGenreId,
-	        @Param("fkStorageLocationId") Integer fkStorageLocationId,
-	        int pageSize,
-	        int offset
-	        );
+			@Param("fkGenreId") Integer fkGenreId,
+			@Param("fkStorageLocationId") Integer fkStorageLocationId,
+			@Param("pageSize") int pageSize,
+			@Param("offset") int offset
+			);
 	
 	
 	/**
@@ -63,16 +63,16 @@ public interface BookInfoMapper {
 	 * @return 書籍情報件数の取得結果
 	 */
 	int countBookByConditions(
-			@Param("bookId") Integer bookId, 
+			@Param("bookId") Integer bookId,
 			@Param("bookName") String bookName,
-	        @Param("fkGenreId") Integer fkGenreId,
-	        @Param("fkStorageLocationId") Integer fkStorageLocationId
-		    );
+			@Param("fkGenreId") Integer fkGenreId,
+			@Param("fkStorageLocationId") Integer fkStorageLocationId
+			);
 	
 	
 	/**
 	 * 画面で入力した書籍情報をDBに登録する。
-	 * 
+	 *
 	 * @param requestDto 登録用のDTO
 	 */
 	void insertBook(BookRegisterRequestDto requestDto);
@@ -80,9 +80,9 @@ public interface BookInfoMapper {
 	
 	/**
 	 * 登録されている書籍情報の削除フラグをtrueにして書籍一覧から非表示にする。
-	 * 
+	 *
 	 * @param bookId 一覧で表示されている削除対象の書籍ID
-	 * @return 
+	 * @return
 	 */
 	int logicalDeleteBook(Integer bookId);
 }

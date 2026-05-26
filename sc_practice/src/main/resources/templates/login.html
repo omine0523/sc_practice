@@ -3,24 +3,24 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>ログイン | Library Management System</title>
 	<!-- style -->
-	<link rel="stylesheet" th:href="@{/css/menu.css}">
+	<link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 
 <body>
 	<div class="container">
 		<h2>Library Management System APP</h2>
 		<!-- 入力項目欄 -->
-		<form th:object="${loginForm}" method="post">
+		<form th:action="@{/login}" th:object="${loginForm}" method="post">
 			<!-- Spring Securityの認証失敗時のエラーメッセージ -->
 			<div th:if="${param.error}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div>
-			<!-- ログイン失敗時のエラーメッセージ -->
-			<div th:if="${#fields.hasAnyErrors()}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div>
+			<!-- ログイン失敗時のエラーメッセージ
+			<div th:if="${#fields.hasAnyErrors()}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div> -->
 			<!-- ユーザーネームの入力項目 -->
 			<div class="input-group">
-				<label for="userName">ユーザーネーム:</label>
-				<input type="text" th:field="*{userName}" placeholder="32文字以内の英数字で入力してください">
+				<label for="username">ユーザーネーム:</label>
+				<input type="text" th:field="*{username}" placeholder="32文字以内の英数字で入力してください">
 			</div>
 			<!-- パスワードの入力項目 -->
 			<div class="input-group">

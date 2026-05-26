@@ -6,22 +6,20 @@
 <mapper namespace="com.example.demo.mapper.GenreMapper">
 
 	<!-- GenreエンティティとDBカラムのマッピング定義をする -->
-	<resultMap id="GenreResultMap"
-		type="com.example.demo.entity.Genre">
-		<id column="genre_id" jdbcType="INTEGER" property="genreId" />
-		<result column="genre_name" jdbcType="VARCHAR"
-			property="genreName" />
+	<resultMap id="GenreResultMap" type="com.example.demo.entity.Genre">
+		<id column="genre_id" property="genreId" />
+		<result column="genre_name" property="genreName" />
 	</resultMap>
 	
 	<!-- 検索条件：ジャンルの選択肢取得用SQL（セレクトボタンの選択して活用を目的とする） -->
 	<select id="selectAllGenres" resultMap="GenreResultMap">
 	 /* マスタ取得：ジャンル一覧 */
-        SELECT 
-        	  genre_id
-        	, genre_name 
-        FROM 
-        	genre
-        ORDER BY genre_id
+	SELECT
+		genre_id
+	  , genre_name
+	FROM
+		genre
+	ORDER BY genre_id
     </select>
     
 </mapper>

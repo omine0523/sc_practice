@@ -13,7 +13,7 @@ public class LoginForm {
     @NotNull(message = "{error.user.name.required}")
     @Size(max = 32, message = "{error.user.name.max}")
     @Pattern(regexp = "^[a-zA-Z0-9]{1,32}$", message = "{error.user.name.alphanumeric.only}")
-    private String userName;
+    private String username;
     /** パスワード */
     @NotNull(message = "{error.user.password.required}")
     @Size(min = 8, max = 32, message = "{error.user.password.length}")
