@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.example.demo.form.LoginForm;
 
 /**
- * 書籍管理システムの画面遷移先ボタンを表示するクラス
+ * 書籍管理システムログイン画面の表示を制御するクラス
+ * ログイン処理自体はSpring Securityの機能を使用しているため、
+ * このクラスではログイン画面の表示のみを担当する
  */
 @Controller
 public class LoginController {

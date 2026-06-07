@@ -30,7 +30,7 @@ public class ServiceLoggingAspect {
      */
     @Around("execution(* com.example.demo.service..*(..))")
     public Object logServiceExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
-    	
+
     	// メソッドシグネチャ（クラス名.メソッド名）とを文字列にする
         String methodName = pjp.getSignature().toShortString();
         // メソッド開始をログ出力する
@@ -44,17 +44,17 @@ public class ServiceLoggingAspect {
             return pjp.proceed();
             
         } finally {
-        	// メソッド終了後（例外発生時も）必ず実行する。	
+        	// メソッド終了後（例外発生時も）必ず実行する。
         	// 処理にかかった時間を算出する。
-        	long time = System.currentTimeMillis() - start;      
-        	
+            long time = System.currentTimeMillis() - start;
+
             // ログ出力レベルがDEBUGで設定されている場合、メソッド内で使用された引数の値を出力する
             if (log.isDebugEnabled()) {
                 log.debug("args={}", Arrays.toString(pjp.getArgs()));
             }
             
             // メソッド終了を出力し処理時間をログ出力する。
-            log.info("【SERVICE END】 {} executed in time={}ms", methodName, time);           
+            log.info("【SERVICE END】 {} executed in time={}ms", methodName, time);
         }
     }
 }

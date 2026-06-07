@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
+</head>
+<body>
+    <!-- サイドバーの定義。引数 activePage で現在の画面を受け取る -->
+    <aside th:fragment="layout-sidebar(activePage)" 
+            th:with="currentPage=${activePage ?: 'none'}" 
+            class="sidebar">
+        <div class="sidebar-header">
+            LIBRARY SYSTEM
+        </div>
+        <nav>
+            <ul>
+                <!-- 全画面共通のリンク -->
+                <li>
+                    <a th:href="@{/books/menu}" th:classappend="${currentPage == 'menu' ? 'active' : ''}">🏠 メインメニュー</a>
+                </li>
+                <li>
+                    <a th:href="@{/books/search}" th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">🔍 書籍検索</a>
+                </li>
+
+                <!-- 特定の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
+                <li th:if="${currentPage == 'bookSearch' || currentPage == 'bookRegister'}">
+                    <a th:href="@{/books/register}" th:classappend="${currentPage == 'bookRegister' ? 'active' : ''}">➕ 新規書籍登録</a>
+                </li>
+
+                <!-- 管理者ロールを持つユーザーのみに表示（SecurityContextを利用） -->
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/settings}">⚙️ システム設定</a>
+                </li>
+                
+                <li>
+                    <form th:action="@{/logout}" method="post" id="logoutForm">
+                        <button type="submit" class="logout-link">🚪 ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</body>
+</html>

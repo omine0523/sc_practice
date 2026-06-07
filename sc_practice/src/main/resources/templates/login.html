@@ -15,8 +15,6 @@
 		<form th:action="@{/login}" th:object="${loginForm}" method="post">
 			<!-- Spring Securityの認証失敗時のエラーメッセージ -->
 			<div th:if="${param.error}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div>
-			<!-- ログイン失敗時のエラーメッセージ
-			<div th:if="${#fields.hasAnyErrors()}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div> -->
 			<!-- ユーザーネームの入力項目 -->
 			<div class="input-group">
 				<label for="username">ユーザーネーム:</label>

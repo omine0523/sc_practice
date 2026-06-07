@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * ユーザーネームをキーにユーザー情報をDBから取得し、
-     * Spring Securityが理解できるUserDetailsオブジェクトに詰め替えて返す
+     * Spring SecurityのUserDetailsオブジェクトに詰め替えて返す
      * @param username ユーザーネーム
      * @throws UsernameNotFoundException ユーザーが見つからなかった場合の例外
      * @return ユーザー情報

@@ -43,7 +43,7 @@ public class SecurityConfig {
                 )
                 // ログアウトの設定
                 .logout(logout -> logout
-                .logoutUrl("/logout") // ログアウト処理のパス
+                .logoutUrl("/logout") // ログアウト処理のパス（POSTでのみ受け付ける）
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true) // セッションを無効化
                 .deleteCookies("JSESSIONID") // クッキーを削除
