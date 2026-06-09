@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 // ログインページは全てのユーザーがアクセス可能
                 .requestMatchers("/login").permitAll()
+                // 管理者用パス（/admin/で始まる全てのURL）へのアクセス制限
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 )
                 // フォームログインの設定

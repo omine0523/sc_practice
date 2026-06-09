@@ -14,17 +14,22 @@
         </div>
         <nav>
             <ul>
+                <!-- ログインしている時だけ、ユーザー名や権限を表示する -->
+                <li class="sidebar-login-info" sec:authorize="isAuthenticated()">
+                    ログイン中： <span sec:authentication="principal.displayName"></span><br>
+                    権限： <span th:text="${#authentication.principal.checkRoleLabel()}"></span>
+                </li>
+
                 <!-- 全画面共通のリンク -->
                 <li>
                     <a th:href="@{/books/menu}" th:classappend="${currentPage == 'menu' ? 'active' : ''}">🏠 メインメニュー</a>
                 </li>
-                <li>
-                    <a th:href="@{/books/search}" th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">🔍 書籍検索</a>
-                </li>
 
                 <!-- 特定の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
-                <li th:if="${currentPage == 'bookSearch' || currentPage == 'bookRegister'}">
+                <li th:if="${currentPage == 'bookSearch' || currentPage == 'bookRegister' || currentPage == 'bookDelete'}">
+                    <a th:href="@{/books/search}" th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">🔍 書籍検索</a>
                     <a th:href="@{/books/register}" th:classappend="${currentPage == 'bookRegister' ? 'active' : ''}">➕ 新規書籍登録</a>
+                    <a th:href="@{/books/delete}" th:classappend="${currentPage == 'bookDelete' ? 'active' : ''}">🗑️ 書籍削除</a>
                 </li>
 
                 <!-- 管理者ロールを持つユーザーのみに表示（SecurityContextを利用） -->

@@ -1,6 +1,5 @@
 package com.example.demo.common.config.security;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,11 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found: " + username);
         }
 
-        // Spring Securityが理解できる UserDetails オブジェクトに詰め替えて返す
-        return User.withUsername(userInfo.getUserName())
-                .password(userInfo.getPassword())
-                .authorities(userInfo.getRole())
-                .disabled(!userInfo.getIsActive())
-                .build();
+        // 独自の LoginUser オブジェクトに詰め替えて返す
+        return new LoginUser(userInfo);
     }
 }
