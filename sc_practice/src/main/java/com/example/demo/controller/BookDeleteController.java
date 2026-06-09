@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
  * 書籍検索画面と同様に検索条件で検索することが可能。
  */
 @Controller
-@RequestMapping("/books")
+@RequestMapping("/admin/books")
 public class BookDeleteController {
 
 	@Autowired
@@ -113,7 +113,7 @@ public class BookDeleteController {
 		redirectAttributes.addFlashAttribute("deleteMessage",
 				messageSource.getMessage("book.delete.complete", null, Locale.JAPAN));
 		// 削除結果を画面に表示する。
-		return "redirect:/books/delete";
+		return "redirect:/admin/books/delete";
 	}
 
 	/**

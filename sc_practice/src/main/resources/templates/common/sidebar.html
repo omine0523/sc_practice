@@ -10,7 +10,7 @@
             th:with="currentPage=${activePage ?: 'none'}" 
             class="sidebar">
         <div class="sidebar-header">
-            LIBRARY SYSTEM
+            Library Management System
         </div>
         <nav>
             <ul>
@@ -26,10 +26,24 @@
                 </li>
 
                 <!-- 特定の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
-                <li th:if="${currentPage == 'bookSearch' || currentPage == 'bookRegister' || currentPage == 'bookDelete'}">
-                    <a th:href="@{/books/search}" th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">🔍 書籍検索</a>
-                    <a th:href="@{/books/register}" th:classappend="${currentPage == 'bookRegister' ? 'active' : ''}">➕ 新規書籍登録</a>
-                    <a th:href="@{/books/delete}" th:classappend="${currentPage == 'bookDelete' ? 'active' : ''}">🗑️ 書籍削除</a>
+                <li th:if="${currentPage == 'bookSearch' 
+                    || currentPage == 'bookRegister' 
+                    || currentPage == 'bookDelete'}">
+                    
+                    <a th:href="@{/books/search}" 
+                        th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">
+                        🔍 書籍検索
+                    </a>
+                    <a th:href="@{/admin/books/register}" 
+                        th:classappend="${currentPage == 'bookRegister' ? 'active' : ''}" 
+                        sec:authorize="hasRole('ADMIN')">
+                        ➕ 新規書籍登録
+                    </a>
+                    <a th:href="@{/admin/books/delete}" 
+                        th:classappend="${currentPage == 'bookDelete' ? 'active' : ''}" 
+                        sec:authorize="hasRole('ADMIN')">
+                        🗑️ 書籍削除
+                    </a>
                 </li>
 
                 <!-- 管理者ロールを持つユーザーのみに表示（SecurityContextを利用） -->

@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
  * 書籍登録画面にてフォームを表示し入力された書籍情報に登理処理を行う クラス
  */
 @Controller
-@RequestMapping("/books")
+@RequestMapping("/admin/books")
 public class BookRegisterController {
 
     @Autowired
@@ -79,7 +79,7 @@ public class BookRegisterController {
             redirectAttributes.addFlashAttribute("successMessage",
                     messageSource.getMessage("book.register.success", null, Locale.JAPAN));
             // 書籍登録処理結果を返却し登録画面を再度表示する。
-            return "redirect:/books/register";
+            return "redirect:/admin/books/register";
         }
 
         // エラー内容を記載して書籍登録画面を表示する。

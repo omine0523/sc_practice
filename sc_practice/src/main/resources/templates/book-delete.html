@@ -80,7 +80,7 @@
 					<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
 					<tr th:each="book : ${bookList}">
 						<td>
-							<form th:action="@{/books/delete}" method="post" class="delete-form">
+							<form th:action="@{/admin/books/delete}" method="post" class="delete-form">
 								<input type="hidden" name="bookId" th:value="${book.bookId}">
 								<button class="delete-btn" type="submit">削除</button>
 							</form>
@@ -102,7 +102,7 @@
 						<!-- 前へ -->
 						<li th:classappend="${pageResult.currentPage == 1} ? 'disabled'">
 							<a th:if="${pageResult.currentPage > 1}"
-								th:href="@{/books/delete(
+								th:href="@{/admin/books/delete(
 									page=${pageResult.currentPage - 1},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
@@ -123,8 +123,8 @@
 							<!-- ページ番号 -->
 							<li th:each="i : ${#numbers.sequence(start, end)}"
 								th:classappend="${i == pageResult.currentPage} ? 'active'">
-								<a th:if="${i != pageResult.currentPage}"
-									th:href="@{/books/delete(
+								<a th:if="${i != pageResult.currentPage}" 
+									th:href="@{/admin/books/delete(
 									page=${i},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
@@ -142,7 +142,7 @@
 						<!-- 次へ -->
 						<li th:classappend="${pageResult.currentPage == pageResult.totalPages} ? 'disabled'">
 							<a th:if="${pageResult.currentPage < pageResult.totalPages}"
-								th:href="@{/books/delete(
+								th:href="@{/admin/books/delete(
 									page=${pageResult.currentPage + 1},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
