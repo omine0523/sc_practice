@@ -12,7 +12,8 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Spring Securityの認証処理でユーザー情報を
- * DBからロードするUserDetailsServiceの実装クラス
+ * DBからロードUserDetailsServiceの実装クラス
+ * ユーザー名をキーにユーザー情報を取得し、独自UserDetailsオブジェクトに詰め替えて返す。
  */
 @Service
 @RequiredArgsConstructor

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.dto.request.BookRegisterRequestDto;
-import com.example.demo.dto.view.BookListViewDto;
+import com.example.demo.dto.view.BookDetailViewDto;
 
 /**
  *  BookInfoMapper インターフェース
@@ -21,7 +21,7 @@ public interface BookInfoMapper {
 	 * 登録されている書籍情報を全件取得する
 	 * @return 全件取得した書籍一覧
 	 */
-	List<BookListViewDto> selectAllBooks(int pageSize, int offset);
+	List<BookDetailViewDto> selectAllBooks(int pageSize, int offset);
 	
 	
 	/**
@@ -35,7 +35,7 @@ public interface BookInfoMapper {
 	 * @param offset 現在のページ
 	 * @return 検索条件を満たす書籍情報一覧
 	 */
-	List<BookListViewDto> selectBookByConditions(
+	List<BookDetailViewDto> selectBookByConditions(
 			@Param("bookId") Integer bookId,
 			@Param("bookName") String bookName,
 			@Param("fkGenreId") Integer fkGenreId,
@@ -68,15 +68,20 @@ public interface BookInfoMapper {
 			@Param("fkGenreId") Integer fkGenreId,
 			@Param("fkStorageLocationId") Integer fkStorageLocationId
 			);
-	
-	
+
 	/**
-	 * 画面で入力した書籍情報をDBに登録する。
+	 * 書籍IDをもとに書籍情報を1件取得する。
+	 * @param id 書籍ID
+	 * @return 取得した書籍情報
+	 */
+	BookDetailViewDto selectBookById(Integer id);
+
+	/**
+	 * 画面で入力した新規書籍情報をDBに登録する。
 	 *
 	 * @param requestDto 登録用のDTO
 	 */
 	void insertBook(BookRegisterRequestDto requestDto);
-	
 	
 	/**
 	 * 登録されている書籍情報の削除フラグをtrueにして書籍一覧から非表示にする。

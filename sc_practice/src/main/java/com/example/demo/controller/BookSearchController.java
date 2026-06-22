@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,28 +14,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.condition.BookQueryCondition;
 import com.example.demo.domain.condition.BookQueryConditionFactory;
-import com.example.demo.dto.view.BookListViewDto;
+import com.example.demo.dto.view.BookDetailViewDto;
 import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookQueryService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 書籍検索画面で指定された検索条件に応じて書籍検索結果の表示内容を制御するクラス
  */
 @Controller
 @RequestMapping("/books")
+@RequiredArgsConstructor
 public class BookSearchController {
-	@Autowired
-	private BookQueryConditionService bookQueryConditionService;
-	@Autowired
-	private BookQueryService bookQueryService;
-	@Autowired
-	private BookQueryConditionFactory bookQueryConditionFactory;
-	@Autowired
-	private MessageSource messageSource;
+
+	private final BookQueryConditionService bookQueryConditionService;
+
+	private final BookQueryService bookQueryService;
+	
+	private final BookQueryConditionFactory bookQueryConditionFactory;
+
+	private final MessageSource messageSource;
+	
 	/**
 	 *  検索条件が入力・選択されている場合に書籍検索を行う。
 	 *  <p>検索条件が未指定の場合は案内メッセージを表示し、全件取得した書籍情報を一覧に表示する。
@@ -58,7 +60,7 @@ public class BookSearchController {
 		model.addAttribute("storageLocations", bookQueryConditionService.findAllStorageLocations());
 
 		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
-		PageResult<BookListViewDto> result = null;
+		PageResult<BookDetailViewDto> result = null;
 		
 		if (bindingResult.hasErrors()) {
         // バリデーションエラー時は空リストとnullページ情報をセットし、エラーメッセージを検索条件下部に表示する。

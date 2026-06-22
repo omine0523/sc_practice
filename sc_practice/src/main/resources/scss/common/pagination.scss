@@ -1,20 +1,20 @@
 .pagination-area {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
 }
 
 /* pagination は真ん中 */
 .pagination {
-  grid-column: 2;
-  justify-self: center;
+	grid-column: 2;
+	justify-self: center;
 }
 
 /* page-info は右 */
 .page-info {
-  grid-column: 3;
-  justify-self: end;
-  text-align: right;
+	grid-column: 3;
+	justify-self: end;
+	text-align: right;
 }
 
 .pagination ul {

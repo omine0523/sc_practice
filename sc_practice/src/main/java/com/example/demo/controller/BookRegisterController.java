@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +19,21 @@ import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookRegisterService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 書籍登録画面にてフォームを表示し入力された書籍情報に登理処理を行う クラス
  */
 @Controller
 @RequestMapping("/admin/books")
+@RequiredArgsConstructor
 public class BookRegisterController {
 
-    @Autowired
-    private BookQueryConditionService bookSearchConditionService;
-    @Autowired
-    private BookRegisterService bookRegisterService;
-    @Autowired
-    private MessageSource messageSource;
+    private final BookQueryConditionService bookSearchConditionService;
+
+    private final BookRegisterService bookRegisterService;
+    
+    private final MessageSource messageSource;
 
     /**
      * 選択肢をマスタから取得して書籍情報を登録するフォームを画面表示する。

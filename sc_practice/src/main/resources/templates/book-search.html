@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>書籍検索画面</title>
 	<!-- style -->
-	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
 	<link rel="stylesheet" th:href="@{/css/book-search.css}">
 </head>
 
@@ -82,7 +82,7 @@
 						<td th:text="${book.storageLocationName}">置き場所</td>
 						<td th:text="${book.status}">ステータス</td>
 						<td>
-							<a href="#">詳細</a>
+							<a th:href="@{/books/detail/{id}(id=${book.bookId})}">詳細</a>
 						</td>
 					</tr>
 				</tbody>

@@ -2,7 +2,7 @@ package com.example.demo.dto.view;
 
 import java.util.List;
 
-import lombok.Getter;
+import lombok.Data;
 
 /**
  * ページング結果を表す共通DTOクラス。
@@ -12,7 +12,7 @@ import lombok.Getter;
  * </p>
  * @param <T> 一覧に格納するDTOの型（例：BookListViewDto など）
  */
-@Getter
+@Data
 public class PageResult<T>  {
 
 	/** 一覧表示用データ */
@@ -32,11 +32,11 @@ public class PageResult<T>  {
      * @param totalPages 総ページ数
      * @param totalCount 総件数
      */
-	 public PageResult(List<T>list, int currentPage, int totalPages, int totalCount) {
-	        this.list = list;
-	        this.currentPage = currentPage;
-	        this.totalPages = totalPages;
-	        this.totalCount = totalCount;
-	    }
+	public PageResult(List<T>list, int currentPage, int totalPages, int totalCount) {
+		this.list = list;
+		this.currentPage = currentPage;
+		this.totalPages = totalPages;
+		this.totalCount = totalCount;
+		}
 	
 }

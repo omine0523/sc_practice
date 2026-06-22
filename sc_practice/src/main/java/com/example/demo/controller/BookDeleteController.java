@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.condition.BookQueryCondition;
 import com.example.demo.domain.condition.BookQueryConditionFactory;
-import com.example.demo.dto.view.BookListViewDto;
+import com.example.demo.dto.view.BookDetailViewDto;
 import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookDeleteService;
@@ -25,25 +24,26 @@ import com.example.demo.service.BookQueryConditionService;
 import com.example.demo.service.BookQueryService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 書籍情報を一覧で表示し、選択した書籍の削除処理を行う Controller クラス
  * 書籍検索画面と同様に検索条件で検索することが可能。
  */
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin/books")
 public class BookDeleteController {
 
-	@Autowired
-	private BookQueryConditionService bookQueryConditionService;
-	@Autowired
-	private BookQueryService bookQueryService;
-	@Autowired
-	private BookQueryConditionFactory bookQueryConditionFactory;
-	@Autowired
-	private BookDeleteService bookDeleteService;
-	@Autowired
-	private MessageSource messageSource;
+	private final BookQueryConditionService bookQueryConditionService;
+	
+	private final BookQueryService bookQueryService;
+
+	private final BookQueryConditionFactory bookQueryConditionFactory;
+	
+	private final BookDeleteService bookDeleteService;
+	
+	private final MessageSource messageSource;
 
 	/**
 	 * 書籍検索画面のオブジェクト使用して削除対象の書籍をDBから一覧で取得し表示する。
@@ -63,7 +63,7 @@ public class BookDeleteController {
 		model.addAttribute("storageLocations", bookQueryConditionService.findAllStorageLocations());
 
 		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
-		PageResult<BookListViewDto> result = null;
+		PageResult<BookDetailViewDto> result = null;
 
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {

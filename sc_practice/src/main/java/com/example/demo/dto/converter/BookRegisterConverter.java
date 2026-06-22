@@ -4,7 +4,7 @@ import com.example.demo.dto.request.BookRegisterRequestDto;
 import com.example.demo.form.BookRegisterForm;
 
 /**
- * formクラスとserviceクラスで責務分離するために変換処理を行うConverterクラス
+ * formクラスから受け取った値をDTOに変換するためのConverterクラス
  */
 public class BookRegisterConverter {
 	/**

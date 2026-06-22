@@ -1,11 +1,23 @@
-@use "base.scss";
-@use "button.scss";
-@use "error.scss";
-@use "list.scss";
-@use "pagination.scss";
+@use "common/base.scss";
+@use "common/button.scss";
+@use "common/error.scss";
+@use "common/list.scss";
+@use "common/pagination.scss";
+@use "common/layout.scss";
 
 h2 {
 	margin-left: 20px;
+    font-size: 32px;
+
+	&::after {
+		content: "";
+		display: block;
+		width: 100px;
+		height: 3px;
+		margin: 0 0 0 15px;
+		border-radius: 999px;
+		background: #8f8f8f;
+	}
 }
 
 .filter-area {
@@ -39,7 +51,7 @@ h2 {
 }
 
 .delete-btn:hover {
-  background-color: rgb(255, 226, 232);
+	background-color: rgb(255, 226, 232);
 }
 
 

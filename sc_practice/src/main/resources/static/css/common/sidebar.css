@@ -1,3 +1,11 @@
+.layout-main {
+  margin-left: 260px;
+  min-height: 100vh;
+  padding: 60px 30px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+}
+
 .sidebar {
   width: 260px;
   height: 100vh;
@@ -22,12 +30,13 @@
 }
 .sidebar .sidebar-login-info {
   color: #bdc3c7;
-  font-size: 0.8rem;
-  padding: 0 30px 20px;
+  font-size: 1rem;
+  padding: 25px 20px;
+  border-top: 1px solid #bdc3c7;
+  border-bottom: 1px solid #bdc3c7;
 }
 .sidebar nav {
   flex: 1;
-  padding: 20px 0;
 }
 .sidebar nav ul {
   list-style: none;
@@ -45,7 +54,7 @@
   color: #bdc3c7;
   text-decoration: none;
   transition: all 0.3s ease;
-  font-size: 0.95rem;
+  font-size: 1rem;
   background: none;
   border: none;
   text-align: left;
@@ -62,14 +71,6 @@
   color: white;
   border-left: 5px solid white;
   font-weight: bold;
-}
-
-.layout-main {
-  margin-left: 260px;
-  padding: 30px;
-  min-height: 100vh;
-  background-color: #f4f7f6;
-  box-sizing: border-box;
 }
 
 /*# sourceMappingURL=sidebar.css.map */

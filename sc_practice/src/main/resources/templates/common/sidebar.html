@@ -14,7 +14,7 @@
         </div>
         <nav>
             <ul>
-                <!-- ログインしている時だけ、ユーザー名や権限を表示する -->
+                <!-- ログイン中のユーザー名や権限を表示する -->
                 <li class="sidebar-login-info" sec:authorize="isAuthenticated()">
                     ログイン中： <span sec:authentication="principal.displayName"></span><br>
                     権限： <span th:text="${#authentication.principal.checkRoleLabel()}"></span>
@@ -25,7 +25,7 @@
                     <a th:href="@{/books/menu}" th:classappend="${currentPage == 'menu' ? 'active' : ''}">🏠 メインメニュー</a>
                 </li>
 
-                <!-- 特定の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
+                <!-- 検索、登録、削除の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
                 <li th:if="${currentPage == 'bookSearch' 
                     || currentPage == 'bookRegister' 
                     || currentPage == 'bookDelete'}">
@@ -43,6 +43,17 @@
                         th:classappend="${currentPage == 'bookDelete' ? 'active' : ''}" 
                         sec:authorize="hasRole('ADMIN')">
                         🗑️ 書籍削除
+                    </a>
+                </li>
+                <!-- 書籍詳細画面の時だけ表示されるサブメニュー -->
+                <li th:if="${currentPage == 'bookDetail'}">
+                    <a th:href="@{/books/detail/{id}(id=${bookDetail.bookId})}" 
+                        th:classappend="${currentPage == 'bookDetail' ? 'active' : ''}">
+                        📖 書籍詳細
+                    </a>
+                    <!-- 戻るボタン -->
+                    <a href="javascript:history.back()" class="back-link">
+                        ↩️ 前の画面に戻る
                     </a>
                 </li>
 

@@ -1,6 +1,6 @@
-@use "base.scss";
-@use "button.scss";
-@use "error.scss";
+@use "common/base.scss";
+@use "common/button.scss";
+@use "common/error.scss";
 
 body {
     display: flex;

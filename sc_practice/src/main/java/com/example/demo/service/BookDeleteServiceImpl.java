@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.exception.BookAlreadyDeletedException;
 import com.example.demo.mapper.BookInfoMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,15 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional(isolation = Isolation.REPEATABLE_READ)
 @Service
+@RequiredArgsConstructor
 public class BookDeleteServiceImpl implements BookDeleteService {
 
-	@Autowired
-	private BookInfoMapper bookInfoMapper;
+	private final BookInfoMapper bookInfoMapper;
 	
 	/**
 	 * 書籍IDをもとに対象の書籍情報を論理削除する。
-	 * 
-	 * @param bookId 
+	 *
+	 * @param bookId 削除対象の書籍ID
+	 * @throws BookAlreadyDeletedException すでに削除済みの書籍
 	 */
 	@Override
 	public void logicalDeleteBook(Integer bookId) {

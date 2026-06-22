@@ -1,7 +1,30 @@
-@use "error.scss";
+@use "common/base.scss";
+@use "common/error.scss";
+@use "common/layout.scss";
 
-h2 {
-	text-align: center;
+.layout-main {
+	display: flex;
+	flex-direction: column;
+	align-items: center; // 中央寄せ
+
+	h2 {
+		margin-bottom: 32px;
+		font-size: 32px;
+		font-weight: 700;
+		color: #222;
+		letter-spacing: 1px;
+		position: relative;
+
+		&::after {
+			content: "";
+			display: block;
+			width: 60%;
+			height: 3px;
+			margin: 8px auto 0;
+			border-radius: 999px;
+			background: #8f8f8f;
+		}
+	}
 }
 
 .form-container {

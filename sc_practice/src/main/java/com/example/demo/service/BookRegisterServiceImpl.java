@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -10,6 +9,7 @@ import com.example.demo.dto.request.BookRegisterRequestDto;
 import com.example.demo.exception.BookRegisterException;
 import com.example.demo.mapper.BookInfoMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,10 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional(isolation = Isolation.REPEATABLE_READ)
 @Service
+@RequiredArgsConstructor
 public class BookRegisterServiceImpl implements BookRegisterService {
 	
-	@Autowired
-	private BookInfoMapper bookInfoMapper;
+	private final BookInfoMapper bookInfoMapper;
 
 	/**
 	 * 入力された書籍情報を元に登録処理を実行する
@@ -32,16 +32,14 @@ public class BookRegisterServiceImpl implements BookRegisterService {
 	@Override
 	public void registerBook(BookRegisterRequestDto requestDto) {
 			
-		    try {
-		    	// 書籍情報を登録する処理を実行する
-		        bookInfoMapper.insertBook(requestDto);
-		    } catch (DataAccessException e) {
-		    	// DB操作中に起きる問題（SQL文のエラー、接続問題、データ整合性違反など）が発生した場合は
-		    	// エラーログを出力し、DB操作中の例外はカスタム例外に変換してメッセージと共にを投げる
-		    	log.error("書籍登録失敗", e);
-		        throw new BookRegisterException("書籍登録に失敗しました", e);
-		    }
-		    
+		try {
+			// 書籍情報を登録する処理を実行する
+			bookInfoMapper.insertBook(requestDto);
+		} catch (DataAccessException e) {
+			// DB操作中に起きる問題（SQL文のエラー、接続問題、データ整合性違反など）が発生した場合は
+			// エラーログを出力し、DB操作中の例外はカスタム例外に変換してメッセージと共にを投げる
+			log.error("書籍登録失敗", e);
+			throw new BookRegisterException("書籍登録に失敗しました", e);
+		}
 	}
-
 }

@@ -22,4 +22,5 @@ public interface BookQueryConditionService {
 	 * @return 選択肢の項目を返却する
 	 */
     List<StorageLocation> findAllStorageLocations();
+	
 }

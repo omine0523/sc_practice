@@ -1,0 +1,77 @@
+body {
+  font-family: sans-serif;
+}
+
+.layout-main {
+  margin-left: 260px;
+  min-height: 100vh;
+  padding: 60px 30px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+}
+
+.layout-main {
+  padding: 60px 30px;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.layout-main h2 {
+  margin-bottom: 32px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 1px;
+  position: relative;
+}
+.layout-main h2::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 3px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: #8f8f8f;
+}
+.layout-main .detail-card {
+  width: 100%;
+  max-width: 850px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+.layout-main .detail-card .detail-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 22px 0;
+  border-bottom: 1px solid #ececec;
+  gap: 24px;
+}
+.layout-main .detail-card .detail-row:last-child {
+  border-bottom: none;
+}
+.layout-main .detail-card .detail-row label {
+  width: 160px;
+  font-weight: 700;
+  color: #4b5563;
+  flex-shrink: 0;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+.layout-main .detail-card .detail-row span,
+.layout-main .detail-card .detail-row p {
+  margin: 0;
+  color: #111827;
+  line-height: 1.8;
+  font-size: 16px;
+  word-break: break-word;
+}
+.layout-main .detail-card .detail-row p {
+  white-space: pre-wrap;
+}
+
+/*# sourceMappingURL=book-detail.css.map */

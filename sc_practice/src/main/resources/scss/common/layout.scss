@@ -1,0 +1,9 @@
+$sidebar-width: 260px;
+
+.layout-main {
+    margin-left: $sidebar-width;
+    min-height: 100vh;
+    padding: 60px 30px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+}
