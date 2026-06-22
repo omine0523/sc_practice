@@ -34,6 +34,6 @@ public class BookRegisterForm {
 	
 	/** 書籍内容 */
 	@Size(max = 250, message = "{error.book.summary.max}")
-	@Pattern(regexp = "(?s).*[^\\s　].*", message = "{error.book.summary.not.empty}")
+	@Pattern(regexp = "^$|(?s).*[^\\s　].*", message = "{error.book.summary.not.empty}")
 	private String summary;
 }

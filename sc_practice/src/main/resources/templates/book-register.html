@@ -17,7 +17,7 @@
 	<main class="layout-main">
 		<h2>書籍登録フォーム</h2>
 		<div class="form-container">
-			<form th:object="${bookRegisterForm}" method="post">
+			<form th:action="@{/admin/books/register}" th:object="${bookRegisterForm}" method="post">
 
 				<!-- メッセージを表示項目 -->
 				<!-- エラーがないかつ登録完了していない時に表示されるメッセージ項目 -->
