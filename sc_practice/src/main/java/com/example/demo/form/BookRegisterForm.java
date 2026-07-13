@@ -30,7 +30,7 @@ public class BookRegisterForm {
 	private Integer storageLocationId;
 	
 	/** ステータス（未貸出 / 貸出中） デフォルトで未貸出を設定 */
-	private String status = "未貸出"; 
+	private String status = "未貸出";
 	
 	/** 書籍内容 */
 	@Size(max = 250, message = "{error.book.summary.max}")
