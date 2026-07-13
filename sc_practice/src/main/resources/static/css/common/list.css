@@ -1,0 +1,21 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+.list-area {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=list.css.map */

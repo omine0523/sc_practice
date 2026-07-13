@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍検索画面</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/book-detail.css}">
+</head>
+
+<body>
+	<div th:replace="~{common/sidebar :: layout-sidebar('bookDetail')}"></div>
+
+	<main class="layout-main">
+		<h2>書籍詳細</h2>
+
+		<div class="detail-card" th:if="${bookDetail != null}">
+			<div class="detail-row">
+				<label>ID</label>
+				<span th:text="${bookDetail.bookId}"></span>
+			</div>
+
+			<div class="detail-row">
+				<label>書籍名</label>
+				<span th:text="${bookDetail.bookName}"></span>
+			</div>
+
+			<div class="detail-row">
+				<label>ジャンル</label>
+				<span th:text="${bookDetail.genreName}"></span>
+			</div>
+
+			<div class="detail-row">
+				<label>置き場所</label>
+				<span th:text="${bookDetail.storageLocationName}"></span>
+			</div>
+
+			<div class="detail-row">
+				<label>ステータス</label>
+				<span th:text="${bookDetail.status}"></span>
+			</div>
+
+			<div class="detail-row">
+				<label>内容</label>
+				<p th:text="${bookDetail.summary}"></p>
+			</div>
+		</div>
+
+		<p th:if="${bookDetail == null}">
+			書籍情報が存在しません
+		</p>
+	</main>
+</body>
+</html>

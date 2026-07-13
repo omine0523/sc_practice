@@ -1,0 +1,9 @@
+.layout-main {
+  margin-left: 260px;
+  min-height: 100vh;
+  padding: 60px 30px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f7);
+}
+
+/*# sourceMappingURL=layout.css.map */

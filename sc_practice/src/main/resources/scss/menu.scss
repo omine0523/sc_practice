@@ -1,0 +1,55 @@
+@use "common/base.scss";
+
+body {
+  margin: 0;
+}
+
+h2 {
+  font-size: 32px;
+
+  &::after {
+      content: "";
+      display: block;
+      width: 15%;
+      height: 3px;
+      margin: 8px auto 0;
+      border-radius: 999px;
+      background: #8f8f8f;
+  }
+}
+
+.layout-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 400px;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.menu-buttons {
+  margin-top: 20px;
+}
+
+.menu-button {
+  display: block;
+  margin: 15px 0;
+  padding: 12px;
+  background-color: #4a90e2;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.menu-button:hover {
+  background-color: #357bd8;
+}

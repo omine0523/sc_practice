@@ -1,0 +1,89 @@
+package com.example.demo.controller;
+
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.dto.converter.BookRegisterConverter;
+import com.example.demo.dto.request.BookRegisterRequestDto;
+import com.example.demo.form.BookRegisterForm;
+import com.example.demo.service.BookQueryConditionService;
+import com.example.demo.service.BookRegisterService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+/**
+ * 書籍登録画面にてフォームを表示し入力された書籍情報に登理処理を行う クラス
+ */
+@Controller
+@RequestMapping("/admin/books")
+@RequiredArgsConstructor
+public class BookRegisterController {
+
+    private final BookQueryConditionService bookSearchConditionService;
+
+    private final BookRegisterService bookRegisterService;
+    
+    private final MessageSource messageSource;
+
+    /**
+     * 選択肢をマスタから取得して書籍情報を登録するフォームを画面表示する。
+     *
+     * @param bookRegisterForm 画面の登録項目に入力された値を受け取るフォーム
+     * @param model テーブルから取得した選択肢やメッセージをビュー渡すモデル
+     * @return 書籍登録を行うフォームを表示する。
+     */
+    @GetMapping("/register")
+    public String showBookRegisterPage(@ModelAttribute BookRegisterForm bookRegisterForm, Model model) {
+        // 入力フォームを初期化する。
+        model.addAttribute("bookRegisterForm", new BookRegisterForm());
+        // ジャンル・置き場所を選択肢を各マスタから取得してモデルに設定し反映する。
+        model.addAttribute("genres", bookSearchConditionService.findAllGenres());
+        model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
+        // 書籍登録画面を表示する。
+        return "book-register";
+    }
+
+    /**
+     * 書籍情報を登録するため入力した情報を送信する。
+     *
+     * @param bookRegisterForm 画面の登録項目に入力された値を受け取るフォーム
+     * @param bindingResult @Valid によるバリデーション結果
+     * @param model テーブルから取得した選択肢やメッセージをビュー渡すモデル
+     * @return 書籍登録後の結果を表示する。
+     */
+    @PostMapping("/register")
+    public String registerBook(@Valid @ModelAttribute BookRegisterForm bookRegisterForm,
+            BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+        // ジャンル・置き場所を選択肢を各マスタから取得してモデルに設定し反映する。
+        model.addAttribute("genres", bookSearchConditionService.findAllGenres());
+        model.addAttribute("storageLocations", bookSearchConditionService.findAllStorageLocations());
+
+        // 画面で受け取った情報を画面と切り離して登理用に変換する（Form → Request DTO）
+        BookRegisterRequestDto requestDto = BookRegisterConverter.toRequestDto(bookRegisterForm);
+
+        // 入力された内容に不備があれば各入力欄の下部にエラーメッセージを表示する。
+        if (!bindingResult.hasErrors()) {
+            // 入力された書籍情報をもとに登録処理を呼び出し実行結果を取得する。
+            bookRegisterService.registerBook(requestDto);
+            // 登録処理完了時にリダイレクト画面に登録完了メッセージを表示する。
+            redirectAttributes.addFlashAttribute("successMessage",
+                    messageSource.getMessage("book.register.success", null, Locale.JAPAN));
+            // 書籍登録処理結果を返却し登録画面を再度表示する。
+            return "redirect:/admin/books/register";
+        }
+
+        // エラー内容を記載して書籍登録画面を表示する。
+        return "book-register";
+    }
+
+}

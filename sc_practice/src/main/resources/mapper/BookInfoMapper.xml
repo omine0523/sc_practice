@@ -1,28 +1,171 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.mapper.BookInfoMapper">
 
-	
-	<resultMap id="BookInfoMap"
-		type="com.example.demo.entity.BookInfo">
-		<id column="id" property="bookId" />
-		<result column="book_name" property="bookName" />
-		<result column="genre" property="genre" />
-		<result column="storage_location" property="storageLocation" />
-		<result column="status" property="status" />
+	<!-- 画面出力用 BookListViewDto とDBカラムのマッピング定義をする -->
+	<resultMap id="BookListViewMap"
+		type="com.example.demo.dto.view.BookListViewDto">
+		<id column="id" property="bookId"/>
+		<result column="book_name" property="bookName"/>
+		<result column="genre_name" property="genreName"/>
+		<result column="storage_location_name" property="storageLocationName"/>
+		<result column="status" property="status"/>
+		<result column="summary" property="summary"/>
 	</resultMap>
+
+	<!-- 詳細画面用 BookDetailViewDto とDBカラムのマッピング定義をする -->
+    <resultMap id="BookDetailViewMap"
+        type="com.example.demo.dto.view.BookDetailViewDto">
+        <id column="id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="genre_name" property="genreName"/>
+        <result column="storage_location_name" property="storageLocationName"/>
+        <result column="status" property="status"/>
+        <result column="summary" property="summary"/>
+    </resultMap>
 	
-	<!-- bookIdをキーとしてBookInfoテーブルから書籍情報取得する -->
-	<select id="findBookById" resultMap="BookInfoMap">
-		SELECT * FROM book_info WHERE id = #{bookId}
+	<!-- 共通部品：書籍情報検索で共通のSELECT句とFROM句をまとめる -->
+	<sql id="BaseSelect">
+	 /* 検索SQL：書籍情報検索 */
+		SELECT
+			book_info.id
+			,book_info.book_name
+			,genre.genre_name
+			,storage_location.storage_location_name
+			,book_info.status
+			,book_info.summary
+		FROM
+			book_info
+		INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
+		INNER JOIN storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
+	</sql>
+
+	<!-- 書籍検索 10件ごとに取得用SQL -->
+	<select id="selectAllBooks" resultMap="BookListViewMap">
+		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
+		<include refid="BaseSelect"/>
+		<!-- 削除フラグが false（is_deleted = 0）の書籍情報だけを表示する -->
+		WHERE is_deleted = 0
+		<!-- 書籍IDが昇順で並ぶようにする -->
+		ORDER BY book_info.id ASC
+		<!-- ページングを実装するために LIMIT（何件取るか） / OFFSET（何軒目から取るか） を設定する -->
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 
-	<!-- <insert id="" parameterType=""> </insert> -->
 
-	<!-- <update id="" parameterType=""> </update> -->
+	<!-- 書籍検索用SQL 入力された検索条件（書籍ID・ジャンル・置き場所）に応じて 動的にWHERE句を組み立てる -->
+	<select id="selectBookByConditions" resultMap="BookListViewMap">
+		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
+		<include refid="BaseSelect"/>
+		
+		<!-- 条件付き検索（WHERE句） -->
+		<where>
+			<!-- 削除フラグが false（is_deleted = 0）の書籍情報だけを表示する -->
+			AND is_deleted = 0
+		
+			<!-- 書籍ID検索（完全一致） ・bookId が null でない場合のみ条件に追加 -->
+			<if test="bookId != null">
+				AND book_info.id = #{bookId}
+			</if>
+			<!-- 書籍名検索（部分一致）・bookName が null でない場合のみ条件に追加 ※valueクラス内でワイルドカード対策済み-->
+			<!-- DBの設定により大文字小文字 / 全角半角 / ひらがなカタカナを区別しない -->
+			<if test="bookName != null and bookName != ''">
+				AND book_info.book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
+			</if>
+			<!-- ジャンル検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
+			<if test="fkGenreId != null">
+				AND book_info.fk_genre_id = #{fkGenreId}
+			</if>
+			<!-- 置き場所検索（完全一致） ・プルダウン未選択時は空文字("")になるため null と空文字の両方を除外して判定する -->
+			<if test="fkStorageLocationId != null">
+				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
+			</if>
+			
+		</where>
+		<!-- 書籍IDが昇順で並ぶようにする -->
+		ORDER BY book_info.id ASC
+		<!-- ページングを実装するためにLIMIT / OFFSET でページ数と-->
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<!-- 書籍詳細を取得用SQL -->
+	<select id="selectBookById" resultMap="BookDetailViewMap">
+		<!-- 共通部品を使用しBookInfoテーブルから書籍情報を取得する -->
+		<include refid="BaseSelect"/>
+		<!-- 指定された書籍IDの書籍情報だけを条件に追加する -->
+		<where>
+			AND book_info.id = #{bookId}
+		</where>
+	</select>
+	
+	<!-- 書籍検索 全書籍の件数取得用SQL（ページネーション用） -->
+	<select id="countAllBooks" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			book_info
+		WHERE is_deleted = 0
+	</select>
+	
+	<!-- 書籍検索 指定された検索条件で該当する書籍の件数取得用SQL（ページネーション用） -->
+	<select id="countBookByConditions" resultType="int">
+		<!-- COUNT関数で件数を取得する -->
+		SELECT
+			COUNT(*)
+		FROM
+			book_info
+		INNER JOIN genre ON book_info.fk_genre_id = genre.genre_id
+		INNER JOIN storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
+	
+		<where>
+			AND is_deleted = 0
+	
+			<if test="bookId != null">
+				AND book_info.id = #{bookId}
+			</if>
+	
+			<if test="bookName != null and bookName != ''">
+				AND book_info.book_name LIKE CONCAT('%', #{bookName}, '%') ESCAPE '/'
+			</if>
+	
+			<if test="fkGenreId != null">
+				AND book_info.fk_genre_id = #{fkGenreId}
+			</if>
+	
+			<if test="fkStorageLocationId != null">
+				AND book_info.fk_storage_location_id = #{fkStorageLocationId}
+			</if>
+		</where>
+	</select>
+	
+	
+
+
+	<!-- 書籍情報 登録用SQL -->
+	<insert id="insertBook" parameterType="com.example.demo.entity.BookInfo"> 
+		INSERT INTO 
+			book_info 
+			(book_name, fk_genre_id, fk_storage_location_id, status, summary) 
+		VALUES
+			(#{bookName}, #{fkGenreId}, #{fkStorageLocationId}, #{status}, #{summary})
+	</insert>
+
+
+
+	<!-- 書籍情報 論理削除用SQL -->
+	<update id="logicalDeleteBook" parameterType="int">
+		UPDATE
+			book_info 
+		SET
+			is_deleted = 1
+		WHERE 
+			book_info.id = #{value}
+		AND
+			book_info.is_deleted = 0
+	</update>
 
 	<!-- <delete id="" parameterType=""> </delete> -->
 

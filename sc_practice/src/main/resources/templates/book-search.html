@@ -5,74 +5,162 @@
 	<meta charset="UTF-8">
 	<title>書籍検索画面</title>
 	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
 	<link rel="stylesheet" th:href="@{/css/book-search.css}">
 </head>
 
-
 <body>
-	<h2>書籍検索</h2>
-	<!-- エラーがある場合 メッセージをcontrollerから受け取り表示 -->
-	<p th:if="${errorMsg}" th:text="${errorMsg}" class="error"></p>
+	<!-- 共通サイドバーの挿入。現在のページ識別子として 'bookSearch' を渡す -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('bookSearch')}"></div>
 
-	<!-- フィルターエリア -->
-	<div class="filter-area">
-		<form th:object="${bookSearchForm}" method="get">
-			<label>書籍番号：</label>
-			<input type="text" th:field="*{bookId}" placeholder="書籍番号">
+	<!-- メインコンテンツエリア -->
+	<main class="layout-main">
+		<h2>書籍検索</h2>
+		<!-- フィルターエリア -->
+		<div class="filter-area">
+			<form th:object="${bookQueryForm}" method="get">
+				<!-- 検索条件：書籍ID指定 -->
+				<label for="bookId">書籍ID：</label>
+				<input type="text" th:field="*{bookId}" placeholder="数字を入力">
 
-			<!-- 時間があればジャンル・棚検索実装予定 -->
-			<!-- <label>ジャンル：</label>
-			<select>
-				<option>-- 全て --</option>
-				<option>SF</option>
-				<option>恋愛</option>
-				<option>図鑑</option>
-			</select>
+				<!-- 検索条件：書籍名指定 -->
+				<label for="bookName">書籍名：</label>
+				<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
 
-			<label>置き場所：</label>
-			<select>
-				<option>-- 全て --</option>
-				<option>A棚</option>
-				<option>B棚</option>
-				<option>C棚</option>
-			</select> -->
+				<!-- 検索条件：ジャンル指定 -->
+				<label for="genreId">ジャンル：</label>
+				<select th:field="*{genreId}">
+					<option value="">-- 全て --</option>
+					<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
+					</option>
+				</select>
 
-			<button class="btn" type="submit">検索</button>
-		</form>
-		<br>
-	</div>
+				<!-- 検索条件：置き場所指定 -->
+				<label for="storageLocationId">置き場所：</label>
+				<select th:field="*{storageLocationId}">
+					<option value="">-- 全て --</option>
+					<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
+						th:text="${location.storageLocationName}">
+					</option>
+				</select>
 
-	<!-- 書籍検索 検索結果をリストで表示 -->
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>書籍名</th>
-				<th>ジャンル</th>
-				<th>置き場所</th>
-				<th>ステータス</th>
-				<th>詳細</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:if="${resultBook != null and #lists.isEmpty(resultBook)}">
-				<td colspan="6">該当する書籍はありません</td>
-			</tr>
+				<button class="btn" type="submit">検索</button>
+
+				<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
+				<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
+				<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
+				<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
+				<div th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}" class="error"></div>
+			</form>
+			<br>
+		</div>
+
+		<!-- 書籍検索 検索結果をリストで表示 -->
+		<div class="list-area">
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>書籍名</th>
+						<th>ジャンル</th>
+						<th>置き場所</th>
+						<th>ステータス</th>
+						<th>詳細</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- 検索結果が(bookList)が null ではなく、かつ、中身が空のリストだった場合に表示する -->
+					<tr th:if="${bookList != null and #lists.isEmpty(bookList)}">
+						<td colspan="6">該当する書籍はありません</td>
+					</tr>
+		
+					<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
+					<tr th:each="book : ${bookList}">
+						<td th:text="${book.bookId}">ID</td>
+						<td th:text="${book.bookName}">書籍名</td>
+						<td th:text="${book.genreName}">ジャンル</td>
+						<td th:text="${book.storageLocationName}">置き場所</td>
+						<td th:text="${book.status}">ステータス</td>
+						<td>
+							<a th:href="@{/books/detail/{id}(id=${book.bookId})}">詳細</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- ページネーション関連 -->
+			<div class="pagination-area" th:if="${pageResult != null}" th:with="form=${bookQueryForm}">
+				<!-- ページリンク -->
+				<nav class="pagination">
+					<ul>
+						<!-- 前へ -->
+						<li th:classappend="${pageResult.currentPage == 1} ? 'disabled'">
+							<a th:if="${pageResult.currentPage > 1}"
+								th:href="@{/books/search(
+									page=${pageResult.currentPage - 1},
+									bookId=${form.bookId},
+									bookName=${form.bookName},
+									genreId=${form.genreId},
+									storageLocationId=${form.storageLocationId}
+								)}">
+								前へ
+							</a>
+							<span th:if="${pageResult.currentPage == 1}">前へ</span>
+						</li>
+						<!-- ページ番号（最大5個表示） -->
+						<th:block th:with="start=${T(java.lang.Math).max(1, pageResult.currentPage - 2)},
+							end=${T(java.lang.Math).min(pageResult.totalPages, pageResult.currentPage + 2)}">
+							<!-- 前の省略 -->
+							<li th:if="${start > 1}">
+								<span>…</span>
+							</li>
+							<!-- ページ番号 -->
+							<li th:each="i : ${#numbers.sequence(start, end)}"
+								th:classappend="${i == pageResult.currentPage} ? 'active'">
+								<a th:if="${i != pageResult.currentPage}"
+									th:href="@{/books/search(
+									page=${i},
+									bookId=${form.bookId},
+									bookName=${form.bookName},
+									genreId=${form.genreId},
+									storageLocationId=${form.storageLocationId}
+									)}"
+									th:text="${i}"></a>
+								<span th:if="${i == pageResult.currentPage}" th:text="${i}"></span>
+							</li>
+							<!-- 後の省略 -->
+							<li th:if="${end < pageResult.totalPages}">
+								<span>…</span>
+							</li>
+						</th:block>
+						<!-- 次へ -->
+						<li th:classappend="${pageResult.currentPage == pageResult.totalPages} ? 'disabled'">
+							<a th:if="${pageResult.currentPage < pageResult.totalPages}"
+								th:href="@{/books/search(
+									page=${pageResult.currentPage + 1},
+									bookId=${form.bookId},
+									bookName=${form.bookName},
+									genreId=${form.genreId},
+									storageLocationId=${form.storageLocationId}
+								)}">
+								次へ
+							</a>
+							<span th:if="${pageResult.currentPage == pageResult.totalPages}">次へ</span>
+						</li>
+					</ul>
+				</nav>
 			
-			<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
-			<tr th:each="book : ${resultBook}">
-				<td th:text="${book.bookId}">ID</td>
-				<td th:text="${book.bookName}">書籍名</td>
-				<td th:text="${book.genre}">ジャンル</td>
-				<td th:text="${book.storageLocation}">置き場所</td>
-				<td th:text="${book.status}">ステータス</td>
-				<td>
-					<a href="#">詳細</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
+				<!-- ページ情報の表示（PageResult） -->
+				<div class="page-info">
+					<span th:text="'全 ' + ${pageResult.totalCount} + '件中 ' 
+					+ ${(pageResult.currentPage - 1) * 10 + 1} + '〜' 
+					+ ${T(java.lang.Math).min(pageResult.currentPage * 10, pageResult.totalCount)} 
+					+ '件を表示（' 
+					+ ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
+					</span>
+				</div>
+			</div>
+		</div>
+	</main>	
 </body>
-
 </html>

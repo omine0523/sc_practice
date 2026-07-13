@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/sidebar.css}">
+</head>
+<body>
+    <!-- サイドバーの定義。引数 activePage で現在の画面を受け取る -->
+    <aside th:fragment="layout-sidebar(activePage)" 
+            th:with="currentPage=${activePage ?: 'none'}" 
+            class="sidebar">
+        <div class="sidebar-header">
+            Library Management System
+        </div>
+        <nav>
+            <ul>
+                <!-- ログイン中のユーザー名や権限を表示する -->
+                <li class="sidebar-login-info" sec:authorize="isAuthenticated()">
+                    ログイン中： <span sec:authentication="principal.displayName"></span><br>
+                    権限： <span th:text="${#authentication.principal.checkRoleLabel()}"></span>
+                </li>
+
+                <!-- 全画面共通のリンク -->
+                <li>
+                    <a th:href="@{/books/menu}" th:classappend="${currentPage == 'menu' ? 'active' : ''}">🏠 メインメニュー</a>
+                </li>
+
+                <!-- 検索、登録、削除の画面（例：bookSearch）の時だけ表示されるサブメニュー -->
+                <li th:if="${currentPage == 'bookSearch' 
+                    || currentPage == 'bookRegister' 
+                    || currentPage == 'bookDelete'}">
+                    
+                    <a th:href="@{/books/search}" 
+                        th:classappend="${currentPage == 'bookSearch' ? 'active' : ''}">
+                        🔍 書籍検索
+                    </a>
+                    <a th:href="@{/admin/books/register}" 
+                        th:classappend="${currentPage == 'bookRegister' ? 'active' : ''}" 
+                        sec:authorize="hasRole('ADMIN')">
+                        ➕ 新規書籍登録
+                    </a>
+                    <a th:href="@{/admin/books/delete}" 
+                        th:classappend="${currentPage == 'bookDelete' ? 'active' : ''}" 
+                        sec:authorize="hasRole('ADMIN')">
+                        🗑️ 書籍削除
+                    </a>
+                </li>
+                <!-- 書籍詳細画面の時だけ表示されるサブメニュー -->
+                <li th:if="${currentPage == 'bookDetail'}">
+                    <a th:href="@{/books/detail/{id}(id=${bookDetail.bookId})}" 
+                        th:classappend="${currentPage == 'bookDetail' ? 'active' : ''}">
+                        📖 書籍詳細
+                    </a>
+                    <!-- 戻るボタン -->
+                    <a href="javascript:history.back()" class="back-link">
+                        ↩️ 前の画面に戻る
+                    </a>
+                </li>
+
+                <!-- 管理者ロールを持つユーザーのみに表示（SecurityContextを利用） -->
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/settings}">⚙️ システム設定</a>
+                </li>
+                
+                <li>
+                    <form th:action="@{/logout}" method="post" id="logoutForm">
+                        <button type="submit" class="logout-link">🚪 ログアウト</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</body>
+</html>

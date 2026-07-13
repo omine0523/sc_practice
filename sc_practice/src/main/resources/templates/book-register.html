@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録画面</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/book-register.css}">
+</head>
+
+<body>
+	<!-- 共通サイドバーの挿入 -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('bookRegister')}"></div>
+
+	<!-- メインコンテンツエリア -->
+	<main class="layout-main">
+		<h2>書籍登録フォーム</h2>
+		<div class="form-container">
+			<form th:action="@{/admin/books/register}" th:object="${bookRegisterForm}" method="post">
+
+				<!-- メッセージを表示項目 -->
+				<!-- エラーがないかつ登録完了していない時に表示されるメッセージ項目 -->
+				<div th:if="${!#fields.hasAnyErrors() and successMessage == null}" class="infoMessage topMsg">
+					登録する書籍情報を入力してください。
+				</div>
+				<!-- 入力項目にエラーがある時に表示されるメッセージ項目 -->
+				<div th:if="${#fields.hasAnyErrors()}" class="errorMessage topMsg">入力内容に誤りがあります。</div>
+				<!-- エラーがなく登録が完了した時に表示されるメッセージ項目 -->
+				<div th:if="${successMessage}" th:text="${successMessage}" class="successMessage topMsg"></div>
+
+				<!-- 書籍名の入力項目 -->
+				<div class="form-group">
+					<label for="bookName">書籍名 <span class="required">※必須</span></label>
+					<input type="text" th:field="*{bookName}" placeholder="例：Java入門">
+					<!-- 登録時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
+					<div th:if="${#fields.hasErrors('bookName')}"  th:errors="*{bookName}" class="error"></div>
+				</div>
+
+				<!-- ジャンルの設定項目 -->
+				<div class="form-group">
+					<label for="genreId">ジャンル <span class="required">※必須</span></label>
+					<select th:field="*{genreId}">
+						<option value="">-- 選択してください --</option>
+						<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
+						</option>
+					</select>
+					<div th:if="${#fields.hasErrors('genreId')}" th:errors="*{genreId}" class="error"></div>
+				</div>
+
+				<!-- 置き場所の設定項目 -->
+				<div class="form-group">
+					<label for="storageLocationId">置き場所 <span class="required">※必須</span></label>
+					<select th:field="*{storageLocationId}">
+						<option value="">-- 選択してください --</option>
+						<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
+							th:text="${location.storageLocationName}">
+						</option>
+					</select>
+					<div th:if="${#fields.hasErrors('storageLocationId')}" th:errors="*{storageLocationId}" class="error"></div>
+				</div>
+
+				<!-- ステータスの設定項目 -->
+				<div class="form-group">
+					<label for="status">ステータス</label>
+					<div class="radio-group">
+					<label class="radio-item">
+						<input type="radio" th:field="*{status}" value="未貸出">
+						<span>未貸出</span>
+					</label>
+
+					<label class="radio-item">
+						<input type="radio" th:field="*{status}" value="貸出中">
+						<span>貸出中</span>
+					</label>
+					</div>
+				</div>
+
+				<!-- 書籍内容の入力項目 -->
+				<div class="form-group">
+					<label for="summary">書籍内容</label>
+					<textarea th:field="*{summary}" rows="4" placeholder="書籍内容を入力してください"></textarea>
+					<div th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}" class="error"></div>
+				</div>
+
+				<div class="button-area">
+					<button type="submit" class="register-btn">書籍を登録する</button>
+				</div>
+			</form>
+		</div>
+	</main>
+</body>
+
+</html>

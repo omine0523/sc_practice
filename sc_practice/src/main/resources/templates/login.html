@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ログイン | Library Management System</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+	<div class="container">
+		<h2>Library Management System</h2>
+		<!-- 入力項目欄 -->
+		<form th:action="@{/login}" th:object="${loginForm}" method="post">
+			<!-- Spring Securityの認証失敗時のエラーメッセージ -->
+			<div th:if="${param.error}" class="errorMessage topMsg">ユーザーネームまたはパスワードに誤りがあります。</div>
+			<!-- ユーザーネームの入力項目 -->
+			<div class="input-group">
+				<label for="username">ユーザーネーム:</label>
+				<input type="text" th:field="*{username}" placeholder="32文字以内の英数字で入力してください">
+			</div>
+			<!-- パスワードの入力項目 -->
+			<div class="input-group">
+				<label for="password">パスワード:</label>
+				<input type="password" th:field="*{password}" placeholder="8〜32文字の英数字で入力してください">
+			</div>
+			<button type="submit" class="btn">ログイン</button>
+		</form>
+	</div>
+</body>
+
+</html>
