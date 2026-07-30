@@ -18,7 +18,7 @@ public class BookRegisterRequestDto {
 	/** 置き場所ID */
 	private Integer fkStorageLocationId;
 	/** ステータス（未貸出 / 貸出中）*/
-	private String status; 
+	private String status;
 	/** 書籍内容 */
 	private String summary;
 }

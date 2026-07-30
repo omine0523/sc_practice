@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.condition.BookQueryCondition;
 import com.example.demo.domain.condition.BookQueryConditionFactory;
-import com.example.demo.dto.view.BookDetailViewDto;
+import com.example.demo.dto.view.BookListViewDto;
 import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookDeleteService;
@@ -63,7 +63,7 @@ public class BookDeleteController {
 		model.addAttribute("storageLocations", bookQueryConditionService.findAllStorageLocations());
 
 		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
-		PageResult<BookDetailViewDto> result = null;
+		PageResult<BookListViewDto> result = null;
 
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookQueryForm) && !bindingResult.hasErrors()) {

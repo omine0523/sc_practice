@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.dto.request.BookRegisterRequestDto;
 import com.example.demo.dto.view.BookDetailViewDto;
+import com.example.demo.dto.view.BookListViewDto;
 
 /**
  *  BookInfoMapper インターフェース
@@ -21,7 +22,7 @@ public interface BookInfoMapper {
 	 * 登録されている書籍情報を全件取得する
 	 * @return 全件取得した書籍一覧
 	 */
-	List<BookDetailViewDto> selectAllBooks(int pageSize, int offset);
+	List<BookListViewDto> selectAllBooks(int pageSize, int offset);
 	
 	
 	/**
@@ -35,7 +36,7 @@ public interface BookInfoMapper {
 	 * @param offset 現在のページ
 	 * @return 検索条件を満たす書籍情報一覧
 	 */
-	List<BookDetailViewDto> selectBookByConditions(
+	List<BookListViewDto> selectBookByConditions(
 			@Param("bookId") Integer bookId,
 			@Param("bookName") String bookName,
 			@Param("fkGenreId") Integer fkGenreId,

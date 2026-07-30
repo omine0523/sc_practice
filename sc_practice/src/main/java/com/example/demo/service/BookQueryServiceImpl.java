@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.condition.BookQueryCondition;
-import com.example.demo.dto.view.BookDetailViewDto;
+import com.example.demo.dto.view.BookListViewDto;
 import com.example.demo.dto.view.PageResult;
 import com.example.demo.mapper.BookInfoMapper;
 
@@ -32,13 +32,13 @@ public class BookQueryServiceImpl implements BookQueryService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public PageResult<BookDetailViewDto> findAllBook(int page) {
+	public PageResult<BookListViewDto> findAllBook(int page) {
 		
 		int pageSize = 10; // 1ページあたりに表示する最大件数
 	    int offset = (page - 1) * pageSize; // データ取得開始位置を算出する（例：2ページ目の場合は10件目から取得）
 		
 	    // データ取得開始位置から10件の書籍情報を取得する。
-		List<BookDetailViewDto> list = bookInfoMapper.selectAllBooks(pageSize, offset);
+		List<BookListViewDto> list = bookInfoMapper.selectAllBooks(pageSize, offset);
 	    // ページングの総件数表示で使用するため、登録されている全書籍の総件数を取得する。
 		int totalCount = bookInfoMapper.countAllBooks();
 	    // 総件数 ÷ 1ページあたりの件数の結果を切り上げして、総ページ数を求める。
@@ -57,7 +57,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public PageResult<BookDetailViewDto> findBookByConditions(BookQueryCondition condition, int page) {
+	public PageResult<BookListViewDto> findBookByConditions(BookQueryCondition condition, int page) {
 		
 		int pageSize = 10; // 1ページあたりに表示する最大件数
 	    int offset = (page - 1) * pageSize; // データ取得開始位置を算出する（例：2ページ目の場合は10件目から取得）
@@ -76,7 +76,7 @@ public class BookQueryServiceImpl implements BookQueryService {
 		}
 		
 		// 指定した全ての検索条件と一致したの書籍情報をデータ取得開始位置から10件分取得する。
-		List<BookDetailViewDto> list = bookInfoMapper.selectBookByConditions(
+		List<BookListViewDto> list = bookInfoMapper.selectBookByConditions(
 	    		bookId, // 書籍ID
 				bookName, // 書籍名
 				condition.fkGenreId(), // ジャンルID
@@ -96,5 +96,5 @@ public class BookQueryServiceImpl implements BookQueryService {
 	    // PageResult オブジェクトとして生成し、Controller に返却する（型推論により<>の中身は省略）
 		return new PageResult<>(list, page, totalPages, totalCount);
 	}
-	
+
 }

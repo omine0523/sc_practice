@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.condition.BookQueryCondition;
 import com.example.demo.domain.condition.BookQueryConditionFactory;
-import com.example.demo.dto.view.BookDetailViewDto;
+import com.example.demo.dto.view.BookListViewDto;
 import com.example.demo.dto.view.PageResult;
 import com.example.demo.form.BookQueryForm;
 import com.example.demo.service.BookQueryConditionService;
@@ -60,7 +60,7 @@ public class BookSearchController {
 		model.addAttribute("storageLocations", bookQueryConditionService.findAllStorageLocations());
 
 		// 全件取得・条件指定取得いずれの場合も条件分岐後の共通処理で使用するため、ページング結果を保持する変数を事前に宣言する。
-		PageResult<BookDetailViewDto> result = null;
+		PageResult<BookListViewDto> result = null;
 		
 		if (bindingResult.hasErrors()) {
         // バリデーションエラー時は空リストとnullページ情報をセットし、エラーメッセージを検索条件下部に表示する。

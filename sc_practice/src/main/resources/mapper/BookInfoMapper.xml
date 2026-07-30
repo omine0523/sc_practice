@@ -146,11 +146,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 書籍情報 登録用SQL -->
 	<insert id="insertBook" parameterType="com.example.demo.entity.BookInfo"> 
-		INSERT INTO 
-			book_info 
-			(book_name, fk_genre_id, fk_storage_location_id, status, summary) 
-		VALUES
-			(#{bookName}, #{fkGenreId}, #{fkStorageLocationId}, #{status}, #{summary})
+		INSERT INTO book_info (
+			book_name,
+			fk_genre_id,
+			fk_storage_location_id,
+			status,
+			summary
+		) VALUES (
+			#{bookName},
+			#{fkGenreId},
+			#{fkStorageLocationId},
+			#{status},
+			#{summary}
+		)
 	</insert>
 
 
@@ -158,10 +166,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 書籍情報 論理削除用SQL -->
 	<update id="logicalDeleteBook" parameterType="int">
 		UPDATE
-			book_info 
+			book_info
 		SET
 			is_deleted = 1
-		WHERE 
+		WHERE
 			book_info.id = #{value}
 		AND
 			book_info.is_deleted = 0
