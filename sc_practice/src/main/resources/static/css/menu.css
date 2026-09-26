@@ -4,6 +4,13 @@ body {
   padding: 0;
 }
 
+a,
+button,
+input,
+select {
+  font: inherit;
+}
+
 body {
   margin: 0;
 }

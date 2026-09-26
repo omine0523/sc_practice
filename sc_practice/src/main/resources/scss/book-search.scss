@@ -20,12 +20,11 @@ h2 {
 	}
 }
 
-.filter-area {
-	margin-left: 20px;
-}
-
-.infoMessage {
-	margin-top: 10px;
+.header-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 // 詳細リンクのスタイリング
@@ -40,7 +39,6 @@ h2 {
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            // font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
 
@@ -55,5 +53,96 @@ h2 {
                 box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
             }
         }
+    }
+}
+
+.filter-area form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-label {
+    display: flex;
+    flex-basis: 100%;
+    font-weight: bold;
+    margin-right: 10px;
+    margin: 5px 0 10px;
+}
+
+.error {
+color: rgb(255, 0, 0);
+font-size: 1rem;
+margin-top: 0px;
+}
+
+.search-btn-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.search-btn {
+    cursor: pointer;
+    margin: 0 0 0 30px;
+
+    &:hover {
+        background-color: #0057a2;
+    }
+}
+
+.cart-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+
+    button {
+        background: linear-gradient(135deg, #f26b6b 0%, #d63b3b 100%);
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(255, 0, 0, 0.25);
+
+        &:hover,
+        &:focus {
+            background: linear-gradient(135deg, #d95454 0%, #b82d2d 100%);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.35);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(255, 0, 0, 0.25);
+        }
+    }
+}
+
+.cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 65px 0 0;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    color: rgb(62, 61, 61);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s;
+
+    &:hover {
+        background-color: rgb(174, 174, 174);
+        color: rgb(255, 255, 255);
     }
 }

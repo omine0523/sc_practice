@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserInfo {
+    
 	/** ID（主キー） */
     private int id;
 

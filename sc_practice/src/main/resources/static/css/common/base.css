@@ -4,4 +4,11 @@ body {
   padding: 0;
 }
 
+a,
+button,
+input,
+select {
+  font: inherit;
+}
+
 /*# sourceMappingURL=base.css.map */

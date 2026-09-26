@@ -7,8 +7,10 @@ import lombok.Data;
  */
 @Data
 public class Genre {
+
 	/** ジャンルID（主キー） */
     private Integer genreId;
+    
     /** ジャンル名 */
     private String genreName;
 }

@@ -35,6 +35,7 @@ public class BookRegisterServiceImpl implements BookRegisterService {
 		try {
 			// 書籍情報を登録する処理を実行する
 			bookInfoMapper.insertBook(requestDto);
+			
 		} catch (DataAccessException e) {
 			// DB操作中に起きる問題（SQL文のエラー、接続問題、データ整合性違反など）が発生した場合は
 			// エラーログを出力し、DB操作中の例外はカスタム例外に変換してメッセージと共にを投げる

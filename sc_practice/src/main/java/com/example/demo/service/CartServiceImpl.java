@@ -32,8 +32,9 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional(readOnly = true)
     public List<CartListViewDto> findCartItems(Integer userId) {
+
+        // カート情報を取得する
         return cartMapper.selectCartItemsByUserId(userId);
-        
     }
 
     /**
@@ -45,6 +46,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addCartItem(Integer userId, Integer bookId) {
 
+        // CartInsertParam オブジェクトを作成し、ユーザーIDと書籍IDを設定する
         CartInsertParam param = new CartInsertParam(userId, bookId);
 
         try {

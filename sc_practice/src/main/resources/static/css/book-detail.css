@@ -4,6 +4,13 @@ body {
   padding: 0;
 }
 
+a,
+button,
+input,
+select {
+  font: inherit;
+}
+
 .layout-main {
   margin-left: 260px;
   min-height: 100vh;

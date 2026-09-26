@@ -4,6 +4,13 @@ body {
   padding: 0;
 }
 
+a,
+button,
+input,
+select {
+  font: inherit;
+}
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -46,12 +53,19 @@ body {
   line-height: 1.6;
 }
 
-.buttons {
-  margin-top: 25px;
+.error-container .btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 6px;
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.2s;
 }
 
-.btn:hover {
-  background-color: #025aa5;
+.error-container .btn:hover {
+  background: #125aa0;
 }
 
 .support {

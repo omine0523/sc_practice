@@ -28,7 +28,7 @@ public class BookIdKey {
 	/**
 	 * 検索条件で入力した書籍ID（文字列）を業務ロジック用に正規化し、
 	 * 数値型に変換するコンスタント
-	 * 
+	 *
 	 * @param input 画面で入力された書籍ID
 	 * @throws IllegalArgumentException 書籍IDが未入力、または正規化後の値が数字のみでない場合
 	 */
@@ -42,5 +42,5 @@ public class BookIdKey {
 		}
 		// 入力された文字列を業務ロジックで安全に使用できるよう数値に変換する
 		this.value = Integer.valueOf(normalized);
-	}		
+	}
 }

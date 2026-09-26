@@ -5,6 +5,13 @@ body {
   padding: 0;
 }
 
+a,
+button,
+input,
+select {
+  font: inherit;
+}
+
 .error {
   color: rgb(255, 0, 0);
   font-size: 0.9em;
@@ -36,12 +43,19 @@ body {
   line-height: 1.6;
 }
 
-.buttons {
-  margin-top: 25px;
+.error-container .btn {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 6px;
+  background: #1976d2;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.2s;
 }
 
-.btn:hover {
-  background-color: #025aa5;
+.error-container .btn:hover {
+  background: #125aa0;
 }
 
 .support {
@@ -156,12 +170,11 @@ h2::after {
   background: #8f8f8f;
 }
 
-.filter-area {
-  margin-left: 20px;
-}
-
-.infoMessage {
-  margin-top: 10px;
+.header-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .list-area table tbody tr td:last-child {
@@ -185,6 +198,91 @@ h2::after {
 .list-area table tbody tr td:last-child a:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.filter-area form {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.search-label {
+  display: flex;
+  flex-basis: 100%;
+  font-weight: bold;
+  margin-right: 10px;
+  margin: 5px 0 10px;
+}
+
+.error {
+  color: rgb(255, 0, 0);
+  font-size: 1rem;
+  margin-top: 0px;
+}
+
+.search-btn-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.search-btn {
+  cursor: pointer;
+  margin: 0 0 0 30px;
+}
+.search-btn:hover {
+  background-color: #0057a2;
+}
+
+.cart-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100%;
+}
+.cart-form button {
+  background: linear-gradient(135deg, #f26b6b 0%, #d63b3b 100%);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.25);
+}
+.cart-form button:hover, .cart-form button:focus {
+  background: linear-gradient(135deg, #d95454 0%, #b82d2d 100%);
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+.cart-form button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.25);
+}
+
+.cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-align: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 65px 0 0;
+  padding: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  color: rgb(62, 61, 61);
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.cart-btn:hover {
+  background-color: rgb(174, 174, 174);
+  color: rgb(255, 255, 255);
 }
 
 /*# sourceMappingURL=book-search.css.map */

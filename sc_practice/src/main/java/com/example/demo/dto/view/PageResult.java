@@ -17,10 +17,13 @@ public class PageResult<T>  {
 
 	/** 一覧表示用データ */
 	private List<T> list;
+
 	/** 現在のページ番号（1始まり） */
 	private int currentPage;
+
 	 /** 総ページ数 */
 	private int totalPages;
+	
 	/** 総件数 */
 	private int totalCount;
 	
