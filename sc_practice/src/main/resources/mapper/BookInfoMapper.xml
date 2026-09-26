@@ -14,6 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="storage_location_name" property="storageLocationName"/>
 		<result column="status" property="status"/>
 		<result column="summary" property="summary"/>
+		<result column="available_count" property="availableCount"/>
+		<result column="total_count" property="totalCount"/>
 	</resultMap>
 
 	<!-- 詳細画面用 BookDetailViewDto とDBカラムのマッピング定義をする -->
@@ -25,6 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="storage_location_name" property="storageLocationName"/>
         <result column="status" property="status"/>
         <result column="summary" property="summary"/>
+		<result column="available_count" property="availableCount"/>
+		<result column="total_count" property="totalCount"/>
     </resultMap>
 	
 	<!-- 共通部品：書籍情報検索で共通のSELECT句とFROM句をまとめる -->
