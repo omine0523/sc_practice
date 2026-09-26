@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.CartMapper">
+
+	<!-- CartEntity とDBカラムのマッピング定義をする -->
+	<resultMap id="CartEntityMap"
+		type="com.example.demo.entity.Cart">
+		<id column="id" property="cartId"/>
+		<result column="user_id" property="userId"/>
+		<result column="book_id" property="bookId"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+
+	<!-- CartListViewDto とDBカラムのマッピング定義をする -->
+	<resultMap id="CartListViewMap"
+		type="com.example.demo.dto.view.CartListViewDto">
+		<id column="id" property="cartId" />
+		<result column="book_id" property="bookId" />
+		<result column="book_name" property="bookName" />
+		<result column="genre_name" property="genreName" />
+		<result column="storage_location_name" property="storageLocationName" />
+		<result column="status" property="status" />
+		<result column="created_at" property="createdAt" />
+	</resultMap>
+
+	<!-- CartInsertParam とDBカラムのマッピング定義をする -->
+	<resultMap id="CartInsertParamMap"
+		type="com.example.demo.dto.param.CartInsertParam">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="book_id" property="bookId"/>
+		<result column="created_at" property="createdAt"/>
+	</resultMap>
+
+	<!-- ユーザーIDに紐づくカート情報を取得する -->
+	<select id="selectCartItemsByUserId" resultMap="CartListViewMap">
+		SELECT
+			cart.id,
+			book_info.id AS book_id,
+			book_info.book_name,
+			genre.genre_name,
+			storage_location.storage_location_name,
+			book_info.status,
+			cart.created_at
+		FROM
+			cart
+		INNER JOIN
+			book_info ON cart.book_id = book_info.id
+		INNER JOIN
+			genre ON book_info.fk_genre_id = genre.genre_id
+		INNER JOIN
+			storage_location ON book_info.fk_storage_location_id = storage_location.storage_location_id
+		WHERE
+			cart.user_id = #{userId}
+    </select>
+
+	<!-- カートに書籍情報を追加する -->
+	<insert id="insertCart"
+		parameterType="com.example.demo.dto.param.CartInsertParam">
+		INSERT INTO
+			cart
+		(
+			user_id,
+			book_id
+		) VALUES (
+			#{userId},
+			#{bookId}
+		)
+	</insert>
+
+	<!-- 指定されたユーザーIDと書籍IDに紐づくカート情報を1件削除する -->
+	<delete id="deleteCartItemByUserIdAndBookId" parameterType="com.example.demo.entity.Cart">
+		DELETE FROM
+			cart
+		WHERE
+			user_id = #{userId}
+		AND
+			book_id = #{bookId}
+	</delete>
+
+	<!-- 指定されたユーザーIDに紐づくカート情報を全件削除する -->
+	<delete id="clearCartByUserId" parameterType="com.example.demo.entity.Cart">
+		DELETE FROM
+			cart
+		WHERE
+			user_id = #{userId}
+	</delete>
+
+</mapper>

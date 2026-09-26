@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>カート</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/cart.css}">
+</head>
+
+<body>
+	<!-- 共通サイドバーの挿入。現在のページ識別子として 'bookSearch' を渡す -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('bookSearch')}"></div>
+
+	<!-- メインコンテンツエリア -->
+	<main class="layout-main">
+		<h2>カート</h2>
+
+		<!-- カートの中身が空の場合のメッセージ -->
+		<div th:if="${#lists.isEmpty(cartItems)}" class="infoMessage">カートの中身は空です。</div>
+
+		<!-- カートの中身がある場合の表示 -->
+		<div th:if="${!#lists.isEmpty(cartItems)}">
+			<table class="cart-table">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>書籍ID</th>
+						<th>書籍名</th>
+						<th>ジャンル</th>
+						<th>置き場所</th>
+						<th>ステータス</th>
+						<th>追加した日時</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item, stat : ${cartItems}">
+						<td th:text="${stat.count}"></td>
+						<td th:text="${item.bookId}"></td>
+						<td th:text="${item.bookName}"></td>
+						<td th:text="${item.genreName}"></td>
+						<td th:text="${item.storageLocationName}"></td>
+						<td th:text="${item.status}"></td>
+						<td th:text="${item.createdAt}"></td>
+						<td>
+							<!-- カートから削除するフォーム -->
+							<form th:action="@{/cart/remove}" method="post">
+								<input type="hidden" th:name="bookId" th:value="${item.bookId}">
+								<button type="submit" class="delete-btn">削除</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="cart-link">
+			<a th:href="@{/cart}">カートの中身を確認する</a>
+		</div>
+
+		
+	</main>
+</body>
+</html>
