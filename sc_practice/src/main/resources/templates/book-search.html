@@ -116,7 +116,8 @@
 					<!-- テーブルから取得した書籍情報を下記の項目に合わせて表示する  -->
 					<tr th:each="book : ${bookList}">
 						<td th:text="${book.bookId}">ID</td>
-						<td th:text="${book.bookName}">書籍名</td>
+						<!-- 書籍名が15文字以上の場合は省略して表示する -->
+						<td th:text="${#strings.abbreviate(book.bookName, 15)}">書籍名</td>
 						<td th:text="${book.genreName}">ジャンル</td>
 						<td th:text="${book.storageLocationName}">置き場所</td>
 						<td th:text="${book.availableCount}">利用可能数</td>
