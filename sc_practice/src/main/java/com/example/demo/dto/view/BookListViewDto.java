@@ -21,9 +21,15 @@ public class BookListViewDto {
     /** 置き場所（BookInfoテーブルの置き場所IDをキーとして内部結合後のStorageLocationテーブルの置き場所名の値を格納） */
     private String storageLocationName;
 
+     /** 利用可能数 */
+    private Integer availableCount;
+
+    /** 合計数 */
+    private Integer totalCount;
+
     /** ステータス（未貸出 / 貸出中） */
     private String status;
-    
+
     /** 書籍内容 */
     private String summary;
 }

@@ -10,8 +10,8 @@
 </head>
 
 <body>
-	<!-- 共通サイドバーの挿入。現在のページ識別子として 'bookSearch' を渡す -->
-	<div th:replace="~{common/sidebar :: layout-sidebar('bookSearch')}"></div>
+	<!-- 共通サイドバーの挿入。現在のページ識別子として 'cart' を渡す -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('cart')}"></div>
 
 	<!-- メインコンテンツエリア -->
 	<main class="layout-main">
@@ -55,11 +55,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="cart-link">
-			<a th:href="@{/cart}">カートの中身を確認する</a>
-		</div>
 
-		
 	</main>
 </body>
 </html>

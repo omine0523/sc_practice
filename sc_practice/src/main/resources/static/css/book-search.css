@@ -174,7 +174,6 @@ h2::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .list-area table tbody tr td:last-child {
@@ -203,6 +202,7 @@ h2::after {
 .filter-area form {
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   gap: 15px;
   flex-wrap: wrap;
 }
@@ -229,8 +229,9 @@ h2::after {
 }
 
 .search-btn {
+  min-height: 52px;
+  box-sizing: border-box;
   cursor: pointer;
-  margin: 0 0 0 30px;
 }
 .search-btn:hover {
   background-color: #0057a2;
@@ -263,26 +264,51 @@ h2::after {
   box-shadow: 0 2px 4px rgba(255, 0, 0, 0.25);
 }
 
+.cart-link {
+  flex-shrink: 0;
+}
+
 .cart-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  min-height: 75px;
   box-sizing: border-box;
-  text-align: center;
-  width: 80px;
-  height: 80px;
-  margin: 0 65px 0 0;
-  padding: 10px;
-  border: 1px solid rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
-  color: rgb(62, 61, 61);
-  cursor: pointer;
-  border-radius: 5px;
-  transition: 0.2s;
+  padding: 0 26px;
+  border: 2px solid #d6863b;
+  border-radius: 999px;
+  background: #fff1e2;
+  color: #a95716;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.cart-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .cart-btn:hover {
-  background-color: rgb(174, 174, 174);
-  color: rgb(255, 255, 255);
+  background: linear-gradient(135deg, #f2aa6b 0%, #d6863b 100%);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(214, 134, 59, 0.35);
+}
+.cart-btn:focus-visible {
+  outline: 3px solid rgba(214, 134, 59, 0.35);
+  outline-offset: 3px;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 0;
 }
 
 /*# sourceMappingURL=book-search.css.map */

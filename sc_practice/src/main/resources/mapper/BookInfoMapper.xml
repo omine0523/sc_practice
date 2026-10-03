@@ -39,6 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			,book_info.book_name
 			,genre.genre_name
 			,storage_location.storage_location_name
+			,book_info.available_count
+			,book_info.total_count
 			,book_info.status
 			,book_info.summary
 		FROM

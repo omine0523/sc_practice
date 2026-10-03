@@ -35,6 +35,11 @@
 				<label>置き場所</label>
 				<span th:text="${bookDetail.storageLocationName}"></span>
 			</div>
+			
+			<div class="detail-row">
+				<label>利用可能数 / 合計数</label>
+				<span th:text="${bookDetail.availableCount} + ' / ' + ${bookDetail.totalCount}"></span>
+			</div>
 
 			<div class="detail-row">
 				<label>ステータス</label>

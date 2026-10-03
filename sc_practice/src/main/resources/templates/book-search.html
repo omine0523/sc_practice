@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<meta charset="UTF-8">
@@ -65,18 +66,28 @@
 						</select>
 					</div>
 
-					<div class="search-btn-area">
+					<!-- フィルター操作ボタン -->
+					<div class="filter-actions">
+						<!-- 検索ボタン -->
 						<button class="btn search-btn" type="submit">検索</button>
+						
+						<!-- カートリンクボタン -->
+						<div class="cart-link" sec:authorize="hasRole('USER')">
+							<a class="cart-btn" th:href="@{/cart}" aria-label="カートを見る">
+								<svg aria-hidden="true" viewBox="0 0 24 24">
+									<path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 1.9-1.4L21 8H6"></path>
+									<circle cx="10" cy="20" r="1"></circle>
+									<circle cx="18" cy="20" r="1"></circle>
+								</svg>
+								<span>カートを見る</span>
+							</a>
+						</div>
 					</div>
 
-					
 				</form>
 				<br>
 			</div>
-			<div class="cart-link">
-				<a class="btn cart-btn" th:href="@{/cart}">カート<br>🛒</a>
-			</div>
-		</div>
+	</div>
 
 		<!-- 書籍検索 検索結果をリストで表示 -->
 		<div class="list-area">
@@ -87,8 +98,12 @@
 						<th>書籍名</th>
 						<th>ジャンル</th>
 						<th>置き場所</th>
+						<th>利用可能数</th>
+						<th>合計数</th>
 						<th>ステータス</th>
-						<th>カート操作</th>
+						<th sec:authorize="hasRole('USER')">
+							カート操作
+						</th>
 						<th>詳細</th>
 					</tr>
 				</thead>
@@ -104,8 +119,10 @@
 						<td th:text="${book.bookName}">書籍名</td>
 						<td th:text="${book.genreName}">ジャンル</td>
 						<td th:text="${book.storageLocationName}">置き場所</td>
+						<td th:text="${book.availableCount}">利用可能数</td>
+						<td th:text="${book.totalCount}">合計数</td>
 						<td th:text="${book.status}">ステータス</td>
-						<td>
+						<td sec:authorize="hasRole('USER')">
 							<form th:action="@{/books/{bookId}/cart(bookId=${book.bookId})}"
 								class="cart-form" method="post">
 								<button type="submit">カートに追加</button>
