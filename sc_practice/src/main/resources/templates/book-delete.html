@@ -19,8 +19,10 @@
 
 		<!-- フィルターエリア -->
 		<div class="filter-area">
-			<!-- 論理削除が完了した際に削除完了メッセージをcontrollerから受け取り表示する。 -->
-			<div th:if="${deleteMessage}" th:text="${deleteMessage}" class="deleteMessage"></div>
+			<!-- 削除処理が完了した時に表示されるメッセージ項目 -->
+			<div th:if="${successMessage}" th:text="${successMessage}" class="successMessage topMsg"></div>
+			<!-- 削除処理が失敗した時に表示されるメッセージ項目 -->
+			<div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage topMsg"></div>
 
 			<form th:object="${bookQueryForm}" method="get">
 				<!-- ID 入力項目 -->

@@ -19,7 +19,7 @@ public interface CartService {
     /**
      * カートから書籍を1件削除する
      */
-    void deleteCartItem(Integer userId, Integer bookId);
+    boolean deleteCartItem(Integer userId, Integer bookId);
 
     /**
      * カートを空にする

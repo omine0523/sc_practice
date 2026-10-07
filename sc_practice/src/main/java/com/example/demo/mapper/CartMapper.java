@@ -28,11 +28,11 @@ public interface CartMapper {
     void insertCart(CartInsertParam param);
 
     /**
-	 * 指定されたユーザーIDと書籍IDに紐づくカート情報を1件削除する
+	 * 指定されたユーザーIDと書籍IDに紐づくカート情報を1件削除し、削除件数を返す
 	 * @param userId ユーザーID
 	 * @param bookId 書籍ID
 	 */
-    void deleteCartItemByUserIdAndBookId(Integer userId, Integer bookId);
+    int deleteCartItemByUserIdAndBookId(Integer userId, Integer bookId);
     
 	/**
 	 * 指定されたユーザーIDに紐づくカート情報を全件削除する

@@ -62,10 +62,15 @@ public class CartServiceImpl implements CartService {
 
     /**
      * カートから書籍を1件削除する
+     *
+     * @param userId ユーザーID
+     * @param bookId 書籍ID
      */
     @Override
-    public void deleteCartItem(Integer userId, Integer bookId) {
-        // 実際の実装では、CartMapperを使用してデータベースからカート情報を削除する
+    public boolean deleteCartItem(Integer userId, Integer bookId) {
+        // userId と bookId の両方に一致する行を削除する。
+        // 削除件数が0の場合は false で返してcontrollerでメッセージを表示する。
+        return cartMapper.deleteCartItemByUserIdAndBookId(userId, bookId) > 0;
     }
 
     /**

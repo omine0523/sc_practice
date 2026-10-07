@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,8 @@ public class CartController {
 
     @Qualifier("CartServiceImpl")
     private final CartService cartService;
+
+    private final MessageSource messageSource;
 
     /**
      * カート画面を表示する
@@ -76,14 +80,14 @@ public class CartController {
     /**
      * カートから書籍を削除する
      *
-     * @param cartId 削除するカートアイテムのID
+     * @param bookId 削除するカート内の書籍ID
      * @param loginUser ログインユーザー情報
      * @param redirectAttributes リダイレクト時にメッセージを渡すためのオブジェクト
      * @return カート画面にリダイレクトする
      */
-    @PostMapping("/cart/items/{cartId}/delete")
+    @PostMapping("/cart/items/{bookId}/delete")
     public String deleteCartItem(
-            @PathVariable Integer cartId,
+            @PathVariable Integer bookId,
             @AuthenticationPrincipal LoginUser loginUser,
             RedirectAttributes redirectAttributes) {
 
@@ -91,8 +95,17 @@ public class CartController {
         final Integer userId = loginUser.getId();
 
         // カートから書籍を削除する
-        cartService.deleteCartItem(userId, cartId);
-        redirectAttributes.addFlashAttribute("message", "カートから削除しました");
+        boolean deleted = cartService.deleteCartItem(userId, bookId);
+
+        if (deleted) {
+            // 削除成功時のメッセージを設定する
+            redirectAttributes.addFlashAttribute("successMessage",
+                    messageSource.getMessage("cart.delete.success", null, Locale.JAPAN));
+        } else {
+            // 削除失敗時のメッセージを設定する
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    messageSource.getMessage("cart.delete.notFound", null, Locale.JAPAN));
+        }
 
         // カート画面にリダイレクトする
         return "redirect:/cart";

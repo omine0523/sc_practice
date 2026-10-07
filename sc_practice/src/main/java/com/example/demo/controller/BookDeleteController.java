@@ -48,7 +48,7 @@ public class BookDeleteController {
 	/**
 	 * 書籍検索画面のオブジェクト使用して削除対象の書籍をDBから一覧で取得し表示する。
 	 * 
-	 * @param  bookQueryForm 画面の検索条件の値を受け取るフォーム
+	 * @param bookQueryForm 画面の検索条件の値を受け取るフォーム
 	 * @param bindingResult @Valid によるバリデーション結果
 	 * @param model 検索結果やメッセージをビュー渡すモデル
 	 * @return 書籍検索結果を表示する
@@ -110,7 +110,7 @@ public class BookDeleteController {
 		bookDeleteService.logicalDeleteBook(bookId);
 
 		// リダイレクト後の画面で削除完了メッセージを表示するため一時的にオブジェクトに保持して画面に渡す。
-		redirectAttributes.addFlashAttribute("deleteMessage",
+		redirectAttributes.addFlashAttribute("successMessage",
 				messageSource.getMessage("book.delete.complete", null, Locale.JAPAN));
 		// 削除結果を画面に表示する。
 		return "redirect:/admin/books/delete";
@@ -118,7 +118,7 @@ public class BookDeleteController {
 
 	/**
 	 * 画面で検索条件が未指定であることを判定する
-	 * 
+	 *
 	 * @param bookQueryForm 画面で入力した検索条件を格納しているフォーム
 	 * @return 検索条件がすべて未指定の場合は true、それ以外は false
 	 */
