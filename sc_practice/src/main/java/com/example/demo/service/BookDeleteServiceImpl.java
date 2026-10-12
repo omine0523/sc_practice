@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.exception.BookAlreadyDeletedException;
+import com.example.demo.exception.BookDeleteException;
 import com.example.demo.mapper.BookInfoMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -25,15 +25,15 @@ public class BookDeleteServiceImpl implements BookDeleteService {
 	 * 書籍IDをもとに対象の書籍情報を論理削除する。
 	 *
 	 * @param bookId 削除対象の書籍ID
-	 * @throws BookAlreadyDeletedException すでに削除済みの書籍
+	 * @throws BookDeleteException 対象の書籍が存在しない、またはすでに削除されている場合
 	 */
 	@Override
 	public void logicalDeleteBook(Integer bookId) {
 		// 削除フラグをtrueに更新して（true：論理削除済み）論理削除を実行する、実行結果（更新行数）を代入する。
 		int count = bookInfoMapper.logicalDeleteBook(bookId);
-				// 更新処理実行結果（更新行数）が0行だった場合、例外とメッセージを投げる。
-				if(count == 0) {
-					throw new BookAlreadyDeletedException("すでに削除されています");
-				}
+		// 更新件数が0件なら、対象が存在しないか、すでに削除済みとして業務例外を投げる。
+		if (count == 0) {
+			throw new BookDeleteException("対象の書籍が存在しないか、すでに削除されています");
+		}
 	}
 }

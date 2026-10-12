@@ -58,8 +58,8 @@ public class GlobalExceptionHandler {
 	 * @param model 画面に渡す情報
 	 * @return エラー画面を表示する
 	 */
-	@ExceptionHandler(BookAlreadyDeletedException.class)
-	public String handleBookAlreadyDeletedException(BookAlreadyDeletedException e, Model model) {
+	@ExceptionHandler(BookDeleteException.class)
+	public String handleBookDeleteException(BookDeleteException e, Model model) {
 		// 画面に「書籍登録に失敗しました」メッセージを表示する。
 		model.addAttribute("message", e.getMessage());
 	    // 共通のエラー画面を表示する。
