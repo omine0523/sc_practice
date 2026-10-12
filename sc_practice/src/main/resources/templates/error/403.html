@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>アクセス拒否（403）</title>
+	<!-- style -->
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/common/error.css}">
+</head>
+
+<body>
+	<!-- 共通サイドバーの挿入。現在のページ識別子として 'error' を渡す -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('error')}"></div>
+
+	<!-- メインコンテンツエリア -->
+	<main class="layout-main">
+		<div class="error-container">
+			<h2>アクセス権限がありません</h2>
+
+			<p>
+				<span th:if="${message != null}" th:text="${message}"></span>
+				<br th:if="${message != null}">
+				<span>このページを閲覧する権限がありません。</span>
+			</p>
+
+			<div class="buttons">
+				<a th:href="@{/books/menu}" class="btn">メニューへ戻る</a>
+			</div>
+
+			<p class="support">
+				※この操作を行う権限が必要な場合は、管理者へお問い合わせください。
+			</p>
+
+		</div>
+	</main>
+</body>
+
+</html>

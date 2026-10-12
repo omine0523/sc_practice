@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ページが見つかりません（404）</title>
+	<link rel="stylesheet" th:href="@{/css/common/sidebar.css}">
+	<link rel="stylesheet" th:href="@{/css/common/error.css}">
+</head>
+
+<body>
+	<!-- 共通サイドバーの挿入。現在のページ識別子として 'error' を渡す -->
+	<div th:replace="~{common/sidebar :: layout-sidebar('error')}"></div>
+
+	<!-- メインコンテンツエリア -->
+	<main class="layout-main">
+		<div class="error-container">
+			<h2>ページが見つかりません</h2>
+
+			<p>
+				<span th:if="${message != null}" th:text="${message}"></span>
+				<br th:if="${message != null}">
+				<span>指定されたページは見つからないか、移動または削除された可能性があります。</span>
+			</p>
+
+			<div class="buttons">
+				<a th:href="@{/books/menu}" class="btn">メニューへ戻る</a>
+			</div>
+
+			<p class="support">
+				※URLをご確認のうえ、問題が解決しない場合は管理者へお問い合わせください。
+			</p>
+
+		</div>
+	</main>
+</body>
+
+</html>

@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     	// 画面にエラーメッセージを表示する。
         model.addAttribute("message", messageSource.getMessage("error.system", null , Locale.JAPAN));
         // 共通のエラー画面を表示する。
-        return "common/error";
+        return "error/commmon-error";
     }
 	
 	/**
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 		// 画面に「書籍登録に失敗しました」メッセージを表示する。
 		model.addAttribute("message", e.getMessage());
 	    // 共通のエラー画面を表示する。
-		return "common/error";
+		return "error/common-error";
 	}
 	
 	/**
@@ -63,6 +63,6 @@ public class GlobalExceptionHandler {
 		// 画面に「書籍登録に失敗しました」メッセージを表示する。
 		model.addAttribute("message", e.getMessage());
 	    // 共通のエラー画面を表示する。
-		return "common/error";
+		return "error/common-error";
 	}
 }

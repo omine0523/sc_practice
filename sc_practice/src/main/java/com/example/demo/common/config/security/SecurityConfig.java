@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .requestMatchers("/login").permitAll()
                 // 管理者用パス（/admin/で始まる全てのURL）へのアクセス制限
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                // 一般ユーザー用パス（/cart/で始まる全てのURL）へのアクセス制限
+                .requestMatchers("/cart/**").hasRole("USER")
                 .anyRequest().authenticated()
                 )
                 // フォームログインの設定
