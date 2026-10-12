@@ -63,10 +63,11 @@ public class BookSearchController {
 		PageResult<BookListViewDto> result = null;
 		
 		if (bindingResult.hasErrors()) {
-        // バリデーションエラー時は空リストとnullページ情報をセットし、エラーメッセージを検索条件下部に表示する。
-        model.addAttribute("bookList", null);
-        model.addAttribute("pageResult", null);
-        return "book-search";
+			// バリデーションエラー時は空リストとnullページ情報をセットし、エラーメッセージを検索条件下部に表示する。
+			model.addAttribute("bookList", null);
+			model.addAttribute("pageResult", null);
+			
+			return "book-search";
 		}
 		// 検索条件が全て未指定でかつバリデーションエラーがない場合
 		if (unSpecifiedConditions(bookQueryForm)) {

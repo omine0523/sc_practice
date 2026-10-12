@@ -23,37 +23,55 @@
 			<div th:if="${successMessage}" th:text="${successMessage}" class="successMessage topMsg"></div>
 			<!-- 削除処理が失敗した時に表示されるメッセージ項目 -->
 			<div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage topMsg"></div>
-
+			
 			<form th:object="${bookQueryForm}" method="get">
-				<!-- ID 入力項目 -->
-				<label for="bookId">ID：</label>
-				<input type="text" th:field="*{bookId}" placeholder="数字を入力">
-				<!-- 書籍名 入力項目 -->
-				<label for="bookName">書籍名：</label>
-				<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
-				<!-- ジャンル セレクトボタン -->
-				<label for="genreId">ジャンル：</label>
-				<select th:field="*{genreId}">
-					<option value="">-- 全て --</option>
-					<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
-					</option>
-				</select>
-				<!-- 置き場所 セレクトボタン -->
-				<label for="storageLocationId">置き場所：</label>
-				<select th:field="*{storageLocationId}">
-					<option value="">-- 全て --</option>
-					<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
-						th:text="${location.storageLocationName}">
-					</option>
-				</select>
+				<!-- 検索条件のラベルとメッセージ表示エリア -->
+				<div class="search-label">検索条件：
+					<div class="info-area">
+						<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
+						<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
+						<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
+						<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
+						<div th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}" class="error"></div>
+					</div>
+				</div>
 
+				<!-- 検索条件：書籍ID指定 -->
+				<div class="search-inputs">
+					<label for="bookId">ID：</label>
+					<input type="text" th:field="*{bookId}" placeholder="数字を入力">
+				</div>
+
+				<!-- 検索条件：書籍名 入力項目 -->
+				<div class="search-inputs">
+					<label for="bookName">書籍名：</label>
+					<input type="text" th:field="*{bookName}" placeholder="書籍名を入力">
+				</div>
+
+				<!-- 検索条件：ジャンル セレクトボタン -->
+				<div class="search-inputs">
+					<label for="genreId">ジャンル：</label>
+					<select th:field="*{genreId}">
+						<option value="">-- 全て --</option>
+						<option th:each="genre : ${genres}" th:value="${genre.genreId}" th:text="${genre.genreName}">
+						</option>
+					</select>
+				</div>
+
+				<!-- 検索条件：置き場所 セレクトボタン -->
+				<div class="search-inputs">
+					<label for="storageLocationId">置き場所：</label>
+					<select th:field="*{storageLocationId}">
+						<option value="">-- 全て --</option>
+						<option th:each="location : ${storageLocations}" th:value="${location.storageLocationId}"
+							th:text="${location.storageLocationName}">
+						</option>
+					</select>
+				</div>
+
+				<!-- 検索ボタン -->
 				<button class="btn" type="submit">検索</button>
-
-				<!-- 検索条件が未指定の場合 案内メッセージをcontrollerから受け取り表示する。 -->
-				<div th:if="${infoMessage}" th:text="${infoMessage}" class="infoMessage"></div>
-				<!-- 検索時に書籍ID・書籍名の入力に不備がある場合 メッセージをcontrollerから受け取り表示する。 -->
-				<div th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" class="error"></div>
-				<div th:if="${#fields.hasErrors('bookName')}" th:errors="*{bookName}" class="error"></div>
+				
 			</form>
 			<br>
 		</div>
@@ -98,14 +116,14 @@
 			</table>
 			
 			<!-- ページネーション関連 -->
-			<div class="pagination-area" th:with="form=${bookQueryForm}">
+			<div class="pagination-area" th:if="${pageResult != null}" th:with="form=${bookQueryForm}">
 				<!-- ページリンク -->
-				<nav class="pagination" th:if="${pageResult != null}">
+				<nav class="pagination">
 					<ul>
 						<!-- 前へ -->
 						<li th:classappend="${pageResult.currentPage == 1} ? 'disabled'">
 							<a th:if="${pageResult.currentPage > 1}"
-								th:href="@{/admin/books/delete(
+								th:href="@{delete(
 									page=${pageResult.currentPage - 1},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
@@ -126,15 +144,15 @@
 							<!-- ページ番号 -->
 							<li th:each="i : ${#numbers.sequence(start, end)}"
 								th:classappend="${i == pageResult.currentPage} ? 'active'">
-								<a th:if="${i != pageResult.currentPage}" 
-									th:href="@{/admin/books/delete(
+								<a th:if="${i != pageResult.currentPage}"
+									th:href="@{delete(
 									page=${i},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
 									genreId=${form.genreId},
 									storageLocationId=${form.storageLocationId}
 									)}"
-								th:text="${i}"></a>
+									th:text="${i}"></a>
 								<span th:if="${i == pageResult.currentPage}" th:text="${i}"></span>
 							</li>
 							<!-- 後の省略 -->
@@ -145,7 +163,7 @@
 						<!-- 次へ -->
 						<li th:classappend="${pageResult.currentPage == pageResult.totalPages} ? 'disabled'">
 							<a th:if="${pageResult.currentPage < pageResult.totalPages}"
-								th:href="@{/admin/books/delete(
+								th:href="@{delete(
 									page=${pageResult.currentPage + 1},
 									bookId=${form.bookId},
 									bookName=${form.bookName},
@@ -161,10 +179,10 @@
 			
 				<!-- ページ情報の表示（PageResult） -->
 				<div class="page-info">
-					<span th:text="'全 ' + ${pageResult.totalCount} + '件中 ' 
-					+ ${(pageResult.currentPage - 1) * 10 + 1} + '〜' 
-					+ ${T(java.lang.Math).min(pageResult.currentPage * 10, pageResult.totalCount)} 
-					+ '件を表示（' 
+					<span th:text="'全 ' + ${pageResult.totalCount} + '件中 '
+					+ ${(pageResult.currentPage - 1) * 10 + 1} + '〜'
+					+ ${T(java.lang.Math).min(pageResult.currentPage * 10, pageResult.totalCount)}
+					+ '件を表示（'
 					+ ${pageResult.currentPage} + ' / ' + ${pageResult.totalPages} + 'ページ）'">
 					</span>
 				</div>
